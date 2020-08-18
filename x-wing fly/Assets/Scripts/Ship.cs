@@ -7,6 +7,8 @@ using UnityEngine.UI;
 
 public class Ship : MonoBehaviour
 {
+
+
     public GameObject explosion;
     public GameObject impact;
     public Realtime _realtime;
@@ -15,11 +17,17 @@ public class Ship : MonoBehaviour
     public ShipGlobal shp;
     public GameObject orbParticles;
     AudioSource aud;
-    int health = 1;
+
+    private const int startingHealth = 1;
+    private int health = startingHealth;
+
+    float prevHp = 1;
+
     public Text healthText;
     Fly fly;
     PlayerHealthScript trailScript;
-    float prevHp = 1;
+
+   
     private void Start()
     {
         fly = GetComponentInParent<Fly>();
@@ -70,7 +78,7 @@ public class Ship : MonoBehaviour
     void PlusHp()
     {
         //touches orb
-        fly.energy = 20;
+        fly.RestoreEnergy();
         aud.Play();
         Realtime.Instantiate(orbParticles.name, transform.position, transform.rotation, ownedByClient: false, useInstance: _realtime);
     }

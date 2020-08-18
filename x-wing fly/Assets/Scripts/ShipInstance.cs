@@ -37,7 +37,7 @@ public class ShipInstance : MonoBehaviour
                     break;
                 //orb
                 case 14:
-                    if (trailScript.GetHealth() < 5)
+                    if (trailScript.GetHealth() < trailScript.maxHealth)
                     {
                         trailScript.SetHealth(trailScript.GetHealth() + 1);
                         Realtime.Destroy(other.gameObject);

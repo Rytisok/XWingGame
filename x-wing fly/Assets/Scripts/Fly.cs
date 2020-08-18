@@ -2,14 +2,28 @@
 using System.Collections.Generic;
 using UnityEngine;
 using Normal.Realtime;
+using TMPro;
 using UnityEngine.UI;
-
+using Unity.RemoteConfig;
 public class Fly : Realtime
 {
+    public struct userAttributes
+    {
+    }
+
+    public struct appAttributes
+    {
+    }
+
     public Transform cntrl;
     public Transform x;
+
     public float speed;
+
     public float projectileSpeed;
+    private float timeBetweenShots =0.1f;
+    private float projectileDuration = 1;
+
     bool go = false;
     public GameObject laser;
     public Transform tr;
@@ -17,7 +31,8 @@ public class Fly : Realtime
     public Ship ship;
 
     [HideInInspector]
-    public int energy = 20;
+    public int energy;
+    private int energyLimit = 20;
 
     float nextTimeFire = 0;
     float nextTimeReload = 0;
@@ -35,12 +50,54 @@ public class Fly : Realtime
     public GameObject rocket;
     GameObject missileInControl;
 
+    public TMP_Text debug;
+
+    void Awake()
+    {
+        // Add a listener to apply settings when successfully retrieved: 
+        ConfigManager.FetchCompleted += ApplyRemoteSettings;
+
+        // Set the user’s unique ID:
+        ConfigManager.SetCustomUserID("some-user-id");
+
+        // Fetch configuration setting from the remote service: 
+        ConfigManager.FetchConfigs<userAttributes, appAttributes>(new userAttributes(), new appAttributes());
+    }
+
+    void ApplyRemoteSettings(ConfigResponse configResponse)
+    {
+        // Conditionally update settings, depending on the response's origin:
+        switch (configResponse.requestOrigin)
+        {
+            case ConfigOrigin.Default:
+                Debug.Log("No settings loaded this session; using default values.");
+                debug.text += "No settings loaded this session; using default values.\n";
+                break;
+            case ConfigOrigin.Cached:
+                Debug.Log("No settings loaded this session; using cached values from a previous session.");
+                debug.text += "No settings loaded this session; using cached values from a previous session.\n";
+
+                break;
+            case ConfigOrigin.Remote:
+                Debug.Log("New settings loaded this session; update values accordingly.");
+                debug.text += "New settings loaded this session; update values accordingly.\n";
+
+                speed = ConfigManager.appConfig.GetFloat("speed");
+                speedBoosted = ConfigManager.appConfig.GetFloat("speedBoosted");
+                projectileSpeed = ConfigManager.appConfig.GetFloat("projectileSpeed");
+                timeBetweenShots = ConfigManager.appConfig.GetFloat("timeBetweenShots");
+                projectileDuration = ConfigManager.appConfig.GetFloat("projectileDuration");
+                energyLimit = ConfigManager.appConfig.GetInt("energyLimit");
+                break;
+        }
+    }
     // Start is called before the first frame update
     void Start()
     {
         //aud = GetComponent<AudioSource>();
         //audScrpt = GetComponent<PlayerAudioScript>();
-        speedBoosted = speed * 2;
+        //   speedBoosted = speed * 2;
+        energy = energyLimit;
     }
 
     // Update is called once per frame
@@ -74,15 +131,19 @@ public class Fly : Realtime
             if ((OVRInput.Get(OVRInput.RawButton.RIndexTrigger) || Input.GetKeyDown(KeyCode.Space)) && Time.time >= nextTimeFire && energy > 0)
             {
                 GameObject projectile = Realtime.Instantiate(laser.name, tr.transform.position, tr.transform.rotation, ownedByClient: false, useInstance: _realtime);
-                projectile.GetComponent<Rigidbody>().velocity = x.forward * projectileSpeed;
+                
+                Projectile proj = projectile.GetComponent<Projectile>();
+                proj.Initialize(projectileDuration);
+                proj.Fire(x.forward * projectileSpeed);
+
                 energy--;
 
                 PlaySound(0);
                 
 
-                nextTimeFire = Time.time + 0.1f;
+                nextTimeFire = Time.time + timeBetweenShots;
             }
-            else if (energy < 20 && Time.time >= nextTimeReload && Time.time >= nextTimeFire && !(OVRInput.Get(OVRInput.RawButton.RHandTrigger)))
+            else if (energy < energyLimit && Time.time >= nextTimeReload && Time.time >= nextTimeFire && !(OVRInput.Get(OVRInput.RawButton.RHandTrigger)))
             {
                 nextTimeReload = Time.time + 0.15f;
                 energy++;
@@ -175,5 +236,10 @@ public class Fly : Realtime
     {
         GameObject missile = Realtime.Instantiate(rocket.name, tr.transform.position, tr.transform.rotation, ownedByClient: true, useInstance: _realtime);
         missileInControl = missile;
+    }
+
+    public void RestoreEnergy()
+    {
+        energy = energyLimit;
     }
 }
