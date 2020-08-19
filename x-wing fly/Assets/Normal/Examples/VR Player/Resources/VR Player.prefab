@@ -335,11 +335,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _realtime: {fileID: 0}
-  _sceneViewUUID: 
+  _sceneViewUUID: 3fc3519436a75e45ad42028fd9ab1e89
   _sceneViewOwnedByCreatingClient: 1
   _sceneViewPreventOwnershipTakeover: 0
   _sceneViewDestroyWhenOwnerOrLastClientLeaves: 1
-  _isRootPrefabView: 1
+  _isRootPrefabView: 0
   _components:
   - componentID: 1
     component: {fileID: 114800176784454794}
@@ -15452,6 +15452,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d84b61494b68a4c4f8a344894744a118, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  maxHealth: 0
 --- !u!114 &4789897137275579362
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -20291,17 +20292,17 @@ PrefabInstance:
     - target: {fileID: -4216859302048453862, guid: 651ead186d6797a478b82e4f16990998,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0.0088
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: -4216859302048453862, guid: 651ead186d6797a478b82e4f16990998,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0.0467
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: -4216859302048453862, guid: 651ead186d6797a478b82e4f16990998,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: -0.0007
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: -4216859302048453862, guid: 651ead186d6797a478b82e4f16990998,
         type: 3}

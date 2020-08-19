@@ -18,7 +18,9 @@ public class Fly : Realtime
     public Transform cntrl;
     public Transform x;
 
-    public float speed;
+    public float currSpeed;
+    float speedBoosted;
+    float speedNormal;
 
     public float projectileSpeed;
     private float timeBetweenShots =0.1f;
@@ -37,7 +39,6 @@ public class Fly : Realtime
     float nextTimeFire = 0;
     float nextTimeReload = 0;
     float nextTimeBoost = 0;
-    float speedBoosted;
     public Text ammoCount;
     bool boosting = false;
     public Material thruster;
@@ -51,6 +52,8 @@ public class Fly : Realtime
     GameObject missileInControl;
 
     public TMP_Text debug;
+
+    #region Unity remote
 
     void Awake()
     {
@@ -82,7 +85,7 @@ public class Fly : Realtime
                 Debug.Log("New settings loaded this session; update values accordingly.");
                 debug.text += "New settings loaded this session; update values accordingly.\n";
 
-                speed = ConfigManager.appConfig.GetFloat("speed");
+                speedNormal = ConfigManager.appConfig.GetFloat("speed");
                 speedBoosted = ConfigManager.appConfig.GetFloat("speedBoosted");
                 projectileSpeed = ConfigManager.appConfig.GetFloat("projectileSpeed");
                 timeBetweenShots = ConfigManager.appConfig.GetFloat("timeBetweenShots");
@@ -91,6 +94,9 @@ public class Fly : Realtime
                 break;
         }
     }
+
+    #endregion
+
     // Start is called before the first frame update
     void Start()
     {
@@ -105,94 +111,84 @@ public class Fly : Realtime
     {
         if (ship.alive)
         {
-            if ((OVRInput.GetDown(OVRInput.RawButton.RIndexTrigger) || Input.GetKeyDown(KeyCode.W)))
-            {
-                //go = !go;
-                go = true;
-            }
-
-            
-            if (missileInControl == null)
-            {
-                if ((OVRInput.GetDown(OVRInput.RawButton.A)))
-                {
-                    LaunchMissile();
-                }
-            }
-            else
-            {
-                float x = OVRInput.Get(OVRInput.RawAxis2D.RThumbstick).x * 1.65f;
-                float y = OVRInput.Get(OVRInput.RawAxis2D.RThumbstick).y * 1.65f;
-
-                missileInControl.transform.Rotate(-y, x, 0);
-            }
-
-
-            if ((OVRInput.Get(OVRInput.RawButton.RIndexTrigger) || Input.GetKeyDown(KeyCode.Space)) && Time.time >= nextTimeFire && energy > 0)
-            {
-                GameObject projectile = Realtime.Instantiate(laser.name, tr.transform.position, tr.transform.rotation, ownedByClient: false, useInstance: _realtime);
-                
-                Projectile proj = projectile.GetComponent<Projectile>();
-                proj.Initialize(projectileDuration);
-                proj.Fire(x.forward * projectileSpeed);
-
-                energy--;
-
-                PlaySound(0);
-                
-
-                nextTimeFire = Time.time + timeBetweenShots;
-            }
-            else if (energy < energyLimit && Time.time >= nextTimeReload && Time.time >= nextTimeFire && !(OVRInput.Get(OVRInput.RawButton.RHandTrigger)))
-            {
-                nextTimeReload = Time.time + 0.15f;
-                energy++;
-            }
-
-            if (go)
-            {
-                transform.position += x.forward * Time.deltaTime * speed;
-            }
-
-            //boosting
-            if ((OVRInput.Get(OVRInput.RawButton.RHandTrigger) || Input.GetKey(KeyCode.W)) && energy > 0)
-            {
-                boosting = true;
-                thrusterAudio.pitch = 1.8f;
-                foreach(ParticleSystemRenderer particle in particles)
-                {
-                    particle.material = boostThruster;
-                    particle.GetComponent<ParticleSystem>().startSpeed = 0.2f;
-                    particle.GetComponent<ParticleSystem>().startSize = 0.07f;
-                }
-                if(Time.time > nextTimeBoost)
-                {
-                    nextTimeBoost = Time.time + 0.3f;
-                    energy--;
-                }
-            }
-            else
-            {
-                if (boosting)
-                {
-                    EndBoost();
-                }
-                boosting = false;
-            }
-
-            if (boosting)
-            {
-                speed = Mathf.Lerp(speed, speedBoosted, Time.deltaTime * 20);
-            }
-            else if (speed != speedBoosted/2)
-            {
-                speed = Mathf.Lerp(speed, speedBoosted / 2, Time.deltaTime * 20);
-            }
+            Controls();
         }
 
         ammoCount.text = energy.ToString();
     }
-    
+
+    void Controls()
+    {
+        if ((OVRInput.GetDown(OVRInput.RawButton.RIndexTrigger) || Input.GetKeyDown(KeyCode.W)))
+        {
+            go = true;
+        }
+        if (go)
+        {
+            Move();
+        }
+        //Missile
+        if ((OVRInput.GetDown(OVRInput.RawButton.A)))
+        {
+            if (missileInControl == null)
+            {
+                LaunchMissile();
+            }
+        }
+        if (missileInControl != null)
+        {
+            MissileControler();
+        }
+        //--------------
+        //Laser
+        if ((OVRInput.Get(OVRInput.RawButton.RIndexTrigger) || Input.GetKeyDown(KeyCode.Space)) && Time.time >= nextTimeFire && energy > 0)
+        {
+            FireLaser();
+        }
+        else if (energy < energyLimit && Time.time >= nextTimeReload && Time.time >= nextTimeFire && !(OVRInput.Get(OVRInput.RawButton.RHandTrigger)))
+        {
+            nextTimeReload = Time.time + 0.15f;
+            energy++;
+        }
+        //--------------
+
+        //boosting
+        if ((OVRInput.Get(OVRInput.RawButton.RHandTrigger) || Input.GetKey(KeyCode.W)) && energy > 0)
+        {
+            if (!boosting)
+            {
+                StartBoost();
+            }
+        }
+        else
+        {
+            if (boosting)
+            {
+                EndBoost();
+            }
+        }
+
+        if (boosting)
+        {
+            if (Time.time > nextTimeBoost)
+            {
+                nextTimeBoost = Time.time + 0.3f;
+                energy--;
+            }
+
+            currSpeed = Mathf.Lerp(currSpeed, speedBoosted, Time.deltaTime * 20);
+        }
+        else
+        {
+            if (currSpeed != speedNormal)
+            {
+                currSpeed = Mathf.Lerp(currSpeed, speedNormal, Time.deltaTime * 20);
+            }
+        }
+        //--------------
+
+    }
+
     void FindInstance()
     {
         int id = _realtime.clientID;
@@ -218,6 +214,19 @@ public class Fly : Realtime
         thrusterAudio.pitch = 0.8f;
         boosting = false;
     }
+    void StartBoost()
+    {
+        thrusterAudio.pitch = 1.8f;
+        foreach (ParticleSystemRenderer particle in particles)
+        {
+            particle.material = boostThruster;
+            particle.GetComponent<ParticleSystem>().startSpeed = 0.2f;
+            particle.GetComponent<ParticleSystem>().startSize = 0.07f;
+        }
+
+        boosting = true;
+
+    }
 
     public void PlaySound(int num)
     {
@@ -237,7 +246,34 @@ public class Fly : Realtime
         GameObject missile = Realtime.Instantiate(rocket.name, tr.transform.position, tr.transform.rotation, ownedByClient: true, useInstance: _realtime);
         missileInControl = missile;
     }
+    void MissileControler()
+    {
+        float x = OVRInput.Get(OVRInput.RawAxis2D.RThumbstick).x * 1.65f;
+        float y = OVRInput.Get(OVRInput.RawAxis2D.RThumbstick).y * 1.65f;
 
+        missileInControl.transform.Rotate(-y, x, 0);
+    }
+    void FireLaser()
+    {
+        GameObject projectile = Instantiate(laser.name, tr.transform.position, tr.transform.rotation, ownedByClient: false, useInstance: _realtime);
+
+        Projectile proj = projectile.GetComponent<Projectile>();
+        proj.Initialize(projectileDuration);
+        proj.Fire(x.forward * projectileSpeed);
+
+        energy--;
+
+        PlaySound(0);
+
+
+        nextTimeFire = Time.time + timeBetweenShots;
+    }
+
+    void Move()
+    {
+        transform.position += x.forward * Time.deltaTime * currSpeed;
+
+    }
     public void RestoreEnergy()
     {
         energy = energyLimit;
