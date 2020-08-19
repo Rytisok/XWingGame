@@ -11,12 +11,13 @@ public class ScoreManager : RealtimeComponent
     public RealtimeAvatarManager _avatarManager;
     public TMP_Text text;
     public Realtime _realtime;
-    float nxtCheck = 0;
+    double nxtCheck = 0;
 
     private void OnEnable()
     {
         _avatarManager.avatarCreated += AvatarChangedUpdateScore;
         _avatarManager.avatarDestroyed += AvatarChangedUpdateScore;
+        nxtCheck = GetComponent<RealtimeView>().realtime.room.time;
     }
 
     private void AvatarChangedUpdateScore(RealtimeAvatarManager avatarManager, RealtimeAvatar avatar, bool isLocalAvatar)
@@ -26,11 +27,12 @@ public class ScoreManager : RealtimeComponent
 
     private void Update()
     {
-        if (Time.time >= nxtCheck)
+       /* if (Time.time > nxtCheck)
         {
             SetScoreText();
-            nxtCheck = Time.time + 2;
-        }
+            nxtCheck = Time.time+ 3;
+            Debug.Log("update");
+        }*/
     }
 
     private ScoreBoardModel model
@@ -70,11 +72,10 @@ public class ScoreManager : RealtimeComponent
         foreach(var player in _avatarManager.avatars)
         {
             playerID = player.Key + 1;
-            //Debug.Log(player.Key);
-            PlayerScoreScript plScoreScript = _avatarManager.avatars[player.Key].gameObject.GetComponent<PlayerScoreScript>();
-            int tmp = plScoreScript.GetKills();
-
-            t += "Player " + playerID + "    " + _avatarManager.avatars[player.Key].gameObject.GetComponent<KillSyncScript>().GetKillCount() + "   " + plScoreScript.GetDeaths().ToString() + "\n";
+            Debug.Log(player.Key);
+            GameObject pl = _avatarManager.avatars[player.Key].gameObject;
+            t += "Player " + playerID + "    " + pl.GetComponent<KillSyncScript>().GetKillCount().ToString() + "   " + pl.GetComponent<PlayerScoreScript>().GetDeaths().ToString() + "   " + Mathf.RoundToInt((float)(_realtime.room.time - pl.GetComponent<PlayerScoreScript>().GetConnectTime())).ToString() + "\n";
+            
         }
 
         _model.scoreText = t;

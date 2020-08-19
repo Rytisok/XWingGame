@@ -97,7 +97,7 @@ public class Ship : MonoBehaviour
 
     void Restart()
     {
-        gameObject.SetActive(true);
+        //gameObject.SetActive(true);
         alive = true;
         shp.SetState(true);
         health = 1;
@@ -155,7 +155,7 @@ public class Ship : MonoBehaviour
         Invoke("Restart", 3.5f);
         fly.PlaySound(2);
         alive = false;
-        gameObject.SetActive(false);
+        //gameObject.SetActive(false);
     }
 
     void EnterGame()
