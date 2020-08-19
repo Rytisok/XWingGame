@@ -5,19 +5,25 @@ using Normal.Realtime;
 
 public class ShipInstance : MonoBehaviour
 {
-    public PlayerHealthScript trailScript;
+    private PlayerHealthScript trailScript;
+    private BoxCollider boxCollider;
+    private RealtimeView realtimeView;
     // Start is called before the first frame update
-    void Awake()
+
+    public void Initialize(RealtimeView realtimeView)
     {
+        this.realtimeView = realtimeView;
         trailScript = GetComponent<PlayerHealthScript>();
+        boxCollider = GetComponent<BoxCollider>();
+
         trailScript.SetHealth(1);
     }
 
     private void OnTriggerEnter(Collider other)
     {
-        if (GetComponentInParent<RealtimeView>().isOwnedLocally)
+        if (realtimeView.isOwnedLocally)
         {
-            GetComponent<BoxCollider>().enabled = false;
+            boxCollider.enabled = false;
         }
         else
         {

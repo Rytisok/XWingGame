@@ -16,7 +16,7 @@ public class Ship : MonoBehaviour
     public bool alive = true;
     public ShipGlobal shp;
     public GameObject orbParticles;
-    AudioSource aud;
+    public AudioSource aud;
 
     private const int startingHealth = 1;
     private int health = startingHealth;
@@ -27,11 +27,12 @@ public class Ship : MonoBehaviour
     Fly fly;
     PlayerHealthScript trailScript;
 
+    private bool instanceFound;
    
-    private void Start()
+    public void Initialize(Fly fly)
     {
-        fly = GetComponentInParent<Fly>();
-        aud = GetComponent<AudioSource>();
+        this.fly = fly;
+        instanceFound = false;
     }
 
     void Update()
@@ -41,22 +42,25 @@ public class Ship : MonoBehaviour
             FindInstance();
         }
 
-        //get check health value from server
-        health = trailScript.GetHealth();
-
-        if (health < prevHp)
+        if (instanceFound)
         {
-            MinHp();
-        }
-        else if (health > prevHp)
-        {
-            PlusHp();
-        }
+            //get check health value from server
+            health = trailScript.GetHealth();
 
-        prevHp = health;
+            if (health < prevHp)
+            {
+                MinHp();
+            }
+            else if (health > prevHp)
+            {
+                PlusHp();
+            }
 
-        //update UI
-        healthText.text = health.ToString();
+            prevHp = health;
+
+            //update UI
+            healthText.text = health.ToString();
+        }
     }
 
     void MinHp()
@@ -155,9 +159,11 @@ public class Ship : MonoBehaviour
     public void FindInstance()
     {
         int id = _realtime.clientID;
-        
-        foreach (GameObject plObj in GameObject.FindGameObjectsWithTag("Player"))
+            
+        foreach (GameObject plObj in GameObject.FindGameObjectsWithTag("Ship"))
         {
+            fly.debug.text = (plObj.GetComponent<RealtimeTransform>() == null).ToString();
+           // fly.debug.text =(plObj.GetComponent<RealtimeTransform>().ownerID +"  /-/   " + id);
             if (plObj.GetComponent<RealtimeTransform>().ownerID == id)
             {
                 shp = plObj.GetComponentInChildren<ShipGlobal>();
@@ -165,6 +171,7 @@ public class Ship : MonoBehaviour
                 trailScript = plObj.GetComponentInChildren<PlayerHealthScript>();
                 trailScript.SetHealth(health);
                 //break;
+                instanceFound = true;
             }
         }
     }

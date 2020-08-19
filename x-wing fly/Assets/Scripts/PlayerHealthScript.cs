@@ -49,11 +49,6 @@ public class PlayerHealthScript : RealtimeComponent
         }
     }
 
-    public void SetMaxHealth()
-    {
-
-    }
-
     private TrailModel model
     {
         set
