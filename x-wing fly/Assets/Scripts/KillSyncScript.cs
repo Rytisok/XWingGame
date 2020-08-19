@@ -8,7 +8,6 @@ public class KillSyncScript : RealtimeComponent
     private KillsModel _model;
     public int kills;
 
-  
     private KillsModel model
     {
         set

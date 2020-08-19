@@ -124,6 +124,7 @@ public class Ship : MonoBehaviour
 
                 trailScript.SetHealth(health);
                 scoreScript.SetDeaths(0);
+                idScript.SetT(-1);
 
                 EnterGame();
             }
@@ -133,6 +134,7 @@ public class Ship : MonoBehaviour
     void Die()
     {
         //gets the ID of the projectile that hit the and adds the kill to the responsible player
+        Debug.Log(idScript.GetT());
         if (idScript.GetT() != -1)
         {
             foreach (GameObject gm in GameObject.FindGameObjectsWithTag("Player"))
@@ -143,7 +145,6 @@ public class Ship : MonoBehaviour
                     Debug.Log("SETTING KILLS");
                 }
             }
-            idScript.SetT(-1);
         }
 
         scoreScript.SetDeaths(scoreScript.GetDeaths() + 1);

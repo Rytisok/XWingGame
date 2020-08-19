@@ -255,7 +255,7 @@ public class Fly : Realtime
     }
     void FireLaser()
     {
-        GameObject projectile = Instantiate(laser.name, tr.transform.position, tr.transform.rotation, ownedByClient: false, useInstance: _realtime);
+        GameObject projectile = Instantiate(laser.name, tr.transform.position, tr.transform.rotation, ownedByClient: true, useInstance: _realtime);
 
         Projectile proj = projectile.GetComponent<Projectile>();
         proj.Initialize(projectileDuration);
