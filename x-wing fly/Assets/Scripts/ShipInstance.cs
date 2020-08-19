@@ -6,15 +6,10 @@ using Normal.Realtime;
 public class ShipInstance : MonoBehaviour
 {
     public PlayerHealthScript trailScript;
-    public ScoreManager manager;
-    TSyncScript idModel;
     // Start is called before the first frame update
     void Awake()
     {
         trailScript = GetComponent<PlayerHealthScript>();
-        manager = GameObject.Find("ScoreManager").GetComponent<ScoreManager>();
-        idModel = GetComponent<TSyncScript>();
-        
         trailScript.SetHealth(1);
     }
 
@@ -26,18 +21,11 @@ public class ShipInstance : MonoBehaviour
         }
         else
         {
-            idModel.SetT(-1);
-            switch (other.gameObject.layer)
+            switch(other.gameObject.layer)
             {
                 //laser
                 case 8:
-                    int k = trailScript.GetHealth();
-                    trailScript.SetHealth(k - 1);
-                    idModel.SetT(other.GetComponent<RealtimeView>().ownerID);
-                    if((k-1) == 0)
-                    {
-                        //manager.RegisterKill(other.GetComponent<RealtimeView>().ownerID);
-                    }
+                    trailScript.SetHealth(trailScript.GetHealth() - 1);
                     break;
                 //other player
                 case 9:
@@ -49,7 +37,7 @@ public class ShipInstance : MonoBehaviour
                     break;
                 //orb
                 case 14:
-                    if (trailScript.GetHealth() < 5)
+                    if (trailScript.GetHealth() < trailScript.maxHealth)
                     {
                         trailScript.SetHealth(trailScript.GetHealth() + 1);
                         Realtime.Destroy(other.gameObject);

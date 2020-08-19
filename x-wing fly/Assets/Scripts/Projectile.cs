@@ -5,15 +5,20 @@ using Normal.Realtime;
 
 public class Projectile : MonoBehaviour
 {
-    private void Awake()
+    public Rigidbody rigidbody;
+    public void Initialize(float projectileDuration)
     {
         GetComponent<TrailRenderer>().enabled = false;
         GetComponent<BoxCollider>().enabled = false;
         Invoke("Tr", 0.08f);
         Invoke("Col", 0.02f);
-        Invoke("Destruct", 1f);
+        Invoke("Destruct", projectileDuration);
     }
 
+    public void Fire(Vector3 speed)
+    {
+        rigidbody.velocity = speed;
+    }
     
 
     private void Tr()
