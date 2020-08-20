@@ -290,7 +290,8 @@ MonoBehaviour:
   localShip: {fileID: 2093162879}
   globalShip: {fileID: 0}
   scoreManager: {fileID: 175459820}
-  rightHandAnchor: {fileID: 740545356}
+  rightHandAnchor: {fileID: 1087705985}
+  editorAnchor: {fileID: 1987572724}
   fly: {fileID: 1165595760}
 --- !u!4 &60877385
 Transform:
@@ -300,7 +301,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 60877383}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.358, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 2093162880}
@@ -12104,10 +12105,11 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1165595757}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 1.0133646, y: 1.2, z: 1.08}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 12889018}
+  - {fileID: 1987572724}
   m_Father: {fileID: 0}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -12146,6 +12148,7 @@ MonoBehaviour:
   - {fileID: 1835760958}
   audScrpt: {fileID: 0}
   thrusterAudio: {fileID: 943894430}
+  cam: {fileID: 476079055}
   rocket: {fileID: 9111817282596803967, guid: 0080b86f0f98ed5428a01245d20b7db6, type: 3}
   debug: {fileID: 1492260656}
 --- !u!114 &1165595761
@@ -12495,7 +12498,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &1292100920
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -23447,6 +23450,36 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 93a05d93f0fd810439cd9267453b0865, type: 3}
+--- !u!1 &1987572723
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1987572724}
+  m_Layer: 0
+  m_Name: EditorControllPoint
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1987572724
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1987572723}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: -0.2, z: 0.7}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 1165595758}
+  m_RootOrder: 1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1993481476 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 158218, guid: ea3b1b7de8e530346b335abce83beb31,

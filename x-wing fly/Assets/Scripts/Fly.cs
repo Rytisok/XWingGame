@@ -48,13 +48,13 @@ public class Fly : Realtime
     public PlayerAudioScript audScrpt;
     bool switcheroo = false;
     public AudioSource thrusterAudio;
-
     public GameObject rocket;
     GameObject missileInControl;
 
     public TMP_Text debug;
 
     public Action<Vector3> onChangePos;
+    public Action<Vector3> onChangeMousePos;
 
     #region Unity remote
 
@@ -85,7 +85,7 @@ public class Fly : Realtime
             case ConfigOrigin.Remote:
                 Debug.Log("New settings loaded this session; update values accordingly.");
 
-                speedNormal = ConfigManager.appConfig.GetFloat("speed");
+                speedNormal = ConfigManager.appConfig.GetFloat("speedNormal");
                 speedBoosted = ConfigManager.appConfig.GetFloat("speedBoosted");
                 projectileSpeed = ConfigManager.appConfig.GetFloat("projectileSpeed");
                 timeBetweenShots = ConfigManager.appConfig.GetFloat("timeBetweenShots");
@@ -125,6 +125,9 @@ public class Fly : Realtime
         }
         if (go)
         {
+            if (Application.isEditor)
+                MoveShipsEditor();
+
             Move();
         }
         //Missile
@@ -271,8 +274,23 @@ public class Fly : Realtime
 
     void Move()
     {
-        transform.position += x.forward * Time.deltaTime * currSpeed;
-        onChangePos?.Invoke(transform.position);
+        Vector3 change = x.forward * Time.deltaTime * currSpeed;
+        transform.position += change;
+        onChangePos?.Invoke(change);
+    }
+
+    void MoveShipsEditor()
+    {
+        float mouseRatioX = Input.mousePosition.x / Screen.width;
+        float mouseRatioY = Input.mousePosition.y / Screen.height;
+
+        Vector3 mousePos = new Vector3(mouseRatioX - 0.5f, mouseRatioY - 0.5f, 0f);
+
+        Vector3 curRot = transform.eulerAngles;
+        curRot = new Vector3(curRot.x- mousePos.y, curRot.y + mousePos.x,curRot.z);
+
+        transform.rotation = Quaternion.Lerp(transform.rotation, Quaternion.Euler(curRot), Time.deltaTime*100);
+        onChangeMousePos?.Invoke(mousePos);
     }
     public void RestoreEnergy()
     {
