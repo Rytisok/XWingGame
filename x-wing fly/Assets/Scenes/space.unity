@@ -174,6 +174,7 @@ MonoBehaviour:
   m_Material: {fileID: 0}
   m_Color: {r: 0.764151, g: 0.764151, b: 0.764151, a: 1}
   m_RaycastTarget: 1
+  m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
@@ -288,6 +289,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   localShip: {fileID: 2093162879}
   globalShip: {fileID: 0}
+  scoreManager: {fileID: 175459820}
   rightHandAnchor: {fileID: 740545356}
   fly: {fileID: 1165595760}
 --- !u!4 &60877385
@@ -435,7 +437,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 11
+  m_RootOrder: 12
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &188584484 stripped
 GameObject:
@@ -754,6 +756,7 @@ MonoBehaviour:
   m_Material: {fileID: 0}
   m_Color: {r: 0.4575472, g: 1, b: 0.5652317, a: 1}
   m_RaycastTarget: 1
+  m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
@@ -6294,12 +6297,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b6169d821d2d726439cd6afb809a96dc, type: 3}
---- !u!1 &575574369 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: -927199367670048503, guid: b6169d821d2d726439cd6afb809a96dc,
-    type: 3}
-  m_PrefabInstance: {fileID: 575574368}
-  m_PrefabAsset: {fileID: 0}
 --- !u!4 &575574370 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -4216859302048453862, guid: b6169d821d2d726439cd6afb809a96dc,
@@ -11426,6 +11423,7 @@ MonoBehaviour:
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 1
+  m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
@@ -11581,6 +11579,7 @@ MonoBehaviour:
   m_Material: {fileID: 0}
   m_Color: {r: 0.8207547, g: 0.8207547, b: 0.8207547, a: 1}
   m_RaycastTarget: 1
+  m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
@@ -11749,6 +11748,7 @@ MonoBehaviour:
   m_Material: {fileID: 0}
   m_Color: {r: 0.5425863, g: 0.8396226, b: 0.56221366, a: 1}
   m_RaycastTarget: 1
+  m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
@@ -17757,6 +17757,7 @@ MonoBehaviour:
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 1
+  m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
@@ -17891,7 +17892,7 @@ Transform:
   - {fileID: 2018262349}
   - {fileID: 1833082285}
   m_Father: {fileID: 0}
-  m_RootOrder: 10
+  m_RootOrder: 11
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1492260654
 GameObject:
@@ -17945,6 +17946,7 @@ MonoBehaviour:
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 1
+  m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
@@ -18100,6 +18102,7 @@ MonoBehaviour:
   m_Material: {fileID: 0}
   m_Color: {r: 0, g: 0, b: 0, a: 1}
   m_RaycastTarget: 1
+  m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
@@ -23725,8 +23728,8 @@ MonoBehaviour:
     type: 3}
   aud: {fileID: 2093162883}
   healthText: {fileID: 936177550}
-  dome: {fileID: 575574369}
-  asteroids: {fileID: 347185273}
+  asteroids: {fileID: 0}
+  dome: {fileID: 0}
 --- !u!65 &2093162882
 BoxCollider:
   m_ObjectHideFlags: 0

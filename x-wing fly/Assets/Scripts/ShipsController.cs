@@ -7,13 +7,13 @@ public class ShipsController : MonoBehaviour
 
     public GameObject localShip;
     public GameObject globalShip;
-
+    public ScoreManager scoreManager;
     public Transform rightHandAnchor;
 
     public Fly fly;
     void Awake()
     {
-        localShip.GetComponent<Ship>().Initialize(fly);
+        localShip.GetComponent<Ship>().Initialize(fly, scoreManager);
         Move(fly.transform.position);
         fly.onChangePos += Move;
     }

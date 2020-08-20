@@ -190,6 +190,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4798741242481448}
+  - {fileID: 6458623100628345070}
   m_Father: {fileID: 4736743072354544}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -237,6 +238,10 @@ MonoBehaviour:
     view: {fileID: 0}
     viewIDHasBeenUsed: 1
     viewToUseIfMovedBack: {fileID: 0}
+  - viewID: 6
+    view: {fileID: 7023925472153231237}
+    viewIDHasBeenUsed: 1
+    viewToUseIfMovedBack: {fileID: 7023925472153231237}
 --- !u!114 &114296471283698206
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -454,7 +459,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   kills: 0
-  deaths: 0
+  connectTime: 0
 --- !u!114 &4037734273602912003
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1051,6 +1056,7 @@ MonoBehaviour:
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 1
+  m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
@@ -15745,7 +15751,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fd1c2445d3811af43b654ba90ab41cd1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_Text: {fileID: 1228672554109977223}
 --- !u!114 &3690765799922397796
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -15771,7 +15776,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1a52c4c9875c48749833b20d55a13bfe, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  trailScript: {fileID: 0}
   manager: {fileID: 0}
 --- !u!114 &5408941695119354170
 MonoBehaviour:

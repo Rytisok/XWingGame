@@ -7,8 +7,6 @@ using UnityEngine.UI;
 
 public class Ship : MonoBehaviour
 {
-
-
     public GameObject explosion;
     public GameObject impact;
     public Realtime _realtime;
@@ -31,15 +29,15 @@ public class Ship : MonoBehaviour
     TSyncScript idScript;
 
     private bool instanceFound;
-   
-    public void Initialize(Fly fly)
     public GameObject asteroids;
     public GameObject dome;
+
+    public void Initialize(Fly fly, ScoreManager scoreManager)
     {
         this.fly = fly;
         instanceFound = false;
         asteroids.SetActive(false);
-        manager = GameObject.Find("ScoreManager").GetComponent<ScoreManager>();
+        manager = scoreManager;
     }
 
     void Update()

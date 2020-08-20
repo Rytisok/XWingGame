@@ -7,8 +7,8 @@ using TMPro;
 
 public class ShipGlobal : MonoBehaviour
 {
-    public TMP_Text m_Text;
-    private void Start()
+  //  public TMP_Text m_Text;
+  /*  private void Start()
     {
         if (!transform.root.GetComponent<RealtimeView>().isOwnedLocally)
         {
@@ -19,7 +19,7 @@ public class ShipGlobal : MonoBehaviour
     private void Update()
     {
         m_Text.transform.rotation = Camera.main.transform.rotation;
-    }
+    }*/
     public void SetState(bool alive)
     {
         GetComponentInChildren<MeshRenderer>().enabled = alive;
