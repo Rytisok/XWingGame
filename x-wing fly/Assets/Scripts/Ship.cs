@@ -26,18 +26,26 @@ public class Ship : MonoBehaviour
     public Text healthText;
     Fly fly;
     PlayerHealthScript trailScript;
+    ScoreManager manager;
+    PlayerScoreScript scoreScript;
+    TSyncScript idScript;
 
     private bool instanceFound;
    
     public void Initialize(Fly fly)
+    public GameObject asteroids;
+    public GameObject dome;
     {
         this.fly = fly;
         instanceFound = false;
+        asteroids.SetActive(false);
+        manager = GameObject.Find("ScoreManager").GetComponent<ScoreManager>();
     }
 
     void Update()
     {
-        if (_realtime.connected && shp == null)
+        //check when your own instance is created
+        if (shp == null)
         {
             FindInstance();
         }
@@ -87,61 +95,9 @@ public class Ship : MonoBehaviour
         Realtime.Instantiate(orbParticles.name, transform.position, transform.rotation, ownedByClient: false, useInstance: _realtime);
     }
 
-    /*
-    private void OnTriggerEnter(Collider other)
-    {
-       
-        if (other.gameObject.layer == 11 || other.gameObject.layer == 9)
-        {
-            if (other.GetComponentInParent<RealtimeTransform>() != null)
-            {
-                if (other.GetComponentInParent<RealtimeTransform>().isOwnedLocally)
-                {
-                    other.GetComponent<BoxCollider>().enabled = false;
-                }
-                else
-                {
-                    health = 0;
-                    Die();
-                }
-            }
-            else
-            {
-                health = 0;
-                Die();
-            }
-        }
-        if (other.gameObject.layer == 12)
-        {
-            if (health > 4)
-            {
-                health -= 4;
-            }
-            else
-            {
-                health = 0;
-                Die();
-            }
-        }
-        if (other.gameObject.layer == 13)
-        {
-            health = 0;
-            Die();
-        }
-
-        if (trailScript != null)
-        {
-            trailScript.SetHealth(health);
-        }
-        else
-        {
-            FindInstance();
-        }
-    }
-    */
     void Restart()
     {
-        gameObject.SetActive(true);
+        //gameObject.SetActive(true);
         alive = true;
         shp.SetState(true);
         health = 1;
@@ -149,10 +105,6 @@ public class Ship : MonoBehaviour
         if (trailScript != null)
         {
             trailScript.SetHealth(health);
-        }
-        else
-        {
-            FindInstance();
         }
     }
 
@@ -169,23 +121,50 @@ public class Ship : MonoBehaviour
                 shp = plObj.GetComponentInChildren<ShipGlobal>();
 
                 trailScript = plObj.GetComponentInChildren<PlayerHealthScript>();
+                idScript = plObj.GetComponentInChildren<TSyncScript>();
+                scoreScript = plObj.GetComponent<PlayerScoreScript>();
+
                 trailScript.SetHealth(health);
                 //break;
                 instanceFound = true;
+                scoreScript.SetDeaths(0);
+                idScript.SetT(-1);
+
+                EnterGame();
             }
         }
     }
 
     void Die()
     {
+        //gets the ID of the projectile that hit the and adds the kill to the responsible player
+        Debug.Log(idScript.GetT());
+        if (idScript.GetT() != -1)
+        {
+            foreach (GameObject gm in GameObject.FindGameObjectsWithTag("Player"))
+            {
+                if (gm.GetComponent<RealtimeView>().ownerID == idScript.GetT())
+                {
+                    gm.GetComponent<KillSyncScript>().SetKillCount(gm.GetComponent<KillSyncScript>().GetKillCount() + 1);
+                    Debug.Log("SETTING KILLS");
+                }
+            }
+        }
+
+        scoreScript.SetDeaths(scoreScript.GetDeaths() + 1);
+
         GameObject expl = Realtime.Instantiate(explosion.name, transform.position, transform.rotation, ownedByClient: true, useInstance: _realtime);
         shp.SetState(false);
-        gameObject.SetActive(false);
         transform.root.transform.position = restartPos[Random.Range(0, 3)].position;
         Invoke("Restart", 3.5f);
         fly.PlaySound(2);
         alive = false;
+        //gameObject.SetActive(false);
     }
 
-    
+    void EnterGame()
+    {
+        dome.SetActive(false);
+        asteroids.SetActive(true);
+    }
 }

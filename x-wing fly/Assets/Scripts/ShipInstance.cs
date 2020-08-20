@@ -8,6 +8,8 @@ public class ShipInstance : MonoBehaviour
     private PlayerHealthScript trailScript;
     private BoxCollider boxCollider;
     private RealtimeView realtimeView;
+    TSyncScript idModel;
+    public ScoreManager manager;
     // Start is called before the first frame update
 
     public void Initialize(RealtimeView realtimeView)
@@ -15,6 +17,9 @@ public class ShipInstance : MonoBehaviour
         this.realtimeView = realtimeView;
         trailScript = GetComponent<PlayerHealthScript>();
         boxCollider = GetComponent<BoxCollider>();
+
+        manager = GameObject.Find("ScoreManager").GetComponent<ScoreManager>();
+        idModel = GetComponent<TSyncScript>();
 
         trailScript.SetHealth(1);
     }
@@ -27,11 +32,16 @@ public class ShipInstance : MonoBehaviour
         }
         else
         {
-            switch(other.gameObject.layer)
+            //reset last hit projectiles ID
+            idModel.SetT(-1);
+
+            switch (other.gameObject.layer)
             {
                 //laser
                 case 8:
                     trailScript.SetHealth(trailScript.GetHealth() - 1);
+                    //set the owner ID of the projectile, that hit
+                    idModel.SetT(other.GetComponent<RealtimeView>().ownerID);
                     break;
                 //other player
                 case 9:
