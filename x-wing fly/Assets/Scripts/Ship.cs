@@ -118,8 +118,8 @@ public class Ship : MonoBehaviour
             {
                 shp = plObj.GetComponentInChildren<ShipGlobal>();
 
-                trailScript = plObj.GetComponentInChildren<PlayerHealthScript>();
-                idScript = plObj.GetComponentInChildren<TSyncScript>();
+                trailScript = plObj.GetComponent<PlayerHealthScript>();
+                idScript = plObj.GetComponent<TSyncScript>();
                 scoreScript = plObj.GetComponent<PlayerScoreScript>();
 
                 trailScript.SetHealth(health);

@@ -14549,6 +14549,8 @@ GameObject:
   - component: {fileID: 5225700546460696902}
   - component: {fileID: 7747800927853131041}
   - component: {fileID: 8241391729236979207}
+  - component: {fileID: 4610451694909884076}
+  - component: {fileID: 6153932238780666341}
   m_Layer: 9
   m_Name: model
   m_TagString: Ship
@@ -14757,6 +14759,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1a52c4c9875c48749833b20d55a13bfe, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  manager: {fileID: 0}
 --- !u!114 &7747800927853131041
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -14782,6 +14785,12 @@ MonoBehaviour:
   - componentID: 2
     component: {fileID: 8241391729236979207}
     componentIDHasBeenUsed: 1
+  - componentID: 3
+    component: {fileID: 4610451694909884076}
+    componentIDHasBeenUsed: 1
+  - componentID: 4
+    component: {fileID: 6153932238780666341}
+    componentIDHasBeenUsed: 1
   _parentView: {fileID: 0}
   _childViews: []
 --- !u!114 &8241391729236979207
@@ -14800,6 +14809,33 @@ MonoBehaviour:
   _syncRotation: 1
   _syncScale: 0
   _extrapolation: 0
+--- !u!114 &4610451694909884076
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7279701840120330329}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0b51775cf0ea03c4e91ecaaf39f7e736, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  h: 0
+--- !u!114 &6153932238780666341
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7279701840120330329}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 40ab25e779276024db96255b52d8a421, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  kills: 0
+  connectTime: 0
 --- !u!1 &8627620026718175212
 GameObject:
   m_ObjectHideFlags: 0
