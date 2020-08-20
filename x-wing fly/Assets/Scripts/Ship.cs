@@ -7,8 +7,6 @@ using UnityEngine.UI;
 
 public class Ship : MonoBehaviour
 {
-
-
     public GameObject explosion;
     public GameObject impact;
     public Realtime _realtime;
@@ -16,7 +14,7 @@ public class Ship : MonoBehaviour
     public bool alive = true;
     public ShipGlobal shp;
     public GameObject orbParticles;
-    AudioSource aud;
+    public AudioSource aud;
 
     private const int startingHealth = 1;
     private int health = startingHealth;
@@ -30,16 +28,16 @@ public class Ship : MonoBehaviour
     PlayerScoreScript scoreScript;
     TSyncScript idScript;
 
-    //visual stuff
-    public GameObject dome;
+    private bool instanceFound;
     public GameObject asteroids;
+    public GameObject dome;
 
-    private void Start()
+    public void Initialize(Fly fly, ScoreManager scoreManager)
     {
-        fly = GetComponentInParent<Fly>();
-        aud = GetComponent<AudioSource>();
+        this.fly = fly;
+        instanceFound = false;
         asteroids.SetActive(false);
-        manager = GameObject.Find("ScoreManager").GetComponent<ScoreManager>();
+        manager = scoreManager;
     }
 
     void Update()
@@ -50,25 +48,25 @@ public class Ship : MonoBehaviour
             FindInstance();
         }
 
-        //get check health value from server
-        if (trailScript != null)
+        if (instanceFound)
         {
+            //get check health value from server
             health = trailScript.GetHealth();
-        }
 
-        if (health < prevHp)
-        {
-            MinHp();
-        }
-        else if (health > prevHp)
-        {
-            PlusHp();
-        }
+            if (health < prevHp)
+            {
+                MinHp();
+            }
+            else if (health > prevHp)
+            {
+                PlusHp();
+            }
 
-        prevHp = health;
+            prevHp = health;
 
-        //update UI
-        healthText.text = health.ToString();
+            //update UI
+            healthText.text = health.ToString();
+        }
     }
 
     void MinHp()
@@ -111,18 +109,22 @@ public class Ship : MonoBehaviour
     public void FindInstance()
     {
         int id = _realtime.clientID;
-        
-        foreach (GameObject plObj in GameObject.FindGameObjectsWithTag("Player"))
+            
+        foreach (GameObject plObj in GameObject.FindGameObjectsWithTag("Ship"))
         {
+            fly.debug.text = (plObj.GetComponent<RealtimeTransform>() == null).ToString();
+           // fly.debug.text =(plObj.GetComponent<RealtimeTransform>().ownerID +"  /-/   " + id);
             if (plObj.GetComponent<RealtimeTransform>().ownerID == id)
             {
                 shp = plObj.GetComponentInChildren<ShipGlobal>();
 
-                trailScript = plObj.GetComponentInChildren<PlayerHealthScript>();
-                idScript = plObj.GetComponentInChildren<TSyncScript>();
+                trailScript = plObj.GetComponent<PlayerHealthScript>();
+                idScript = plObj.GetComponent<TSyncScript>();
                 scoreScript = plObj.GetComponent<PlayerScoreScript>();
 
                 trailScript.SetHealth(health);
+                //break;
+                instanceFound = true;
                 scoreScript.SetDeaths(0);
                 idScript.SetT(-1);
 

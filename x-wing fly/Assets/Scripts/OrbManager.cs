@@ -13,14 +13,14 @@ public class OrbManager : MonoBehaviour
 
     float nextCheck = 0;
     float interval = 5;
-    bool k = false;
+    bool spawned = false;
 
     void Update()
     {
-        if (_realtime.connected && !k)
+        if (_realtime.connected && !spawned)
         {
             SpawnOrbs();
-            k = true;
+            spawned = true;
         }
 
         if (Time.time > nextCheck)

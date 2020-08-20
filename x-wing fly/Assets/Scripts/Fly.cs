@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Normal.Realtime;
@@ -53,6 +54,8 @@ public class Fly : Realtime
 
     public TMP_Text debug;
 
+    public Action<Vector3> onChangePos;
+
     #region Unity remote
 
     void Awake()
@@ -74,16 +77,13 @@ public class Fly : Realtime
         {
             case ConfigOrigin.Default:
                 Debug.Log("No settings loaded this session; using default values.");
-                debug.text += "No settings loaded this session; using default values.\n";
                 break;
             case ConfigOrigin.Cached:
                 Debug.Log("No settings loaded this session; using cached values from a previous session.");
-                debug.text += "No settings loaded this session; using cached values from a previous session.\n";
 
                 break;
             case ConfigOrigin.Remote:
                 Debug.Log("New settings loaded this session; update values accordingly.");
-                debug.text += "New settings loaded this session; update values accordingly.\n";
 
                 speedNormal = ConfigManager.appConfig.GetFloat("speed");
                 speedBoosted = ConfigManager.appConfig.GetFloat("speedBoosted");
@@ -272,7 +272,7 @@ public class Fly : Realtime
     void Move()
     {
         transform.position += x.forward * Time.deltaTime * currSpeed;
-
+        onChangePos?.Invoke(transform.position);
     }
     public void RestoreEnergy()
     {

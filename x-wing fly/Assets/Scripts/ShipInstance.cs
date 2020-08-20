@@ -5,14 +5,19 @@ using Normal.Realtime;
 
 public class ShipInstance : MonoBehaviour
 {
-    public PlayerHealthScript trailScript;
-    public ScoreManager manager;
+    private PlayerHealthScript trailScript;
+    private BoxCollider boxCollider;
+    private RealtimeView realtimeView;
     TSyncScript idModel;
-
+    public ScoreManager manager;
     // Start is called before the first frame update
-    void Awake()
+
+    public void Initialize(RealtimeView realtimeView)
     {
+        this.realtimeView = realtimeView;
         trailScript = GetComponent<PlayerHealthScript>();
+        boxCollider = GetComponent<BoxCollider>();
+
         manager = GameObject.Find("ScoreManager").GetComponent<ScoreManager>();
         idModel = GetComponent<TSyncScript>();
 
@@ -21,9 +26,9 @@ public class ShipInstance : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if (GetComponentInParent<RealtimeView>().isOwnedLocally)
+        if (realtimeView.isOwnedLocally)
         {
-            GetComponent<BoxCollider>().enabled = false;
+            boxCollider.enabled = false;
         }
         else
         {
