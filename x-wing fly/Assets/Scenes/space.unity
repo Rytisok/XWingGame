@@ -18194,6 +18194,12 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1527240825 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: -927199367670048503, guid: b6169d821d2d726439cd6afb809a96dc,
+    type: 3}
+  m_PrefabInstance: {fileID: 575574368}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1527260634 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 156152, guid: 93a05d93f0fd810439cd9267453b0865,
@@ -23728,8 +23734,8 @@ MonoBehaviour:
     type: 3}
   aud: {fileID: 2093162883}
   healthText: {fileID: 936177550}
-  asteroids: {fileID: 0}
-  dome: {fileID: 0}
+  asteroids: {fileID: 347185273}
+  dome: {fileID: 1527240825}
 --- !u!65 &2093162882
 BoxCollider:
   m_ObjectHideFlags: 0
