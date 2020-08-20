@@ -7,8 +7,13 @@ public class KillSyncScript : RealtimeComponent
 {
     private KillsModel _model;
     public int kills;
+    private ScoreManager manager;
+    private void Awake()
+    {
+        manager = GameObject.Find("ScoreManager").GetComponent<ScoreManager>();
 
-  
+    }
+
     private KillsModel model
     {
         set
@@ -44,6 +49,6 @@ public class KillSyncScript : RealtimeComponent
 
     public int GetKillCount()
     {
-        return kills;
+        return _model.killCount;
     }
 }

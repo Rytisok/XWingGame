@@ -7,16 +7,26 @@ public class PlayerScoreScript : RealtimeComponent
 {
     private PlayerScoreModel _model;
 
-    public int kills = 0;
-    public int deaths = 0;
-    ScoreManager manager;
+    [SerializeField]
+    private int kills = 0;
+    private int deaths = 0;
+    private ScoreManager manager;
+    [SerializeField]
+    private int connectTime = 0;
 
     private void Awake()
     {
         manager = GameObject.Find("ScoreManager").GetComponent<ScoreManager>();
+        
     }
 
-
+    private void Update()
+    {
+        if (connectTime == 0)
+        {
+            connectTime = (int)GetComponent<RealtimeView>().realtime.room.time;
+        }
+    }
 
     private PlayerScoreModel model
     {
@@ -53,6 +63,11 @@ public class PlayerScoreScript : RealtimeComponent
     {
         kills = _model.kills;
         deaths = _model.deaths;
+
+        if (GetComponent<RealtimeView>().isOwnedLocally)
+        {
+            manager.SetScoreText();
+        }
     }
 
     public int GetKills()
@@ -72,4 +87,9 @@ public class PlayerScoreScript : RealtimeComponent
     {
         _model.deaths = val;
     }
+    public int GetConnectTime()
+    {
+        return connectTime;
+    }
+
 }
