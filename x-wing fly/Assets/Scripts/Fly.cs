@@ -144,7 +144,7 @@ public class Fly : Realtime
         }
         //--------------
         //Laser
-        if ((OVRInput.Get(OVRInput.RawButton.RIndexTrigger) || Input.GetKeyDown(KeyCode.Space)) && Time.time >= nextTimeFire && energy > 0)
+        if ((OVRInput.Get(OVRInput.RawButton.RIndexTrigger) || Input.GetMouseButton(0)) && Time.time >= nextTimeFire && energy > 0)
         {
             FireLaser();
         }
@@ -156,7 +156,7 @@ public class Fly : Realtime
         //--------------
 
         //boosting
-        if ((OVRInput.Get(OVRInput.RawButton.RHandTrigger) || Input.GetKey(KeyCode.W)) && energy > 0)
+        if ((OVRInput.Get(OVRInput.RawButton.RHandTrigger) || Input.GetMouseButton(1)) && energy > 0)
         {
             if (!boosting)
             {
