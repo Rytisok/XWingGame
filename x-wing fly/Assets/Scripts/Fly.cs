@@ -8,14 +8,6 @@ using UnityEngine.UI;
 using Unity.RemoteConfig;
 public class Fly : Realtime
 {
-    public struct userAttributes
-    {
-    }
-
-    public struct appAttributes
-    {
-    }
-
     public Transform x;
 
     public float currSpeed;
@@ -55,56 +47,26 @@ public class Fly : Realtime
     public Action<Vector3> onChangePos;
     public Action<Vector3> onChangeMousePos;
 
-    #region Unity remote
-
     void Awake()
     {
-        // Add a listener to apply settings when successfully retrieved: 
-        ConfigManager.FetchCompleted += ApplyRemoteSettings;
+        UnityRemoteManager.Instance.onEnergyDataUpdated += UpdateEnergyData;
+        UnityRemoteManager.Instance.onSpeedDataUpdated += UpdateSpeedData;
 
-        // Set the user’s unique ID:
-        ConfigManager.SetCustomUserID("some-user-id");
-
-        // Fetch configuration setting from the remote service: 
-        ConfigManager.FetchConfigs<userAttributes, appAttributes>(new userAttributes(), new appAttributes());
     }
 
-    void ApplyRemoteSettings(ConfigResponse configResponse)
+    void UpdateEnergyData(int energyLimit,float timeBetweenEnergyRecovery,bool updateFromServer)
     {
-        // Conditionally update settings, depending on the response's origin:
-        switch (configResponse.requestOrigin)
-        {
-            case ConfigOrigin.Default:
-                Debug.Log("No settings loaded this session; using default values.");
-                break;
-            case ConfigOrigin.Cached:
-                Debug.Log("No settings loaded this session; using cached values from a previous session.");
-
-                break;
-            case ConfigOrigin.Remote:
-                Debug.Log("New settings loaded this session; update values accordingly.");
-
-                speedNormal = ConfigManager.appConfig.GetFloat("speedNormal");
-                speedBoosted = ConfigManager.appConfig.GetFloat("speedBoosted");
-                projectileSpeed = ConfigManager.appConfig.GetFloat("projectileSpeed");
-                timeBetweenShots = ConfigManager.appConfig.GetFloat("timeBetweenShots");
-                projectileDuration = ConfigManager.appConfig.GetFloat("projectileDuration");
-                energyLimit = ConfigManager.appConfig.GetInt("energyLimit");
-                timeBetweenEnergyRecovery = ConfigManager.appConfig.GetFloat("timeBetweenEnergyRecovery");
-
-                laser.Initialize(projectileSpeed, projectileDuration, timeBetweenShots,true);
-                break;
-        }
+        this.energyLimit = energyLimit;
+        this.timeBetweenEnergyRecovery = timeBetweenEnergyRecovery;
+    }
+    void UpdateSpeedData(float speedNormal, float speedBoosted, bool updateFromServer)
+    {
+        this.speedNormal = speedNormal;
+        this.speedBoosted = speedBoosted;
     }
 
-    #endregion
-
-    // Start is called before the first frame update
     void Start()
     {
-        //aud = GetComponent<AudioSource>();
-        //audScrpt = GetComponent<PlayerAudioScript>();
-        //   speedBoosted = speed * 2;
         energy = energyLimit;
         laser.Initialize(projectileSpeed, projectileDuration, timeBetweenShots, false);
 

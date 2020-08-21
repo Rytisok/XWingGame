@@ -17,6 +17,11 @@ public class Laser : MonoBehaviour
 
     private bool _initializedFromServer;
 
+    void Awake()
+    {
+        UnityRemoteManager.Instance.onLaserDataUpdated += Initialize;
+    }
+
     public void Initialize(float projectileSpeed, float projectileDuration, float timeBetweenShots, bool initializedFromServer)
     {
         if (!_initializedFromServer)

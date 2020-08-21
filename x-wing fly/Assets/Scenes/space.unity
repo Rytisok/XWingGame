@@ -99,7 +99,7 @@ LightmapSettings:
     m_LightProbeSampleCountMultiplier: 4
   m_LightingDataAsset: {fileID: 112000000, guid: 6526a440b7cdd3342a3690e568ac246a,
     type: 2}
-  m_UseShadowmask: 1
+  m_UseShadowmask: 0
 --- !u!196 &4
 NavMeshSettings:
   serializedVersion: 2
@@ -669,6 +669,12 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: ea3b1b7de8e530346b335abce83beb31, type: 3}
+--- !u!4 &463885061 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 6724580104469332150, guid: d022050dd647b644d836a5b5619363a6,
+    type: 3}
+  m_PrefabInstance: {fileID: 1619668701}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &476079052
 GameObject:
   m_ObjectHideFlags: 0
@@ -1144,6 +1150,49 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1087705985}
   m_RootOrder: 1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &771493428
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 771493430}
+  - component: {fileID: 771493429}
+  m_Layer: 0
+  m_Name: UnityRemoteManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &771493429
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 771493428}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 94806b7c4c98b1e4db98b2d71a3e67f6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!4 &771493430
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 771493428}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: -0.2, z: 0.7}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 14
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &808125144
 GameObject:
@@ -1772,6 +1821,28 @@ MeshCollider:
   m_Convex: 1
   m_CookingOptions: 30
   m_Mesh: {fileID: 4300000, guid: b0e323a8dc39a3349963ab7b1946dd63, type: 3}
+--- !u!1 &1148873525 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 3347138710021793718, guid: d022050dd647b644d836a5b5619363a6,
+    type: 3}
+  m_PrefabInstance: {fileID: 1619668701}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1148873531
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1148873525}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4fecb97ef5dceaa4c9c305c9fa5d92f0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _realtime: {fileID: 1925114294}
+  laserPref: {fileID: 5578896887552615347, guid: 79ab8737b7cd503488f8d8a6c7ed91f9,
+    type: 3}
+  laserOrigin: {fileID: 463885061}
 --- !u!1 &1165595757
 GameObject:
   m_ObjectHideFlags: 0
@@ -1824,11 +1895,9 @@ MonoBehaviour:
   _roomToJoinOnStart: Test Room
   _joinRoomOnStart: 1
   _debugLogging: 0
-  cntrl: {fileID: 1087705985}
   x: {fileID: 5006512735294329157}
   currSpeed: 0
   projectileSpeed: 14
-  tr: {fileID: 929416278}
   _realtime: {fileID: 1925114294}
   ship: {fileID: 2093162881}
   energy: 20
@@ -3279,10 +3348,15 @@ PrefabInstance:
       propertyPath: minDistance
       value: 2
       objectReference: {fileID: 0}
+    - target: {fileID: -7849152830262809001, guid: d022050dd647b644d836a5b5619363a6,
+        type: 3}
+      propertyPath: laser
+      value: 
+      objectReference: {fileID: 1148873531}
     - target: {fileID: 1740699756375053733, guid: d022050dd647b644d836a5b5619363a6,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: -1.47
+      value: -4.4
       objectReference: {fileID: 0}
     - target: {fileID: 1740699756375053733, guid: d022050dd647b644d836a5b5619363a6,
         type: 3}
@@ -3292,7 +3366,7 @@ PrefabInstance:
     - target: {fileID: 1740699756375053733, guid: d022050dd647b644d836a5b5619363a6,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: 5.24
+      value: 36.07
       objectReference: {fileID: 0}
     - target: {fileID: 1740699756375053733, guid: d022050dd647b644d836a5b5619363a6,
         type: 3}

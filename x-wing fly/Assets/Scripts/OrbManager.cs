@@ -27,11 +27,14 @@ public class OrbManager : MonoBehaviour
         {
             for (int i = 0; i < orbCount; i++)
             {
-                if (orbs[i] == null)
+                if (orbs.Count >= i + 1)
                 {
-                    orbs.Remove(orbs[i]);
-                    Invoke("SpawnOrb", 4);
-                    SpawnOrb(i);
+                    if (orbs[i] == null)
+                    {
+                        orbs.Remove(orbs[i]);
+                        Invoke("SpawnOrb", 4);
+                        SpawnOrb(i);
+                    }
                 }
             }
             nextCheck = Time.time + interval;
