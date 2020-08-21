@@ -30,7 +30,7 @@ MonoBehaviour:
     rs:
       key: projectileSpeed
       type: float
-      value: 20
+      value: 0
   - metadata:
       entityId: 10dd9fc9-a93c-464b-964d-b4664b5f46fe
     rs:
@@ -55,6 +55,12 @@ MonoBehaviour:
       key: maxHealth
       type: int
       value: 10
+  - metadata:
+      entityId: 3be98fe7-a880-4b57-902c-abd5a33087c8
+    rs:
+      key: timeBetweenEnergyRecovery
+      type: float
+      value: 0.05
   rsLastCachedKeyList:
   - metadata:
       entityId: 27c316e0-f7e9-4b2e-a928-7e7f99cfee0f
@@ -73,7 +79,7 @@ MonoBehaviour:
     rs:
       key: projectileSpeed
       type: float
-      value: 20
+      value: 0
   - metadata:
       entityId: 10dd9fc9-a93c-464b-964d-b4664b5f46fe
     rs:
@@ -98,6 +104,12 @@ MonoBehaviour:
       key: maxHealth
       type: int
       value: 10
+  - metadata:
+      entityId: 3be98fe7-a880-4b57-902c-abd5a33087c8
+    rs:
+      key: timeBetweenEnergyRecovery
+      type: float
+      value: 0.05
   configId: 29f81027-38b4-4d74-a202-1de8f1114505
   currentEnvironmentId: 7b2d5e98-e28f-4ba6-92be-02a69813801c
   environments:
