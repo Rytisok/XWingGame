@@ -31,20 +31,28 @@ public class ShipsController : MonoBehaviour
 
     void Move(Vector3 targetPos)
     {
-        transform.position = rightHandAnchor.position;
-        transform.rotation = rightHandAnchor.rotation;
+        localShip.transform.position = rightHandAnchor.position;
+        localShip.transform.rotation = rightHandAnchor.rotation;
+
+        if (globalShip != null)
+        {
+            globalShip.transform.position = rightHandAnchor.position;
+            globalShip.transform.rotation = rightHandAnchor.rotation;
+        }
     }
 
     void MoveEditor(Vector3 targetPos)
     {
-        transform.position = editorAnchor.position; 
-        transform.rotation = editorAnchor.rotation;
+        localShip.transform.position = editorAnchor.position;
+        localShip.transform.rotation = editorAnchor.rotation;
+
+        if (globalShip != null)
+        {
+            globalShip.transform.position = editorAnchor.position;
+            globalShip.transform.rotation = editorAnchor.rotation;
+        }
     }
 
-    void FixedUpdate()
-    {
-        ResetRotations();
-    }
     void ResetRotations()
     {
         localShip.transform.localRotation = Quaternion.Euler(Vector3.zero);

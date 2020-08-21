@@ -20,10 +20,32 @@ public class BotManager : MonoBehaviour
     private int energyLimit = 20;
     private float timeBetweenEnergyRecovery = 0.15f;
 
+    public Pursuer pursuer;
     void Awake()
     {
+ 
+        StartCoroutine(WaitUntilUnityRemoteOnline());
+
+        StartCoroutine(WaitUntilGraphProcessingDone());
+
+    }
+
+    IEnumerator WaitUntilUnityRemoteOnline()
+    {
+        while (UnityRemoteManager.Instance == null)
+            yield return null;
+
         UnityRemoteManager.Instance.onEnergyDataUpdated += UpdateEnergyData;
         UnityRemoteManager.Instance.onSpeedDataUpdated += UpdateSpeedData;
+    }
+
+    IEnumerator WaitUntilGraphProcessingDone()
+    {
+        SpaceManager spaceManagerInstance = Component.FindObjectOfType<SpaceManager>();
+        while (!spaceManagerInstance.isPrimaryProcessingCompleted)
+            yield return null;
+        
+        pursuer.MoveTo(target.transform);
     }
 
     void UpdateEnergyData(int energyLimit, float timeBetweenEnergyRecovery, bool updateFromServer)
@@ -40,8 +62,8 @@ public class BotManager : MonoBehaviour
     void Update()
     {
         float distanceToTarget = GetDistanceToTarget();
-
-        FollowTarget(distanceToTarget);
+        pursuer.RefinePath(target.transform);
+       // FollowTarget(distanceToTarget);
         FireBehaviour(distanceToTarget);
     }
 

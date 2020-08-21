@@ -19,7 +19,15 @@ public class Laser : MonoBehaviour
 
     void Awake()
     {
+        StartCoroutine(WaitUntilUnityRemoteOnline());
+    }
+
+    IEnumerator WaitUntilUnityRemoteOnline()
+    {
+        while (UnityRemoteManager.Instance == null)
+            yield return null;
         UnityRemoteManager.Instance.onLaserDataUpdated += Initialize;
+
     }
 
     public void Initialize(float projectileSpeed, float projectileDuration, float timeBetweenShots, bool initializedFromServer)
