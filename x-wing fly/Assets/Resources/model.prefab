@@ -14548,7 +14548,6 @@ GameObject:
   - component: {fileID: 4162578487517550784}
   - component: {fileID: 5225700546460696902}
   - component: {fileID: 7747800927853131041}
-  - component: {fileID: 8241391729236979207}
   - component: {fileID: 4610451694909884076}
   - component: {fileID: 6153932238780666341}
   m_Layer: 9
@@ -14786,32 +14785,13 @@ MonoBehaviour:
     component: {fileID: 4162578487517550784}
     componentIDHasBeenUsed: 1
   - componentID: 2
-    component: {fileID: 8241391729236979207}
-    componentIDHasBeenUsed: 1
-  - componentID: 3
     component: {fileID: 4610451694909884076}
     componentIDHasBeenUsed: 1
-  - componentID: 4
+  - componentID: 3
     component: {fileID: 6153932238780666341}
     componentIDHasBeenUsed: 1
   _parentView: {fileID: 0}
   _childViews: []
---- !u!114 &8241391729236979207
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7279701840120330329}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9011f3ecfff6bca47b885e91ea7a6049, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _syncPosition: 1
-  _syncRotation: 1
-  _syncScale: 0
-  _extrapolation: 1
 --- !u!114 &4610451694909884076
 MonoBehaviour:
   m_ObjectHideFlags: 0

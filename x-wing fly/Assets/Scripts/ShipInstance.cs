@@ -32,6 +32,7 @@ public class ShipInstance : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
+     
         if (isInitialized)
         {
             if (GetComponentInParent<RealtimeView>().isOwnedLocally)

@@ -341,11 +341,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _realtime: {fileID: 0}
-  _sceneViewUUID: 
+  _sceneViewUUID: 8cde80c98087b24786a30f66c10f290a
   _sceneViewOwnedByCreatingClient: 1
   _sceneViewPreventOwnershipTakeover: 0
   _sceneViewDestroyWhenOwnerOrLastClientLeaves: 1
-  _isRootPrefabView: 1
+  _isRootPrefabView: 0
   _components:
   - componentID: 1
     component: {fileID: 114800176784454794}
@@ -731,7 +731,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1681626021449142}
   m_LocalRotation: {x: 0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 4369254572010764}
@@ -910,7 +910,7 @@ PrefabInstance:
     - target: {fileID: 6007216524181883466, guid: c9ceda7ac4b9e0449b1015ef8ff45945,
         type: 3}
       propertyPath: m_LocalRotation.x
-      value: 0.42261827
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6007216524181883466, guid: c9ceda7ac4b9e0449b1015ef8ff45945,
         type: 3}
@@ -925,7 +925,7 @@ PrefabInstance:
     - target: {fileID: 6007216524181883466, guid: c9ceda7ac4b9e0449b1015ef8ff45945,
         type: 3}
       propertyPath: m_LocalRotation.w
-      value: 0.9063079
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6007216524181883466, guid: c9ceda7ac4b9e0449b1015ef8ff45945,
         type: 3}
@@ -935,7 +935,7 @@ PrefabInstance:
     - target: {fileID: 6007216524181883466, guid: c9ceda7ac4b9e0449b1015ef8ff45945,
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
-      value: 50
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6007216524181883466, guid: c9ceda7ac4b9e0449b1015ef8ff45945,
         type: 3}
@@ -954,14 +954,14 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7747800927853131041, guid: c9ceda7ac4b9e0449b1015ef8ff45945,
         type: 3}
-      propertyPath: _isRootPrefabView
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7747800927853131041, guid: c9ceda7ac4b9e0449b1015ef8ff45945,
-        type: 3}
       propertyPath: _parentView
       value: 
       objectReference: {fileID: 114397248209533090}
+    - target: {fileID: 7747800927853131041, guid: c9ceda7ac4b9e0449b1015ef8ff45945,
+        type: 3}
+      propertyPath: _isRootPrefabView
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c9ceda7ac4b9e0449b1015ef8ff45945, type: 3}
 --- !u!1 &3449842298296452837 stripped

@@ -14,102 +14,102 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   rsKeyList:
   - metadata:
-      entityId: 64974007-45ae-42bc-9c79-21b6cdb63494
+      entityId: 59b05e3f-81db-4292-88a6-3b38ca3f82af
     rs:
       key: speed
       type: float
       value: 1
   - metadata:
-      entityId: 29a14297-b679-4a72-bb2a-7fff8e37f547
+      entityId: da761188-7465-4883-9ba0-ed69493e073b
     rs:
       key: speedBoosted
       type: float
       value: 2
   - metadata:
-      entityId: 54bf345a-0a8a-4818-a67d-2a71e9570d15
+      entityId: 9da29e0a-ba98-4d62-bf62-f22fbe589b16
     rs:
       key: projectileSpeed
       type: float
       value: 0
   - metadata:
-      entityId: 95771abb-515c-4a2d-9f12-3f7e84161b0b
+      entityId: 86f37f42-73a7-4469-b926-b24d342a6efc
     rs:
       key: timeBetweenShots
       type: float
       value: 0.02
   - metadata:
-      entityId: af74864c-d710-4b17-bce6-24295254991f
+      entityId: 78f764a1-0147-4ac0-a34e-afea1cfa3b1a
     rs:
       key: projectileDuration
       type: float
       value: 5
   - metadata:
-      entityId: c4f458d5-b5c9-4f8d-8f3b-b79799369001
+      entityId: 571fdf5d-b579-45c0-aaa9-3f0bbce8baf6
     rs:
       key: energyLimit
       type: int
       value: 100
   - metadata:
-      entityId: 347828a2-f44b-4a87-8b52-9a1b01b3aa0c
+      entityId: ae7027dd-0b70-47a9-bfe2-23abb19ff60c
     rs:
       key: maxHealth
       type: int
       value: 10
   - metadata:
-      entityId: ee6e4027-2b57-4c1e-8d98-b58690ba75f9
+      entityId: 37a24312-3ca6-4013-8fe4-ee76c44b3fd3
     rs:
       key: timeBetweenEnergyRecovery
       type: float
       value: 0.05
   rsLastCachedKeyList:
   - metadata:
-      entityId: 64974007-45ae-42bc-9c79-21b6cdb63494
+      entityId: 59b05e3f-81db-4292-88a6-3b38ca3f82af
     rs:
       key: speed
       type: float
-      value: 1
+      value: 1.000000
   - metadata:
-      entityId: 29a14297-b679-4a72-bb2a-7fff8e37f547
+      entityId: da761188-7465-4883-9ba0-ed69493e073b
     rs:
       key: speedBoosted
       type: float
-      value: 2
+      value: 2.000000
   - metadata:
-      entityId: 54bf345a-0a8a-4818-a67d-2a71e9570d15
+      entityId: 9da29e0a-ba98-4d62-bf62-f22fbe589b16
     rs:
       key: projectileSpeed
       type: float
-      value: 0
+      value: 0.000000
   - metadata:
-      entityId: 95771abb-515c-4a2d-9f12-3f7e84161b0b
+      entityId: 86f37f42-73a7-4469-b926-b24d342a6efc
     rs:
       key: timeBetweenShots
       type: float
-      value: 0.02
+      value: 0.020000
   - metadata:
-      entityId: af74864c-d710-4b17-bce6-24295254991f
+      entityId: 78f764a1-0147-4ac0-a34e-afea1cfa3b1a
     rs:
       key: projectileDuration
       type: float
-      value: 5
+      value: 5.000000
   - metadata:
-      entityId: c4f458d5-b5c9-4f8d-8f3b-b79799369001
+      entityId: 571fdf5d-b579-45c0-aaa9-3f0bbce8baf6
     rs:
       key: energyLimit
       type: int
       value: 100
   - metadata:
-      entityId: 347828a2-f44b-4a87-8b52-9a1b01b3aa0c
+      entityId: ae7027dd-0b70-47a9-bfe2-23abb19ff60c
     rs:
       key: maxHealth
       type: int
       value: 10
   - metadata:
-      entityId: ee6e4027-2b57-4c1e-8d98-b58690ba75f9
+      entityId: 37a24312-3ca6-4013-8fe4-ee76c44b3fd3
     rs:
       key: timeBetweenEnergyRecovery
       type: float
-      value: 0.05
+      value: 0.050000
   configId: 29f81027-38b4-4d74-a202-1de8f1114505
   currentEnvironmentId: 7b2d5e98-e28f-4ba6-92be-02a69813801c
   environments:

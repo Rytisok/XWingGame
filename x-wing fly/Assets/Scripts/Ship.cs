@@ -114,7 +114,7 @@ public class Ship : MonoBehaviour
         {
             fly.debug.text = (plObj.GetComponent<RealtimeTransform>() == null).ToString();
            // fly.debug.text =(plObj.GetComponent<RealtimeTransform>().ownerID +"  /-/   " + id);
-            if (plObj.GetComponent<RealtimeTransform>().ownerID == id)
+            if (plObj.GetComponent<RealtimeView>().ownerID == id)
             {
                 shp = plObj.GetComponentInChildren<ShipGlobal>();
 
