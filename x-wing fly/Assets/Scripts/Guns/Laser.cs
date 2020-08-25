@@ -17,16 +17,22 @@ public class Laser : MonoBehaviour
 
     private bool _initializedFromServer;
 
-    void Awake()
+    void Start()
     {
-        StartCoroutine(WaitUntilUnityRemoteOnline());
+        LoadSettings();
     }
 
-    IEnumerator WaitUntilUnityRemoteOnline()
+    void LoadSettings()
     {
-        while (UnityRemoteManager.Instance == null)
-            yield return null;
-        UnityRemoteManager.Instance.onLaserDataUpdated += Initialize;
+        GameLoading loader = UnityRemoteManager.Instance.GetComponent<GameLoading>();
+        UnityRemoteManager unityRemote = UnityRemoteManager.Instance;
+        
+        if (!loader.loadingDone)
+            unityRemote.onLaserDataUpdated += Initialize;
+        else
+        {
+            Initialize(unityRemote.projectileSpeed, unityRemote.projectileDuration, unityRemote.timeBetweenShots, true);
+        }
 
     }
 

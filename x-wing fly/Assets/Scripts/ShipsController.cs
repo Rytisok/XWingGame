@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using Normal.Realtime;
+using UnityEngine;
 
 public class ShipsController : MonoBehaviour
 {
@@ -8,6 +9,7 @@ public class ShipsController : MonoBehaviour
     public Transform rightHandAnchor;
     public Transform editorAnchor;
 
+    public Realtime _realtime;
     public Fly fly;
     void Awake()
     {

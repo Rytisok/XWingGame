@@ -942,7 +942,6 @@ public class Pursuer : MonoBehaviour
         
         if (generateCondMessages)
         {
-            Debug.Log(onCondMovement.Method.Name + "KEK");
             onCondMovement?.Invoke();
             gameObject.SendMessage("CondMovement", SendMessageOptions.DontRequireReceiver);
 

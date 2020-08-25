@@ -6,17 +6,19 @@ using UnityEngine;
 
 public class UnityRemoteManager : MonoBehaviour
 {
-    public Action<float, float, float, bool> onLaserDataUpdated;
-    public Action<float, float, bool> onSpeedDataUpdated;
-    public Action<int, float, bool> onEnergyDataUpdated;
+  public Action<float, float, float, bool> onLaserDataUpdated;
+  public Action<float, float, bool> onSpeedDataUpdated;
+  public Action<int, float, bool> onEnergyDataUpdated;
 
-    private float projectileSpeed;
-    private float timeBetweenShots;
-    private float projectileDuration;
-    private float speedBoosted;
-    private float speedNormal;
-    private int energyLimit;
-    private float timeBetweenEnergyRecovery;
+    public float projectileSpeed;
+    public float timeBetweenShots;
+    public float projectileDuration;
+    public float speedBoosted;
+    public float speedNormal;
+    public int energyLimit;
+    public float timeBetweenEnergyRecovery;
+
+    private Action<PartsToLoad> succCallback;
 
     public struct userAttributes
     {
@@ -54,30 +56,16 @@ public class UnityRemoteManager : MonoBehaviour
 
     #endregion
 
-    void Start()
+    public void StartLoading(Action<PartsToLoad> callback)
     {
-        StartCoroutine(DelayedPull());
-        // Add a listener to apply settings when successfully retrieved: 
-       
-    }
-
-    IEnumerator DelayedPull()
-    {
-        float t = 0;
-
-        while (t < 1f)
-        {
-            t += Time.deltaTime;
-            yield return null;
-        }
+        succCallback = callback;
 
         ConfigManager.FetchCompleted += ApplyRemoteSettings;
-
         // Set the user’s unique ID:
         ConfigManager.SetCustomUserID("some-user-id");
-
         // Fetch configuration setting from the remote service: 
         ConfigManager.FetchConfigs<userAttributes, appAttributes>(new userAttributes(), new appAttributes());
+
     }
 
     void ApplyRemoteSettings(ConfigResponse configResponse)
@@ -109,5 +97,6 @@ public class UnityRemoteManager : MonoBehaviour
 
                 break;
         }
+        succCallback?.Invoke(PartsToLoad.UnityRemote);
     }
 }

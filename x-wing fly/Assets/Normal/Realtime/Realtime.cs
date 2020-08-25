@@ -9,7 +9,9 @@ using UnityEditor;
 using Normal.Realtime.Serialization;
 
 namespace Normal.Realtime {
-    public class Realtime : MonoBehaviour {
+    public class Realtime : MonoBehaviour
+    {
+        private Action<PartsToLoad> onReadyCallback;
         // Class
         public  static HashSet<Realtime>   instances { get { return __instances; } }
         private static HashSet<Realtime> __instances;
@@ -51,8 +53,9 @@ namespace Normal.Realtime {
                     Debug.LogError("Realtime: Unable to instantiate prefab. No instances of Realtime exist in the scene. Please specify a specific instance of Realtime when calling Instantiate()");
                     return null;
                 }
-                if (__instances.Count > 1) {
-                    Debug.LogError("Realtime: Multiple instances of Realtime exist in the scene. ");
+                if (__instances.Count > 1)
+                {
+                    Debug.LogError("Realtime: Multiple instances of Realtime exist in the scene. Count: "+ __instances.Count);
                     return null;
                 }
                 foreach (Realtime instance in __instances) {
@@ -181,6 +184,12 @@ namespace Normal.Realtime {
                 Connect(_roomToJoinOnStart, null);
         }
 
+        public void ManualConnect(Action<PartsToLoad> callback)
+        {
+            onReadyCallback = callback;
+            Connect(_roomToJoinOnStart, null);
+        }
+
         private void OnDestroy() {
             // Unregister this instance
             __instances.Remove(this);
@@ -250,13 +259,12 @@ namespace Normal.Realtime {
 
             _room.Disconnect();
         }
-
         void RoomConnectionStateChanged(Room room, Room.ConnectionState previousConnectionState, Room.ConnectionState connectionState) {
             switch (connectionState) {
                 case Room.ConnectionState.Ready:
                     // Connect scene views
                     ConnectSceneViewsToDatastore();
-                    
+                    onReadyCallback?.Invoke(PartsToLoad.Multiplayer);
                     // Fire connect event
                     FireDidConnectToRoom();
                     break;

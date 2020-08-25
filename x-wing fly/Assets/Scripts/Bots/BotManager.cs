@@ -26,15 +26,46 @@ public class BotManager : MonoBehaviour
 
     private GameObject lastTarget;
     private Transform lastTargetTrans;
+
+    private bool allowMovement;
     void Awake()
     {
+        allowMovement = false;
         lastTarget = new GameObject("targetPos");
         lastTargetTrans = lastTarget.transform;
         lastTargetTrans.position =  target.transform.position;
         lastTargetTrans.rotation = target.transform.rotation;
 
-        StartCoroutine(WaitUntilUnityRemoteOnline());
-        StartCoroutine(WaitUntilGraphProcessingDone());
+    }
+
+
+    void Start()
+    {
+        LoadSettings();
+    }
+
+    void LoadSettings()
+    {
+        GameLoading loader = UnityRemoteManager.Instance.GetComponent<GameLoading>();
+        UnityRemoteManager unityRemote = UnityRemoteManager.Instance;
+
+        if (!loader.loadingDone)
+        {
+            unityRemote.onEnergyDataUpdated += UpdateEnergyData;
+            unityRemote.onSpeedDataUpdated += UpdateSpeedData;
+            loader.onLoadingDone += StartMoveToTarget;
+        }
+        else
+        {
+            UpdateEnergyData(unityRemote.energyLimit, unityRemote.timeBetweenEnergyRecovery, true);
+            UpdateSpeedData(unityRemote.speedNormal, unityRemote.speedBoosted, true);
+            StartMoveToTarget();
+        }
+
+    }
+
+    void StartMoveToTarget()
+    {
 
         pursuer.onCondMovement += Movement;
         pursuer.onCondWaitingForAWay += WaitingForAWay;
@@ -42,27 +73,14 @@ public class BotManager : MonoBehaviour
         pursuer.onCondWaitingForRequest += WaitingForRequest;
         pursuer.onCondWaitingForTheContinuation += WaitingForTheContinuation;
         pursuer.onCondWaitingForWayProcessing += WaitingForWayProcessing;
-    }
-
-    IEnumerator WaitUntilUnityRemoteOnline()
-    {
-        while (UnityRemoteManager.Instance == null)
-            yield return null;
-
-        UnityRemoteManager.Instance.onEnergyDataUpdated += UpdateEnergyData;
-        UnityRemoteManager.Instance.onSpeedDataUpdated += UpdateSpeedData;
-    }
-
-    IEnumerator WaitUntilGraphProcessingDone()
-    {
-        SpaceManager spaceManagerInstance = Component.FindObjectOfType<SpaceManager>();
-        while (!spaceManagerInstance.isPrimaryProcessingCompleted)
-            yield return null;
 
         lastTargetTrans.position = target.transform.position;
         lastTargetTrans.rotation = target.transform.rotation;
         pursuer.MoveTo(lastTargetTrans);
+        allowMovement = true;
     }
+
+  
 
     void UpdateEnergyData(int energyLimit, float timeBetweenEnergyRecovery, bool updateFromServer)
     {
@@ -77,16 +95,20 @@ public class BotManager : MonoBehaviour
 
     void Update()
     {
-        float distanceToTarget = GetDistanceToTarget();
-
-        if (Vector3.Distance(target.transform.position, lastTargetTrans.position) > minDistToRecalculate)
+        if (allowMovement)
         {
+            float distanceToTarget = GetDistanceToTarget();
 
-            lastTargetTrans.position = target.transform.position;
-            lastTargetTrans.rotation = target.transform.rotation;
-            pursuer.RefinePath(lastTargetTrans);
+            if (Vector3.Distance(target.transform.position, lastTargetTrans.position) > minDistToRecalculate)
+            {
+
+                lastTargetTrans.position = target.transform.position;
+                lastTargetTrans.rotation = target.transform.rotation;
+                pursuer.RefinePath(lastTargetTrans);
+            }
+
+            FireBehaviour(distanceToTarget);
         }
-        FireBehaviour(distanceToTarget);
     }
 
     void FollowTarget(float distanceToTarget)
@@ -120,32 +142,32 @@ public class BotManager : MonoBehaviour
         lastTargetTrans.position = target.transform.position;
         lastTargetTrans.rotation = target.transform.rotation;
         pursuer.MoveTo(lastTargetTrans);
-        Debug.Log("WaitingForRequest");
+     //   Debug.Log("WaitingForRequest");
     }
    public void WaitingForPursuersQueue()
          {
-             Debug.Log("WaitingForPursuersQueue");
+           //  Debug.Log("WaitingForPursuersQueue");
 
     }
     public void WaitingForAWay()
         {
-            Debug.Log("WaitingForAWay");
+         //   Debug.Log("WaitingForAWay");
 
     }
     public void WaitingForWayProcessing()
          {
-             Debug.Log("WaitingForWayProcessing");
+           //  Debug.Log("WaitingForWayProcessing");
 
     }
     public void WaitingForTheContinuation()
          {
-             Debug.Log("WaitingForTheContinuation");
+             //Debug.Log("WaitingForTheContinuation");
 
     }
 
     public void Movement()
          {
-             Debug.Log("Movement");
+             //Debug.Log("Movement");
 
     }
 }

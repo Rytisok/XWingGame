@@ -14,10 +14,6 @@ public class Fly : Realtime
     float speedBoosted;
     float speedNormal;
 
-    public float projectileSpeed;
-    private float timeBetweenShots =0.1f;
-    private float projectileDuration = 1;
-
     bool go = false;
 
     public Realtime _realtime;
@@ -47,17 +43,43 @@ public class Fly : Realtime
     public Action<Vector3> onChangePos;
     public Action<Vector3> onChangeMousePos;
 
-    void Awake()
+    private bool loaded;
+    void Start()
     {
-        UnityRemoteManager.Instance.onEnergyDataUpdated += UpdateEnergyData;
-        UnityRemoteManager.Instance.onSpeedDataUpdated += UpdateSpeedData;
+        LoadSettings();
+    }
+
+    void LoadSettings()
+    {
+        GameLoading loader = UnityRemoteManager.Instance.GetComponent<GameLoading>();
+        UnityRemoteManager unityRemote = UnityRemoteManager.Instance;
+
+        if (!loader.loadingDone)
+        {
+            unityRemote.onEnergyDataUpdated += UpdateEnergyData;
+            unityRemote.onSpeedDataUpdated += UpdateSpeedData;
+            loader.onLoadingDone += () =>
+            {
+                loaded = true;
+            };
+        }
+        else
+        {
+            UpdateEnergyData(unityRemote.energyLimit, unityRemote.timeBetweenEnergyRecovery, true);
+            UpdateSpeedData(unityRemote.speedNormal, unityRemote.speedBoosted, true);
+            loaded = true;
+        }
 
     }
+
 
     void UpdateEnergyData(int energyLimit,float timeBetweenEnergyRecovery,bool updateFromServer)
     {
         this.energyLimit = energyLimit;
         this.timeBetweenEnergyRecovery = timeBetweenEnergyRecovery;
+
+        energy = energyLimit;
+
     }
     void UpdateSpeedData(float speedNormal, float speedBoosted, bool updateFromServer)
     {
@@ -65,17 +87,12 @@ public class Fly : Realtime
         this.speedBoosted = speedBoosted;
     }
 
-    void Start()
-    {
-        energy = energyLimit;
-        laser.Initialize(projectileSpeed, projectileDuration, timeBetweenShots, false);
-
-    }
+ 
 
     // Update is called once per frame
     void Update()
     {
-        if (ship.alive)
+        if (ship.alive && loaded)
         {
             Controls();
         }

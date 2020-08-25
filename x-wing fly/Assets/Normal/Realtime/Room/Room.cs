@@ -14,6 +14,8 @@ namespace Normal.Realtime {
         public delegate void RPCMessageReceived(Room room, byte[] data, bool reliable);
         public event RPCMessageReceived rpcMessageReceived;
 
+       
+
         // Connection state
         public enum ConnectionState {
             Error                 = -1,

@@ -29,14 +29,11 @@ public class Ship : MonoBehaviour
     TSyncScript idScript;
 
     private bool instanceFound;
-    public GameObject asteroids;
-    public GameObject dome;
 
     public void Initialize(Fly fly, ScoreManager scoreManager)
     {
         this.fly = fly;
         instanceFound = false;
-      //  asteroids.SetActive(false);
         manager = scoreManager;
     }
 
@@ -127,8 +124,6 @@ public class Ship : MonoBehaviour
                 instanceFound = true;
                 scoreScript.SetDeaths(0);
                 idScript.SetT(-1);
-
-                EnterGame();
             }
         }
     }
@@ -160,9 +155,5 @@ public class Ship : MonoBehaviour
         //gameObject.SetActive(false);
     }
 
-    void EnterGame()
-    {
-        dome.SetActive(false);
-       // asteroids.SetActive(true);
-    }
+   
 }
