@@ -9,8 +9,6 @@ public class ShipSpawner : MonoBehaviour
     [HideInInspector]
     public GameObject spawnedShip;
 
-    public RealtimeView realtimeView;
-
     void Start()
     {
         LoadSettings();
@@ -40,7 +38,7 @@ public class ShipSpawner : MonoBehaviour
             spawnedShip = Realtime.Instantiate(shipPref.name, temp.transform.position, Quaternion.Euler(Vector3.zero), true, false, true, shipsController._realtime);
             spawnedShip.name = "Global";
             spawnedShip.transform.parent = temp.transform;
-            spawnedShip.GetComponent<ShipInstance>().Initialize(realtimeView);
+            spawnedShip.GetComponent<ShipInstance>().Initialize(shipsController._realtime);
 
             shipsController.AddGlobalShip(spawnedShip);
 

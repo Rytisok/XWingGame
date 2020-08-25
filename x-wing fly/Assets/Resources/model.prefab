@@ -14759,6 +14759,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1a52c4c9875c48749833b20d55a13bfe, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  trailScript: {fileID: 4162578487517550784}
+  boxCollider: {fileID: 1521931572030717876}
+  realtimeView: {fileID: 7747800927853131041}
   manager: {fileID: 0}
 --- !u!114 &7747800927853131041
 MonoBehaviour:
@@ -14808,7 +14811,7 @@ MonoBehaviour:
   _syncPosition: 1
   _syncRotation: 1
   _syncScale: 0
-  _extrapolation: 0
+  _extrapolation: 1
 --- !u!114 &4610451694909884076
 MonoBehaviour:
   m_ObjectHideFlags: 0

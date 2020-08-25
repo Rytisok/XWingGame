@@ -9,6 +9,7 @@ public class UnityRemoteManager : MonoBehaviour
   public Action<float, float, float, bool> onLaserDataUpdated;
   public Action<float, float, bool> onSpeedDataUpdated;
   public Action<int, float, bool> onEnergyDataUpdated;
+  public Action<int, bool> onHealthDataUpdated;
 
     public float projectileSpeed;
     public float timeBetweenShots;
@@ -16,6 +17,7 @@ public class UnityRemoteManager : MonoBehaviour
     public float speedBoosted;
     public float speedNormal;
     public int energyLimit;
+    public int maxHealth;
     public float timeBetweenEnergyRecovery;
 
     private Action<PartsToLoad> succCallback;
@@ -90,10 +92,12 @@ public class UnityRemoteManager : MonoBehaviour
                 projectileDuration = ConfigManager.appConfig.GetFloat("projectileDuration");
                 energyLimit = ConfigManager.appConfig.GetInt("energyLimit");
                 timeBetweenEnergyRecovery = ConfigManager.appConfig.GetFloat("timeBetweenEnergyRecovery");
+                maxHealth = ConfigManager.appConfig.GetInt("maxHealth");
 
                 onLaserDataUpdated?.Invoke(projectileSpeed,projectileDuration,timeBetweenShots,true);
                 onSpeedDataUpdated?.Invoke(speedNormal,speedBoosted,true);
                 onEnergyDataUpdated?.Invoke(energyLimit,timeBetweenEnergyRecovery,true);
+                onHealthDataUpdated?.Invoke(maxHealth,true);
 
                 break;
         }
