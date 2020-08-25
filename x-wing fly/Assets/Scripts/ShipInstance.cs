@@ -11,7 +11,7 @@ public class ShipInstance : MonoBehaviour
     TSyncScript idModel;
     public ScoreManager manager;
     // Start is called before the first frame update
-
+    private bool isInitialized =false;
     public void Initialize(RealtimeView realtimeView)
     {
         this.realtimeView = realtimeView;
@@ -22,43 +22,49 @@ public class ShipInstance : MonoBehaviour
         idModel = GetComponent<TSyncScript>();
 
         trailScript.SetHealth(1);
+
+        isInitialized = true;
     }
 
     private void OnTriggerEnter(Collider other)
     {
-        if (realtimeView.isOwnedLocally)
+        if (isInitialized)
         {
-            boxCollider.enabled = false;
-        }
-        else
-        {
-            //reset last hit projectiles ID
-            idModel.SetT(-1);
-
-            switch (other.gameObject.layer)
+            if (realtimeView.isOwnedLocally)
             {
-                //laser
-                case 8:
-                    trailScript.SetHealth(trailScript.GetHealth() - 1);
-                    //set the owner ID of the projectile, that hit
-                    idModel.SetT(other.GetComponent<RealtimeView>().ownerID);
-                    break;
-                //other player
-                case 9:
-                    trailScript.SetHealth(0);
-                    break;
-                //asteroid
-                case 11:
-                    trailScript.SetHealth(0);
-                    break;
-                //orb
-                case 14:
-                    if (trailScript.GetHealth() < trailScript.maxHealth)
-                    {
-                        trailScript.SetHealth(trailScript.GetHealth() + 1);
-                        Realtime.Destroy(other.gameObject);
-                    }
-                    break;
+                boxCollider.enabled = false;
+            }
+            else
+            {
+                //reset last hit projectiles ID
+                idModel.SetT(-1);
+
+                switch (other.gameObject.layer)
+                {
+                    //laser
+                    case 8:
+                        trailScript.SetHealth(trailScript.GetHealth() - 1);
+                        //set the owner ID of the projectile, that hit
+                        idModel.SetT(other.GetComponent<RealtimeView>().ownerID);
+                        break;
+                    //other player
+                    case 9:
+                        trailScript.SetHealth(0);
+                        break;
+                    //asteroid
+                    case 11:
+                        trailScript.SetHealth(0);
+                        break;
+                    //orb
+                    case 14:
+                        if (trailScript.GetHealth() < trailScript.maxHealth)
+                        {
+                            trailScript.SetHealth(trailScript.GetHealth() + 1);
+                            Realtime.Destroy(other.gameObject);
+                        }
+
+                        break;
+                }
             }
         }
     }
