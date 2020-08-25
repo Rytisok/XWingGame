@@ -9,11 +9,15 @@ public class ShipsController : MonoBehaviour
     public Transform rightHandAnchor;
     public Transform editorAnchor;
 
+    public Transform[] restartPos;
+
+
     public Realtime _realtime;
     public Fly fly;
     void Awake()
     {
         localShip.GetComponent<Ship>().Initialize(fly, scoreManager);
+        localShip.GetComponent<Ship>().onDeath += OnDeath;
         Move(fly.transform.position);
 
         if (Application.isEditor)
@@ -60,6 +64,13 @@ public class ShipsController : MonoBehaviour
         localShip.transform.localRotation = Quaternion.Euler(Vector3.zero);
         if (globalShip != null)
             globalShip.transform.localRotation = Quaternion.Euler(Vector3.zero);
+    }
+
+    void OnDeath()
+    {
+        Vector3 pos = restartPos[Random.Range(0, 3)].position;
+
+        fly.ForcePosition(pos);
     }
 
 

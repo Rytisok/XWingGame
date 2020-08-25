@@ -244,4 +244,9 @@ public class Fly : Realtime
     {
         energy = energyLimit;
     }
+
+    public void ForcePosition(Vector3 newPos)
+    {
+        transform.position += newPos;
+    }
 }

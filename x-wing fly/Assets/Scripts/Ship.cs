@@ -1,8 +1,10 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Normal.Realtime;
 using UnityEngine.UI;
+using Random = UnityEngine.Random;
 
 
 public class Ship : MonoBehaviour
@@ -10,7 +12,6 @@ public class Ship : MonoBehaviour
     public GameObject explosion;
     public GameObject impact;
     public Realtime _realtime;
-    public Transform[] restartPos;
     public bool alive = true;
     public ShipGlobal shp;
     public GameObject orbParticles;
@@ -29,6 +30,8 @@ public class Ship : MonoBehaviour
     TSyncScript idScript;
 
     private bool instanceFound;
+
+    public Action onDeath;
 
     public void Initialize(Fly fly, ScoreManager scoreManager)
     {
@@ -148,11 +151,12 @@ public class Ship : MonoBehaviour
 
         GameObject expl = Realtime.Instantiate(explosion.name, transform.position, transform.rotation, ownedByClient: true, useInstance: _realtime);
         shp.SetState(false);
-        transform.root.transform.position = restartPos[Random.Range(0, 3)].position;
         Invoke("Restart", 3.5f);
         fly.PlaySound(2);
         alive = false;
         //gameObject.SetActive(false);
+
+        onDeath?.Invoke();
     }
 
    
