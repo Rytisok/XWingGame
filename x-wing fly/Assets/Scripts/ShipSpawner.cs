@@ -6,7 +6,7 @@ using UnityEngine;
 public class ShipSpawner : MonoBehaviour
 {
     public GameObject shipPref;
-    [HideInInspector]
+
     public GameObject globalShip;
 
     void Start()
@@ -30,7 +30,7 @@ public class ShipSpawner : MonoBehaviour
 
     void NewGlobalShip()
     {
-
+        globalShip.GetComponent<ShipInstance>().Initialize(null,null,null);
         //     GameObject temp = GameObject.FindGameObjectWithTag("ShipsController");
         //  ShipsController shipsController = temp.GetComponent<ShipsController>();
 

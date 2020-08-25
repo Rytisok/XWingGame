@@ -256,7 +256,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   shipPref: {fileID: 7279701840120330329, guid: c9ceda7ac4b9e0449b1015ef8ff45945,
     type: 3}
-  spawnedShip: {fileID: 0}
+  globalShip: {fileID: 3449842298296452837}
 --- !u!1 &1325244956883770
 GameObject:
   m_ObjectHideFlags: 0
@@ -341,11 +341,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _realtime: {fileID: 0}
-  _sceneViewUUID: 095ac933eea58542ae0ee8b025723f51
+  _sceneViewUUID: 
   _sceneViewOwnedByCreatingClient: 1
   _sceneViewPreventOwnershipTakeover: 0
   _sceneViewDestroyWhenOwnerOrLastClientLeaves: 1
-  _isRootPrefabView: 0
+  _isRootPrefabView: 1
   _components:
   - componentID: 1
     component: {fileID: 114800176784454794}
@@ -964,6 +964,12 @@ PrefabInstance:
       objectReference: {fileID: 114397248209533090}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c9ceda7ac4b9e0449b1015ef8ff45945, type: 3}
+--- !u!1 &3449842298296452837 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 7279701840120330329, guid: c9ceda7ac4b9e0449b1015ef8ff45945,
+    type: 3}
+  m_PrefabInstance: {fileID: 5397281629820616380}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &1854098289939789046 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 6007216524181883466, guid: c9ceda7ac4b9e0449b1015ef8ff45945,
@@ -976,7 +982,7 @@ MonoBehaviour:
     type: 3}
   m_PrefabInstance: {fileID: 5397281629820616380}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
+  m_GameObject: {fileID: 3449842298296452837}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 5d1011e140c5c34458f64fd8ad5095b7, type: 3}

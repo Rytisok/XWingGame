@@ -21,7 +21,7 @@ public class ShipInstance : MonoBehaviour
        // realtimeTransform = trans;
         //realtimeView._SetRealtime(reference);
 
-        GetComponent<RealtimeTransform>().RequestOwnership();
+    //    GetComponent<RealtimeTransform>().RequestOwnership();
         manager = GameObject.Find("ScoreManager").GetComponent<ScoreManager>();
         idModel = GetComponent<TSyncScript>();
 
@@ -34,7 +34,7 @@ public class ShipInstance : MonoBehaviour
     {
         if (isInitialized)
         {
-            if (realtimeTransform.isOwnedLocally)
+            if (GetComponentInParent<RealtimeView>().isOwnedLocally)
             {
                 boxCollider.enabled = false;
             }
