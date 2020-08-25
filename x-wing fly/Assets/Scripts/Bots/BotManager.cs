@@ -20,14 +20,28 @@ public class BotManager : MonoBehaviour
     private int energyLimit = 20;
     private float timeBetweenEnergyRecovery = 0.15f;
 
+    private const float minDistToRecalculate = 0.5f; 
+
     public Pursuer pursuer;
+
+    private GameObject lastTarget;
+    private Transform lastTargetTrans;
     void Awake()
     {
- 
-        StartCoroutine(WaitUntilUnityRemoteOnline());
+        lastTarget = new GameObject("targetPos");
+        lastTargetTrans = lastTarget.transform;
+        lastTargetTrans.position =  target.transform.position;
+        lastTargetTrans.rotation = target.transform.rotation;
 
+        StartCoroutine(WaitUntilUnityRemoteOnline());
         StartCoroutine(WaitUntilGraphProcessingDone());
 
+        pursuer.onCondMovement += Movement;
+        pursuer.onCondWaitingForAWay += WaitingForAWay;
+        pursuer.onCondWaitingForPursuersQueue += WaitingForPursuersQueue;
+        pursuer.onCondWaitingForRequest += WaitingForRequest;
+        pursuer.onCondWaitingForTheContinuation += WaitingForTheContinuation;
+        pursuer.onCondWaitingForWayProcessing += WaitingForWayProcessing;
     }
 
     IEnumerator WaitUntilUnityRemoteOnline()
@@ -44,8 +58,10 @@ public class BotManager : MonoBehaviour
         SpaceManager spaceManagerInstance = Component.FindObjectOfType<SpaceManager>();
         while (!spaceManagerInstance.isPrimaryProcessingCompleted)
             yield return null;
-        
-        pursuer.MoveTo(target.transform);
+
+        lastTargetTrans.position = target.transform.position;
+        lastTargetTrans.rotation = target.transform.rotation;
+        pursuer.MoveTo(lastTargetTrans);
     }
 
     void UpdateEnergyData(int energyLimit, float timeBetweenEnergyRecovery, bool updateFromServer)
@@ -62,8 +78,14 @@ public class BotManager : MonoBehaviour
     void Update()
     {
         float distanceToTarget = GetDistanceToTarget();
-        pursuer.RefinePath(target.transform);
-       // FollowTarget(distanceToTarget);
+
+        if (Vector3.Distance(target.transform.position, lastTargetTrans.position) > minDistToRecalculate)
+        {
+
+            lastTargetTrans.position = target.transform.position;
+            lastTargetTrans.rotation = target.transform.rotation;
+            pursuer.RefinePath(lastTargetTrans);
+        }
         FireBehaviour(distanceToTarget);
     }
 
@@ -89,5 +111,41 @@ public class BotManager : MonoBehaviour
     float GetDistanceToTarget()
     {
         return Vector3.Distance(transform.position, target.transform.position);
+    }
+
+
+
+   public void WaitingForRequest()
+    {
+        lastTargetTrans.position = target.transform.position;
+        lastTargetTrans.rotation = target.transform.rotation;
+        pursuer.MoveTo(lastTargetTrans);
+        Debug.Log("WaitingForRequest");
+    }
+   public void WaitingForPursuersQueue()
+         {
+             Debug.Log("WaitingForPursuersQueue");
+
+    }
+    public void WaitingForAWay()
+        {
+            Debug.Log("WaitingForAWay");
+
+    }
+    public void WaitingForWayProcessing()
+         {
+             Debug.Log("WaitingForWayProcessing");
+
+    }
+    public void WaitingForTheContinuation()
+         {
+             Debug.Log("WaitingForTheContinuation");
+
+    }
+
+    public void Movement()
+         {
+             Debug.Log("Movement");
+
     }
 }

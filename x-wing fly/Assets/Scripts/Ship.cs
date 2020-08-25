@@ -36,7 +36,7 @@ public class Ship : MonoBehaviour
     {
         this.fly = fly;
         instanceFound = false;
-        asteroids.SetActive(false);
+      //  asteroids.SetActive(false);
         manager = scoreManager;
     }
 
@@ -163,6 +163,6 @@ public class Ship : MonoBehaviour
     void EnterGame()
     {
         dome.SetActive(false);
-        asteroids.SetActive(true);
+       // asteroids.SetActive(true);
     }
 }

@@ -8,7 +8,7 @@ using PathFinder3D;
 [CustomEditor(typeof(SpaceManager))]
 public class SpaceManagerEditor : Editor
 {
-    string newTagStr = "Untagged";
+    string newTagStr = "static";
     bool isHandelingInProgress;
     SpaceManager thisSpaceManagerInst;
     SpaceHandler spaceHandlerInstance;

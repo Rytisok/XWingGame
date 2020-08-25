@@ -56,7 +56,21 @@ public class UnityRemoteManager : MonoBehaviour
 
     void Start()
     {
+        StartCoroutine(DelayedPull());
         // Add a listener to apply settings when successfully retrieved: 
+       
+    }
+
+    IEnumerator DelayedPull()
+    {
+        float t = 0;
+
+        while (t < 1f)
+        {
+            t += Time.deltaTime;
+            yield return null;
+        }
+
         ConfigManager.FetchCompleted += ApplyRemoteSettings;
 
         // Set the user’s unique ID:
