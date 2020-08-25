@@ -7,15 +7,19 @@ public class ShipInstance : MonoBehaviour
 {
     public PlayerHealthScript trailScript;
     public BoxCollider boxCollider;
-    public RealtimeView realtimeView;
+   // public RealtimeView realtimeView;
+    public RealtimeTransform realtimeTransform;
+
     public ScoreManager manager;
     TSyncScript idModel;
 
     // Start is called before the first frame update
     private bool isInitialized =false;
-    public void Initialize(Realtime reference)
+    public void Initialize(Realtime reference,RealtimeView view, RealtimeTransform trans)
     {
-        realtimeView._SetRealtime(reference);
+       // realtimeView = view;
+       // realtimeTransform = trans;
+        //realtimeView._SetRealtime(reference);
 
         GetComponent<RealtimeTransform>().RequestOwnership();
         manager = GameObject.Find("ScoreManager").GetComponent<ScoreManager>();
@@ -30,7 +34,7 @@ public class ShipInstance : MonoBehaviour
     {
         if (isInitialized)
         {
-            if (realtimeView.isOwnedLocally)
+            if (realtimeTransform.isOwnedLocally)
             {
                 boxCollider.enabled = false;
             }

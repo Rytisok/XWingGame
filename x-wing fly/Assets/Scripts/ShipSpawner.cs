@@ -7,7 +7,7 @@ public class ShipSpawner : MonoBehaviour
 {
     public GameObject shipPref;
     [HideInInspector]
-    public GameObject spawnedShip;
+    public GameObject globalShip;
 
     void Start()
     {
@@ -30,18 +30,17 @@ public class ShipSpawner : MonoBehaviour
 
     void NewGlobalShip()
     {
-        if (spawnedShip == null)
-        {
-            GameObject temp = GameObject.FindGameObjectWithTag("ShipsController");
-            ShipsController shipsController = temp.GetComponent<ShipsController>();
 
-            spawnedShip = Realtime.Instantiate(shipPref.name, temp.transform.position, Quaternion.Euler(Vector3.zero), true, false, true, shipsController._realtime);
-            spawnedShip.name = "Global";
-            spawnedShip.transform.parent = temp.transform;
-            spawnedShip.GetComponent<ShipInstance>().Initialize(shipsController._realtime);
+        //     GameObject temp = GameObject.FindGameObjectWithTag("ShipsController");
+        //  ShipsController shipsController = temp.GetComponent<ShipsController>();
 
-            shipsController.AddGlobalShip(spawnedShip);
+        //    spawnedShip = Realtime.Instantiate(shipPref.name, temp.transform.position, Quaternion.Euler(Vector3.zero), true, false, true, shipsController._realtime);
+        //     spawnedShip.name = "Global";
+        //    spawnedShip.transform.parent = temp.transform;
+      //  globalShip.GetComponent<ShipInstance>().Initialize(shipsController._realtime, transform.root.GetComponent<RealtimeView>(), transform.root.GetComponent<RealtimeTransform>());
 
-        }
+           // shipsController.AddGlobalShip(spawnedShip);
+
+        
     }
 }

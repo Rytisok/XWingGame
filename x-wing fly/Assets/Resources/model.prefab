@@ -14761,7 +14761,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   trailScript: {fileID: 4162578487517550784}
   boxCollider: {fileID: 1521931572030717876}
-  realtimeView: {fileID: 7747800927853131041}
+  realtimeTransform: {fileID: 0}
   manager: {fileID: 0}
 --- !u!114 &7747800927853131041
 MonoBehaviour:
