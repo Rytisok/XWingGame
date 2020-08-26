@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using Unity.RemoteConfig;
 using UnityEngine;
 
-public class UnityRemoteManager : MonoBehaviour
+public class RemoteUnityManager : MonoBehaviour
 {
   public Action<float, float, float, bool> onLaserDataUpdated;
   public Action<float, float, bool> onSpeedDataUpdated;
@@ -32,9 +32,9 @@ public class UnityRemoteManager : MonoBehaviour
 
     #region UnityRemoteManager Instance
 
-    private static UnityRemoteManager instance = null;
+    private static RemoteUnityManager instance = null;
 
-    public static UnityRemoteManager Instance
+    public static RemoteUnityManager Instance
     {
         get
         {

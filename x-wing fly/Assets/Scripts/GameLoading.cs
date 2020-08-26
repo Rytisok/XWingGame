@@ -41,7 +41,7 @@ public class GameLoading : MonoBehaviour
         partsToLoad.Add(PartsToLoad.UnityRemote);
         partsToLoad.Add(PartsToLoad.Multiplayer);
 
-        UnityRemoteManager.Instance.StartLoading(Loaded);
+        RemoteUnityManager.Instance.StartLoading(Loaded);
 
         //   partsToLoad.Add(PartsToLoad.GraphProcessing);
        _realtime.ManualConnect(Loaded);

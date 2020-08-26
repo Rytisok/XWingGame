@@ -22,7 +22,7 @@ public class ScoreManager : RealtimeComponent
 
     void LoadSettings()
     {
-        GameLoading loader = UnityRemoteManager.Instance.GetComponent<GameLoading>();
+        GameLoading loader = RemoteUnityManager.Instance.GetComponent<GameLoading>();
 
         if (!loader.loadingDone)
             loader.onLoadingDone += () =>

@@ -23,8 +23,8 @@ public class OrbManager : MonoBehaviour
 
     void LoadSettings()
     {
-        GameLoading loader = UnityRemoteManager.Instance.GetComponent<GameLoading>();
-        UnityRemoteManager unityRemote = UnityRemoteManager.Instance;
+        GameLoading loader = RemoteUnityManager.Instance.GetComponent<GameLoading>();
+        RemoteUnityManager remoteUnity = RemoteUnityManager.Instance;
 
         if (!loader.loadingDone)
         {

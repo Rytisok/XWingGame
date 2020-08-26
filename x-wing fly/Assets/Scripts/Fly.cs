@@ -64,13 +64,13 @@ public class Fly : Realtime
 
     void LoadSettings()
     {
-        GameLoading loader = UnityRemoteManager.Instance.GetComponent<GameLoading>();
-        UnityRemoteManager unityRemote = UnityRemoteManager.Instance;
+        GameLoading loader = RemoteUnityManager.Instance.GetComponent<GameLoading>();
+        RemoteUnityManager remoteUnity = RemoteUnityManager.Instance;
 
         if (!loader.loadingDone)
         {
-            unityRemote.onEnergyDataUpdated += UpdateEnergyData;
-            unityRemote.onSpeedDataUpdated += UpdateSpeedData;
+            remoteUnity.onEnergyDataUpdated += UpdateEnergyData;
+            remoteUnity.onSpeedDataUpdated += UpdateSpeedData;
             loader.onLoadingDone += () =>
             {
                 loaded = true;
@@ -78,8 +78,8 @@ public class Fly : Realtime
         }
         else
         {
-            UpdateEnergyData(unityRemote.energyLimit, unityRemote.timeBetweenEnergyRecovery, true);
-            UpdateSpeedData(unityRemote.speedNormal, unityRemote.speedBoosted, true);
+            UpdateEnergyData(remoteUnity.energyLimit, remoteUnity.timeBetweenEnergyRecovery, true);
+            UpdateSpeedData(remoteUnity.speedNormal, remoteUnity.speedBoosted, true);
             loaded = true;
         }
 
