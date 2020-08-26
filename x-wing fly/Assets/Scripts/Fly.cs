@@ -4,31 +4,17 @@ using UnityEngine;
 using Normal.Realtime;
 using TMPro;
 using UnityEngine.UI;
-using Unity.RemoteConfig;
 public class Fly : Realtime
 {
-    public struct userAttributes
-    {
-    }
 
-    public struct appAttributes
-    {
-    }
-
-    public Transform cntrl;
     public Transform x;
 
     public float currSpeed;
     float speedBoosted;
     float speedNormal;
 
-    public float projectileSpeed;
-    private float timeBetweenShots =0.1f;
-    private float projectileDuration = 1;
-
     bool go = false;
-    public GameObject laser;
-    public Transform tr;
+
     public Realtime _realtime;
     public Ship ship;
 
@@ -37,7 +23,6 @@ public class Fly : Realtime
     private int energyLimit = 20;
     private float timeBetweenEnergyRecovery = 0.15f;
 
-    float nextTimeFire = 0;
     float nextTimeReload = 0;
     float nextTimeBoost = 0;
     public Text ammoCount;
@@ -49,8 +34,8 @@ public class Fly : Realtime
     bool switcheroo = false;
     public AudioSource thrusterAudio;
 
-    public GameObject rocket;
-    GameObject missileInControl;
+    public Laser laser;
+    public Missile missile;
 
     public TMP_Text debug;
 
@@ -121,24 +106,17 @@ public class Fly : Realtime
             Move();
         }
         //Missile
-        if ((OVRInput.GetDown(OVRInput.RawButton.A)))
+        if ((OVRInput.GetDown(OVRInput.RawButton.A) || Input.GetKeyDown(KeyCode.M)))
         {
-            if (missileInControl == null)
-            {
-                LaunchMissile();
-            }
-        }
-        if (missileInControl != null)
-        {
-            MissileControler();
+            missile.LaunchMissile();
         }
         //--------------
         //Laser
-        if ((OVRInput.Get(OVRInput.RawButton.RIndexTrigger) || Input.GetKeyDown(KeyCode.Space)) && Time.time >= nextTimeFire && energy > 0)
+        if ((OVRInput.Get(OVRInput.RawButton.RIndexTrigger) || Input.GetMouseButton(0)) && laser.AllowToFire(energy))
         {
-            FireLaser();
+            laser.FireLaser(ref energy);
         }
-        else if (energy < energyLimit && Time.time >= nextTimeReload && Time.time >= nextTimeFire && !(OVRInput.Get(OVRInput.RawButton.RHandTrigger)))
+        else if (energy < energyLimit && Time.time >= nextTimeReload && laser.ShotReloaded() && !(OVRInput.Get(OVRInput.RawButton.RHandTrigger)))
         {
             nextTimeReload = Time.time + timeBetweenEnergyRecovery;
             energy++;
@@ -146,7 +124,7 @@ public class Fly : Realtime
         //--------------
 
         //boosting
-        if ((OVRInput.Get(OVRInput.RawButton.RHandTrigger) || Input.GetKey(KeyCode.W)) && energy > 0)
+        if ((OVRInput.Get(OVRInput.RawButton.RHandTrigger) || Input.GetMouseButton(1)) && energy > 0)
         {
             if (!boosting)
             {
@@ -232,34 +210,6 @@ public class Fly : Realtime
         {
             FindInstance();
         }
-    }
-
-    void LaunchMissile()
-    {
-        GameObject missile = Realtime.Instantiate(rocket.name, tr.transform.position, tr.transform.rotation, ownedByClient: true, useInstance: _realtime);
-        missileInControl = missile;
-    }
-    void MissileControler()
-    {
-        float x = OVRInput.Get(OVRInput.RawAxis2D.RThumbstick).x * 1.65f;
-        float y = OVRInput.Get(OVRInput.RawAxis2D.RThumbstick).y * 1.65f;
-
-        missileInControl.transform.Rotate(-y, x, 0);
-    }
-    void FireLaser()
-    {
-        GameObject projectile = Instantiate(laser.name, tr.transform.position, tr.transform.rotation, ownedByClient: true, useInstance: _realtime);
-
-        Projectile proj = projectile.GetComponent<Projectile>();
-        proj.Initialize(projectileDuration);
-        proj.Fire(x.forward * projectileSpeed);
-
-        energy--;
-
-        PlaySound(0);
-
-
-        nextTimeFire = Time.time + timeBetweenShots;
     }
 
     void Move()
