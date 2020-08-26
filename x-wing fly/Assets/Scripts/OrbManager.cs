@@ -14,27 +14,59 @@ public class OrbManager : MonoBehaviour
     float nextCheck = 0;
     float interval = 5;
     bool k = false;
+    private bool loaded;
+    void Start()
+    {
+
+        LoadSettings();
+    }
+
+    void LoadSettings()
+    {
+        GameLoading loader = UnityRemoteManager.Instance.GetComponent<GameLoading>();
+        UnityRemoteManager unityRemote = UnityRemoteManager.Instance;
+
+        if (!loader.loadingDone)
+        {
+            loader.onLoadingDone += () =>
+            {
+                loaded = true;
+            };
+        }
+        else
+        {
+           
+            loaded = true;
+        }
+
+    }
+
 
     void Update()
     {
-        if (_realtime.connected && !k)
+        if (loaded)
         {
-            SpawnOrbs();
-            k = true;
-        }
 
-        if (Time.time > nextCheck)
-        {
-            for (int i = 0; i < orbCount; i++)
+            if (_realtime.connected && !k)
             {
-                if (orbs[i] == null)
-                {
-                    orbs.Remove(orbs[i]);
-                    Invoke("SpawnOrb", 4);
-                    SpawnOrb(i);
-                }
+                SpawnOrbs();
+                k = true;
             }
-            nextCheck = Time.time + interval;
+
+            if (Time.time > nextCheck)
+            {
+                for (int i = 0; i < orbCount; i++)
+                {
+                    if (orbs[i] == null)
+                    {
+                        orbs.Remove(orbs[i]);
+                        Invoke("SpawnOrb", 4);
+                        SpawnOrb(i);
+                    }
+                }
+
+                nextCheck = Time.time + interval;
+            }
         }
     }
 

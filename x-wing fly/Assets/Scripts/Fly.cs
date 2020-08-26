@@ -35,6 +35,7 @@ public class Fly : Realtime
     [HideInInspector]
     public int energy;
     private int energyLimit = 20;
+    private float timeBetweenEnergyRecovery = 0.15f;
 
     float nextTimeFire = 0;
     float nextTimeReload = 0;
@@ -53,63 +54,55 @@ public class Fly : Realtime
 
     public TMP_Text debug;
 
-    #region Unity remote
-
-    void Awake()
-    {
-        // Add a listener to apply settings when successfully retrieved: 
-        ConfigManager.FetchCompleted += ApplyRemoteSettings;
-
-        // Set the user’s unique ID:
-        ConfigManager.SetCustomUserID("some-user-id");
-
-        // Fetch configuration setting from the remote service: 
-        ConfigManager.FetchConfigs<userAttributes, appAttributes>(new userAttributes(), new appAttributes());
-    }
-
-    void ApplyRemoteSettings(ConfigResponse configResponse)
-    {
-        // Conditionally update settings, depending on the response's origin:
-        switch (configResponse.requestOrigin)
-        {
-            case ConfigOrigin.Default:
-                Debug.Log("No settings loaded this session; using default values.");
-                debug.text += "No settings loaded this session; using default values.\n";
-                break;
-            case ConfigOrigin.Cached:
-                Debug.Log("No settings loaded this session; using cached values from a previous session.");
-                debug.text += "No settings loaded this session; using cached values from a previous session.\n";
-
-                break;
-            case ConfigOrigin.Remote:
-                Debug.Log("New settings loaded this session; update values accordingly.");
-                debug.text += "New settings loaded this session; update values accordingly.\n";
-
-                speedNormal = ConfigManager.appConfig.GetFloat("speed");
-                speedBoosted = ConfigManager.appConfig.GetFloat("speedBoosted");
-                projectileSpeed = ConfigManager.appConfig.GetFloat("projectileSpeed");
-                timeBetweenShots = ConfigManager.appConfig.GetFloat("timeBetweenShots");
-                projectileDuration = ConfigManager.appConfig.GetFloat("projectileDuration");
-                energyLimit = ConfigManager.appConfig.GetInt("energyLimit");
-                break;
-        }
-    }
-
-    #endregion
-
-    // Start is called before the first frame update
+    private bool loaded;
     void Start()
     {
-        //aud = GetComponent<AudioSource>();
-        //audScrpt = GetComponent<PlayerAudioScript>();
-        //   speedBoosted = speed * 2;
         energy = energyLimit;
+
+        LoadSettings();
     }
+
+    void LoadSettings()
+    {
+        GameLoading loader = UnityRemoteManager.Instance.GetComponent<GameLoading>();
+        UnityRemoteManager unityRemote = UnityRemoteManager.Instance;
+
+        if (!loader.loadingDone)
+        {
+            unityRemote.onEnergyDataUpdated += UpdateEnergyData;
+            unityRemote.onSpeedDataUpdated += UpdateSpeedData;
+            loader.onLoadingDone += () =>
+            {
+                loaded = true;
+            };
+        }
+        else
+        {
+            UpdateEnergyData(unityRemote.energyLimit, unityRemote.timeBetweenEnergyRecovery, true);
+            UpdateSpeedData(unityRemote.speedNormal, unityRemote.speedBoosted, true);
+            loaded = true;
+        }
+
+    }
+    void UpdateEnergyData(int energyLimit, float timeBetweenEnergyRecovery, bool updateFromServer)
+    {
+        this.energyLimit = energyLimit;
+        this.timeBetweenEnergyRecovery = timeBetweenEnergyRecovery;
+
+        energy = energyLimit;
+
+    }
+    void UpdateSpeedData(float speedNormal, float speedBoosted, bool updateFromServer)
+    {
+        this.speedNormal = speedNormal;
+        this.speedBoosted = speedBoosted;
+    }
+
 
     // Update is called once per frame
     void Update()
     {
-        if (ship.alive)
+        if (ship.alive && loaded)
         {
             Controls();
         }
@@ -147,7 +140,7 @@ public class Fly : Realtime
         }
         else if (energy < energyLimit && Time.time >= nextTimeReload && Time.time >= nextTimeFire && !(OVRInput.Get(OVRInput.RawButton.RHandTrigger)))
         {
-            nextTimeReload = Time.time + 0.15f;
+            nextTimeReload = Time.time + timeBetweenEnergyRecovery;
             energy++;
         }
         //--------------

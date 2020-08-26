@@ -17,7 +17,23 @@ public class ScoreManager : RealtimeComponent
     {
         _avatarManager.avatarCreated += AvatarChangedUpdateScore;
         _avatarManager.avatarDestroyed += AvatarChangedUpdateScore;
-        nxtCheck = GetComponent<RealtimeView>().realtime.room.time;
+        LoadSettings();
+    }
+
+    void LoadSettings()
+    {
+        GameLoading loader = UnityRemoteManager.Instance.GetComponent<GameLoading>();
+
+        if (!loader.loadingDone)
+            loader.onLoadingDone += () =>
+            {
+                nxtCheck = GetComponent<RealtimeView>().realtime.room.time;
+            };
+        else
+        {
+            nxtCheck = GetComponent<RealtimeView>().realtime.room.time;
+        }
+
     }
 
     private void AvatarChangedUpdateScore(RealtimeAvatarManager avatarManager, RealtimeAvatar avatar, bool isLocalAvatar)
