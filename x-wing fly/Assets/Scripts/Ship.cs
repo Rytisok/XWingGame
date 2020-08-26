@@ -31,7 +31,6 @@ public class Ship : MonoBehaviour
     TSyncScript idScript;
 
     //visual stuff
-    public GameObject dome;
     public GameObject asteroids;
 
     private void Start()
@@ -160,7 +159,6 @@ public class Ship : MonoBehaviour
 
     void EnterGame()
     {
-        dome.SetActive(false);
         asteroids.SetActive(true);
     }
 }
