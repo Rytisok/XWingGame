@@ -160,6 +160,7 @@ namespace Normal.Realtime {
         // Prefab Views
         private HashSet<RealtimeView> _prefabViews;
         private GameObject _lastPrefabInstantiated;
+        private Action<PartsToLoad> onReadyCallback;
 
         //// Instance
         // Unity Events
@@ -234,7 +235,11 @@ namespace Normal.Realtime {
                 Debug.LogException(exception);
             }
         }
-
+        public void ManualConnect(Action<PartsToLoad> callback)
+        {
+            onReadyCallback = callback;
+            Connect(_roomToJoinOnStart, null);
+        }
         // Room
         public void Connect(string roomName, IModel roomModel = null) {
             if (_room == null)
@@ -259,6 +264,8 @@ namespace Normal.Realtime {
                     
                     // Fire connect event
                     FireDidConnectToRoom();
+                    onReadyCallback?.Invoke(PartsToLoad.Multiplayer);
+
                     break;
                 case Room.ConnectionState.Disconnected:
                 case Room.ConnectionState.Error:
