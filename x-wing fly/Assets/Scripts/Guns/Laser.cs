@@ -50,19 +50,21 @@ public class Laser : MonoBehaviour
 
     public void FireLaser(ref int energy)
     {
-        GameObject projectile = Realtime.Instantiate(laserPref.name, laserOrigin.position, laserOrigin.rotation,
-            ownedByClient: true, useInstance: _realtime);
+        if (_realtime != null)
+        {
+            GameObject projectile = Realtime.Instantiate(laserPref.name, laserOrigin.position, laserOrigin.rotation,
+                ownedByClient: true, useInstance: _realtime);
 
-        Projectile proj = projectile.GetComponent<Projectile>();
-        proj.Initialize(_projectileDuration);
-        proj.Fire(laserOrigin.forward * _projectileSpeed);
+            Projectile proj = projectile.GetComponent<Projectile>();
+            proj.Initialize(_projectileDuration);
+            proj.Fire(laserOrigin.forward * _projectileSpeed);
 
-        energy--;
+            energy--;
 
-  //      PlaySound(0);
+            //      PlaySound(0);
 
-        nextTimeFire = Time.time + _timeBetweenShots;
-        
+            nextTimeFire = Time.time + _timeBetweenShots;
+        }
     }
 
     public bool AllowToFire(int energy)

@@ -37,7 +37,7 @@ public class Ship : MonoBehaviour
     {
         fly = GetComponentInParent<Fly>();
         aud = GetComponent<AudioSource>();
-        asteroids.SetActive(false);
+     //   asteroids.SetActive(false);
         manager = GameObject.Find("ScoreManager").GetComponent<ScoreManager>();
     }
 
@@ -159,6 +159,6 @@ public class Ship : MonoBehaviour
 
     void EnterGame()
     {
-        asteroids.SetActive(true);
+      //  asteroids.SetActive(true);
     }
 }

@@ -14,7 +14,7 @@ public enum PartsToLoad
 public class GameLoading : MonoBehaviour
 {
     public Realtime _realtime;
-   // public SpaceManager spaceManager;
+    public SpaceManager spaceManager;
 
     public GameObject LoadingIndicator;
     public TMP_Text indicatorTxt;
@@ -40,12 +40,11 @@ public class GameLoading : MonoBehaviour
 
         partsToLoad.Add(PartsToLoad.UnityRemote);
         partsToLoad.Add(PartsToLoad.Multiplayer);
+        partsToLoad.Add(PartsToLoad.GraphProcessing);
 
         RemoteUnityManager.Instance.StartLoading(Loaded);
-
-        //   partsToLoad.Add(PartsToLoad.GraphProcessing);
        _realtime.ManualConnect(Loaded);
-      //   spaceManager.ManualStart(Loaded);
+       spaceManager.ManualStart(Loaded);
     }
 
     void Loaded(PartsToLoad loadedPart)

@@ -28,33 +28,33 @@ public class ShipInstance : MonoBehaviour
         else
         {
             //reset last hit projectiles ID
-            idModel.SetT(-1);
+            /*   idModel.SetT(-1);
 
-            switch (other.gameObject.layer)
-            {
-                //laser
-                case 8:
-                    trailScript.SetHealth(trailScript.GetHealth() - 1);
-                    //set the owner ID of the projectile, that hit
-                    idModel.SetT(other.GetComponent<RealtimeView>().ownerID);
-                    break;
-                //other player
-                case 9:
-                    trailScript.SetHealth(0);
-                    break;
-                //asteroid
-                case 11:
-                    trailScript.SetHealth(0);
-                    break;
-                //orb
-                case 14:
-                    if (trailScript.GetHealth() < trailScript.maxHealth)
-                    {
-                        trailScript.SetHealth(trailScript.GetHealth() + 1);
-                        Realtime.Destroy(other.gameObject);
-                    }
-                    break;
-            }
+               switch (other.gameObject.layer)
+               {
+                   //laser
+                   case 8:
+                       trailScript.SetHealth(trailScript.GetHealth() - 1);
+                       //set the owner ID of the projectile, that hit
+                       idModel.SetT(other.GetComponent<RealtimeView>().ownerID);
+                       break;
+                   //other player
+                   case 9:
+                       trailScript.SetHealth(0);
+                       break;
+                   //asteroid
+                   case 11:
+                       trailScript.SetHealth(0);
+                       break;
+                   //orb
+                   case 14:
+                       if (trailScript.GetHealth() < trailScript.maxHealth)
+                       {
+                           trailScript.SetHealth(trailScript.GetHealth() + 1);
+                           Realtime.Destroy(other.gameObject);
+                       }
+                       break;
+               }*/
         }
     }
 }
