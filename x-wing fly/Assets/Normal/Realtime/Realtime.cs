@@ -244,6 +244,10 @@ namespace Normal.Realtime {
         {
             _roomToJoinOnStart = n;
         }
+        public string GetCurrentRoomName()
+        {
+            return _roomToJoinOnStart;
+        }
         // Room
         public void Connect(string roomName, IModel roomModel = null) {
             if (_room == null)

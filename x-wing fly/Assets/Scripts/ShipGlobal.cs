@@ -8,11 +8,21 @@ using TMPro;
 public class ShipGlobal : MonoBehaviour
 {
     public TMP_Text m_Text;
+    public GameObject[] shipModels;
     private void Start()
     {
-        if (!transform.root.GetComponent<RealtimeView>().isOwnedLocally)
+        RealtimeView view = transform.root.GetComponent<RealtimeView>();
+        if (!view.isOwnedLocally)
         {
-            m_Text.text = "Player  " + (transform.root.GetComponent<RealtimeView>().ownerID + 1).ToString();
+            m_Text.text = "Player  " + (view.ownerID + 1).ToString();
+        }
+        if (view.realtime.GetCurrentRoomName() == "t")
+        {
+            if (transform.root.GetComponent<RealtimeView>().ownerID % 2 != 0)
+            {
+                shipModels[0].SetActive(false);
+                shipModels[1].SetActive(true);
+            }
         }
     }
 

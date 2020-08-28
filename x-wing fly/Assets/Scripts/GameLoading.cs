@@ -30,7 +30,13 @@ public class GameLoading : MonoBehaviour
         indicatorTxt.gameObject.SetActive(false);
     }
 
-    public void StartLoading()
+    public void LoadWithRoom(string n)
+    {
+        _realtime.SetRoomName(n);
+        StartLoading();
+    }
+
+    void StartLoading()
     {
         indicatorTxt.gameObject.SetActive(true);
         LoadingIndicator.SetActive(true);

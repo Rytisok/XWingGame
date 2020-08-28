@@ -85,13 +85,50 @@ public class ScoreManager : RealtimeComponent
         int playerID = 0;
         
         string t = "";
-        foreach(var player in _avatarManager.avatars)
+        if (_realtime.GetCurrentRoomName() == "t")
         {
-            playerID = player.Key + 1;
-            Debug.Log(player.Key);
-            GameObject pl = _avatarManager.avatars[player.Key].gameObject;
-            t += "Player " + playerID + "    " + pl.GetComponent<KillSyncScript>().GetKillCount().ToString() + "   " + pl.GetComponent<PlayerScoreScript>().GetDeaths().ToString() + "   " + Mathf.RoundToInt((float)(_realtime.room.time - pl.GetComponent<PlayerScoreScript>().GetConnectTime())).ToString() + "\n";
-            
+            int xwingScore = 0;
+            int tieFighterScore = 0;
+            foreach (var player in _avatarManager.avatars)
+            {
+                RealtimeView pl = _avatarManager.avatars[player.Key].GetComponent<RealtimeView>();
+                if (pl.ownerID % 2 == 0)
+                {
+                    tieFighterScore += pl.GetComponent<PlayerScoreScript>().GetDeaths();
+                }
+                else
+                {
+                    xwingScore += pl.GetComponent<PlayerScoreScript>().GetDeaths();
+                }
+            }
+
+            t += "Rebels    " + xwingScore.ToString() + "       " + tieFighterScore + "    Empire" + "\n";
+
+            foreach (var player in _avatarManager.avatars)
+            {
+                GameObject pl = _avatarManager.avatars[player.Key].gameObject;
+                playerID = player.Key + 1;
+                t += "Player " + playerID + "    " + pl.GetComponent<KillSyncScript>().GetKillCount().ToString() + "   " + pl.GetComponent<PlayerScoreScript>().GetDeaths().ToString();
+                if (pl.GetComponent<RealtimeView>().ownerID % 2 == 0)
+                {
+                    t += "        ";
+                }
+                else
+                {
+                    t += "\n";
+                }
+            }
+        }
+        else
+        {
+            foreach (var player in _avatarManager.avatars)
+            {
+                playerID = player.Key + 1;
+                PlayerScoreScript plScoreScript = _avatarManager.avatars[player.Key].gameObject.GetComponent<PlayerScoreScript>();
+                int tmp = plScoreScript.GetKills();
+
+                t += "Player " + playerID + "    " + _avatarManager.avatars[player.Key].gameObject.GetComponent<KillSyncScript>().GetKillCount() + "   " + plScoreScript.GetDeaths().ToString() + Mathf.RoundToInt((float)(_realtime.room.time - plScoreScript.GetConnectTime())).ToString() + "\n";
+            }
         }
 
         _model.scoreText = t;

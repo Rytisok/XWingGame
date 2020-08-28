@@ -32,6 +32,7 @@ public class Ship : MonoBehaviour
 
     //visual stuff
     public GameObject asteroids;
+    public GameObject[] shipModels;
 
     private void Start()
     {
@@ -119,11 +120,6 @@ public class Ship : MonoBehaviour
                 scoreScript = plObj.GetComponent<PlayerScoreScript>();
                 ShipInstance shipInstance = plObj.GetComponentInChildren<ShipInstance>();
                 shipInstance.onOrbPickup += PlusHp;
-
-                trailScript.SetHealth(health);
-                scoreScript.SetDeaths(0);
-                idScript.SetT(-1);
-
                 EnterGame();
             }
         }
@@ -158,6 +154,19 @@ public class Ship : MonoBehaviour
 
     void EnterGame()
     {
+        trailScript.SetHealth(health);
+        scoreScript.SetDeaths(0);
+        idScript.SetT(-1);
+
+        if (_realtime.GetCurrentRoomName() == "t")
+        {
+            if(_realtime.clientID % 2 != 0)
+            {
+                shipModels[0].SetActive(false);
+                shipModels[1].SetActive(true);
+            }
+        }
+
         asteroids.SetActive(true);
     }
 }
