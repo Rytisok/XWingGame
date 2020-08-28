@@ -82,8 +82,16 @@ public class OrbManager : MonoBehaviour
     {
         Vector3 pos = (Random.insideUnitSphere * spawnArea) + transform.position;
 
-        GameObject orb = Realtime.Instantiate(orbPrefab.name, pos, transform.rotation, ownedByClient: false, useInstance: _realtime);
-        orb.transform.position = pos;
-        orbs.Insert(n, orb);
+        GameObject orb = Realtime.Instantiate(orbPrefab.name, pos, transform.rotation, ownedByClient: false,
+            useInstance: _realtime);
+        if (orb != null)
+        {
+            orb.transform.position = pos;
+            orbs.Insert(n, orb);
+        }
+        else
+        {
+            Debug.LogWarning("No orb created!");
+        }
     }
 }

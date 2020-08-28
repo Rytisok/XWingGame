@@ -59,10 +59,6 @@ public class Ship : MonoBehaviour
         {
             MinHp();
         }
-        else if (health > prevHp)
-        {
-            PlusHp();
-        }
 
         prevHp = health;
 
@@ -86,12 +82,13 @@ public class Ship : MonoBehaviour
         }
     }
 
-    void PlusHp()
+    public void PlusHp()
     {
         //touches orb
         fly.RestoreEnergy();
         aud.Play();
-        Realtime.Instantiate(orbParticles.name, transform.position, transform.rotation, ownedByClient: false, useInstance: _realtime);
+        GameObject part =Realtime.Instantiate(orbParticles.name, transform.position, transform.rotation, ownedByClient: false, useInstance: _realtime);
+        Realtime.Destroy(part,3f);
     }
 
     void Restart()
@@ -120,6 +117,8 @@ public class Ship : MonoBehaviour
                 trailScript = plObj.GetComponentInChildren<PlayerHealthScript>();
                 idScript = plObj.GetComponentInChildren<TSyncScript>();
                 scoreScript = plObj.GetComponent<PlayerScoreScript>();
+                ShipInstance shipInstance = plObj.GetComponentInChildren<ShipInstance>();
+                shipInstance.onOrbPickup += PlusHp;
 
                 trailScript.SetHealth(health);
                 scoreScript.SetDeaths(0);

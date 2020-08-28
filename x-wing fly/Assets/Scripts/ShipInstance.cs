@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Normal.Realtime;
@@ -8,6 +9,10 @@ public class ShipInstance : MonoBehaviour
     public PlayerHealthScript trailScript;
     public ScoreManager manager;
     TSyncScript idModel;
+
+    public Action onOrbPickup;
+
+
 
     // Start is called before the first frame update
     void Awake()
@@ -51,8 +56,11 @@ public class ShipInstance : MonoBehaviour
                     if (trailScript.GetHealth() < trailScript.maxHealth)
                     {
                         trailScript.SetHealth(trailScript.GetHealth() + 1);
-                        Realtime.Destroy(other.gameObject);
                     }
+                    onOrbPickup?.Invoke();
+
+                    Realtime.Destroy(other.gameObject);
+
                     break;
             }
         }

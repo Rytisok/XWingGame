@@ -31,6 +31,7 @@ public class Fly : Realtime
     public Material boostThruster;
     public ParticleSystemRenderer[] particles;
     public PlayerAudioScript audScrpt;
+    private ShipInstance shipInstance;
     bool switcheroo = false;
     public AudioSource thrusterAudio;
 
@@ -168,6 +169,7 @@ public class Fly : Realtime
              if(pl.GetComponent<RealtimeView>().ownerID == id)
              {
                 audScrpt = pl.GetComponent<PlayerAudioScript>();
+              
              }
          }
         Debug.Log("searching");
