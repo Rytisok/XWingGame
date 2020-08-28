@@ -26,11 +26,13 @@ public class GameLoading : MonoBehaviour
 
     void Start()
     {
-        StartLoading();
+        //StartLoading();
+        indicatorTxt.gameObject.SetActive(false);
     }
 
-    void StartLoading()
+    public void StartLoading()
     {
+        indicatorTxt.gameObject.SetActive(true);
         LoadingIndicator.SetActive(true);
 
         StartCoroutine(VisualiseLoading());

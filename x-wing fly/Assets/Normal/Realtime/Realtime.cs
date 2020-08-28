@@ -11,7 +11,7 @@ using Normal.Realtime.Serialization;
 namespace Normal.Realtime {
     public class Realtime : MonoBehaviour {
         // Class
-        public  static HashSet<Realtime>   instances { get { return __instances; } }
+        public static HashSet<Realtime> instances { get { return __instances; } }
         private static HashSet<Realtime> __instances;
         static Realtime() {
 #if UNITY_EDITOR
@@ -112,26 +112,26 @@ namespace Normal.Realtime {
         public static new UnityEngine.Object Instantiate(UnityEngine.Object original, Vector3 position, Quaternion rotation, Transform parent) { throw new NotImplementedException("This version of Realtime.Instantiate() is not supported. Please use Realtime.Instantiate(string prefabName)."); }
         [Obsolete("This version of Realtime.Instantiate() is not supported. Please use Realtime.Instantiate(string prefabName).")]
         [UnityEngineInternal.TypeInferenceRule(UnityEngineInternal.TypeInferenceRules.TypeOfFirstArgument)]
-        public static new UnityEngine.Object Instantiate(UnityEngine.Object original)                                                          { throw new NotImplementedException("This version of Realtime.Instantiate() is not supported. Please use Realtime.Instantiate(string prefabName)."); }
+        public static new UnityEngine.Object Instantiate(UnityEngine.Object original) { throw new NotImplementedException("This version of Realtime.Instantiate() is not supported. Please use Realtime.Instantiate(string prefabName)."); }
         [Obsolete("This version of Realtime.Instantiate() is not supported. Please use Realtime.Instantiate(string prefabName).")]
         [UnityEngineInternal.TypeInferenceRule(UnityEngineInternal.TypeInferenceRules.TypeOfFirstArgument)]
-        public static new UnityEngine.Object Instantiate(UnityEngine.Object original, Vector3 position, Quaternion rotation)                   { throw new NotImplementedException("This version of Realtime.Instantiate() is not supported. Please use Realtime.Instantiate(string prefabName)."); }
+        public static new UnityEngine.Object Instantiate(UnityEngine.Object original, Vector3 position, Quaternion rotation) { throw new NotImplementedException("This version of Realtime.Instantiate() is not supported. Please use Realtime.Instantiate(string prefabName)."); }
         [Obsolete("This version of Realtime.Instantiate() is not supported. Please use Realtime.Instantiate(string prefabName).")]
-        public static new T Instantiate<T>(T original, Transform parent, bool worldPositionStays) where T : UnityEngine.Object                 { throw new NotImplementedException("This version of Realtime.Instantiate() is not supported. Please use Realtime.Instantiate(string prefabName)."); }
+        public static new T Instantiate<T>(T original, Transform parent, bool worldPositionStays) where T : UnityEngine.Object { throw new NotImplementedException("This version of Realtime.Instantiate() is not supported. Please use Realtime.Instantiate(string prefabName)."); }
         [Obsolete("This version of Realtime.Instantiate() is not supported. Please use Realtime.Instantiate(string prefabName).")]
-        public static new T Instantiate<T>(T original, Transform parent) where T : UnityEngine.Object                                          { throw new NotImplementedException("This version of Realtime.Instantiate() is not supported. Please use Realtime.Instantiate(string prefabName)."); }
+        public static new T Instantiate<T>(T original, Transform parent) where T : UnityEngine.Object { throw new NotImplementedException("This version of Realtime.Instantiate() is not supported. Please use Realtime.Instantiate(string prefabName)."); }
         [Obsolete("This version of Realtime.Instantiate() is not supported. Please use Realtime.Instantiate(string prefabName).")]
-        public static new T Instantiate<T>(T original, Vector3 position, Quaternion rotation, Transform parent) where T : UnityEngine.Object   { throw new NotImplementedException("This version of Realtime.Instantiate() is not supported. Please use Realtime.Instantiate(string prefabName)."); }
+        public static new T Instantiate<T>(T original, Vector3 position, Quaternion rotation, Transform parent) where T : UnityEngine.Object { throw new NotImplementedException("This version of Realtime.Instantiate() is not supported. Please use Realtime.Instantiate(string prefabName)."); }
         [Obsolete("This version of Realtime.Instantiate() is not supported. Please use Realtime.Instantiate(string prefabName).")]
-        public static new T Instantiate<T>(T original, Vector3 position, Quaternion rotation) where T : UnityEngine.Object                     { throw new NotImplementedException("This version of Realtime.Instantiate() is not supported. Please use Realtime.Instantiate(string prefabName)."); }
+        public static new T Instantiate<T>(T original, Vector3 position, Quaternion rotation) where T : UnityEngine.Object { throw new NotImplementedException("This version of Realtime.Instantiate() is not supported. Please use Realtime.Instantiate(string prefabName)."); }
         [Obsolete("This version of Realtime.Instantiate() is not supported. Please use Realtime.Instantiate(string prefabName).")]
-        public static GameObject Instantiate(GameObject original)                                                              { throw new NotImplementedException("This version of Realtime.Instantiate() is not supported. Please use Realtime.Instantiate(string prefabName)."); }
-        [Obsolete("This version of Realtime.Instantiate() is not supported. Please use Realtime.Instantiate(string prefabName).")]
-        [UnityEngineInternal.TypeInferenceRule(UnityEngineInternal.TypeInferenceRules.TypeOfFirstArgument)]
-        public static new UnityEngine.Object Instantiate(UnityEngine.Object original, Transform parent, bool instantiateInWorldSpace)          { throw new NotImplementedException("This version of Realtime.Instantiate() is not supported. Please use Realtime.Instantiate(string prefabName)."); }
+        public static GameObject Instantiate(GameObject original) { throw new NotImplementedException("This version of Realtime.Instantiate() is not supported. Please use Realtime.Instantiate(string prefabName)."); }
         [Obsolete("This version of Realtime.Instantiate() is not supported. Please use Realtime.Instantiate(string prefabName).")]
         [UnityEngineInternal.TypeInferenceRule(UnityEngineInternal.TypeInferenceRules.TypeOfFirstArgument)]
-        public static new UnityEngine.Object Instantiate(UnityEngine.Object original, Transform parent)                                        { throw new NotImplementedException("This version of Realtime.Instantiate() is not supported. Please use Realtime.Instantiate(string prefabName)."); }
+        public static new UnityEngine.Object Instantiate(UnityEngine.Object original, Transform parent, bool instantiateInWorldSpace) { throw new NotImplementedException("This version of Realtime.Instantiate() is not supported. Please use Realtime.Instantiate(string prefabName)."); }
+        [Obsolete("This version of Realtime.Instantiate() is not supported. Please use Realtime.Instantiate(string prefabName).")]
+        [UnityEngineInternal.TypeInferenceRule(UnityEngineInternal.TypeInferenceRules.TypeOfFirstArgument)]
+        public static new UnityEngine.Object Instantiate(UnityEngine.Object original, Transform parent) { throw new NotImplementedException("This version of Realtime.Instantiate() is not supported. Please use Realtime.Instantiate(string prefabName)."); }
 
         // Instance
         public delegate void RealtimeEvent(Realtime realtime);
@@ -141,15 +141,15 @@ namespace Normal.Realtime {
         Ship shp;
         [SerializeField] private string _appKey = "";
         [SerializeField] private string _roomToJoinOnStart = "Test Room";
-        [SerializeField] private bool   _joinRoomOnStart   = true;
-        [SerializeField] private bool   _debugLogging      = false;
+        [SerializeField] private bool _joinRoomOnStart = true;
+        [SerializeField] private bool _debugLogging = false;
         infoDisplay disp;
 
         private Room _room;
-        public  Room  room { get { return _room; } set { SetRoom(value); } }
+        public Room room { get { return _room; } set { SetRoom(value); } }
 
-        public bool connecting   { get { if (_room == null) return false; return _room.connecting;   } }
-        public bool connected    { get { if (_room == null) return false; return _room.connected;    } }
+        public bool connecting { get { if (_room == null) return false; return _room.connecting; } }
+        public bool connected { get { if (_room == null) return false; return _room.connected; } }
         public bool disconnected { get { if (_room == null) return false; return _room.disconnected; } }
 
         public int clientID { get { return _room != null ? _room.clientID : -1; } }
@@ -239,6 +239,10 @@ namespace Normal.Realtime {
         {
             onReadyCallback = callback;
             Connect(_roomToJoinOnStart, null);
+        }
+        public void SetRoomName(string n)
+        {
+            _roomToJoinOnStart = n;
         }
         // Room
         public void Connect(string roomName, IModel roomModel = null) {
