@@ -9,6 +9,7 @@ public class Missile : MonoBehaviour
 
     public GameObject missilePref;
     public Transform missileOrigin;
+    public Transform controller;
 
     private GameObject missileInControl;
 
@@ -30,10 +31,7 @@ public class Missile : MonoBehaviour
 
     void MissileControler()
     {
-        float x = OVRInput.Get(OVRInput.RawAxis2D.RThumbstick).x * 1.65f;
-        float y = OVRInput.Get(OVRInput.RawAxis2D.RThumbstick).y * 1.65f;
-
-        missileInControl.transform.Rotate(-y, x, 0);
+        missileInControl.transform.rotation = controller.rotation;
     }
 
     void Update()

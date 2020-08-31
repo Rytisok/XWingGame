@@ -14,13 +14,13 @@ public class Rocket : MonoBehaviour
     {
         rb = GetComponent<Rigidbody>();
         _realtime = GameObject.Find("Realtime + VR Player").GetComponent<Realtime>();
-        Invoke("Explode", 5);
+        Invoke("Explode", 7);
         Invoke("Trg", 0.2f);
     }
 
     private void FixedUpdate()
     {
-        rb.velocity = transform.forward * 3.7f;
+        rb.velocity = transform.forward * 4.5f;
     }
 
     private void OnTriggerEnter(Collider other)

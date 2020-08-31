@@ -43,14 +43,31 @@ public class ShipInstance : MonoBehaviour
                     //set the owner ID of the projectile, that hit
                     idModel.SetT(other.GetComponent<RealtimeView>().ownerID);
                     break;
+
                 //other player
                 case 9:
                     trailScript.SetHealth(0);
                     break;
+
                 //asteroid
                 case 11:
                     trailScript.SetHealth(0);
                     break;
+
+                //rocket explosion
+                case 12:
+                    trailScript.SetHealth(trailScript.GetHealth() - 1);
+                    //set the owner ID of the projectile, that hit
+                    idModel.SetT(other.GetComponent<RealtimeView>().ownerID);
+                    break;
+
+                //rocket direct hit
+                case 13:
+                    trailScript.SetHealth(0);
+                    //set the owner ID of the projectile, that hit
+                    idModel.SetT(other.GetComponent<RealtimeView>().ownerID);
+                    break;
+
                 //orb
                 case 14:
                     if (trailScript.GetHealth() < trailScript.maxHealth)
@@ -60,9 +77,9 @@ public class ShipInstance : MonoBehaviour
                     onOrbPickup?.Invoke();
 
                     Realtime.Destroy(other.gameObject);
-
                     break;
             }
         }
     }
+
 }
