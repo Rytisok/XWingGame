@@ -84,9 +84,6 @@ public class RemoteUnityManager : MonoBehaviour
                 break;
             case ConfigOrigin.Remote:
                 Debug.Log("New settings loaded this session; update values accordingly.");
-
-              
-
                 break;
         }
 

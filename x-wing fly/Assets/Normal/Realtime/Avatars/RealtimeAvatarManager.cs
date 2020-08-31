@@ -132,7 +132,7 @@ namespace Normal.Realtime {
                 return;
             }
 
-            GameObject avatarGameObject = Realtime.Instantiate(_localAvatarPrefab.name, true, true, true, _realtime);
+            GameObject avatarGameObject = Realtime.Instantiate(_localAvatarPrefab.name, true, false, true, _realtime);
             if (avatarGameObject == null) {
                 Debug.LogError("RealtimeAvatarManager: Failed to instantiate RealtimeAvatar prefab for the local player.");
                 return;

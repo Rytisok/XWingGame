@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using Normal.Realtime;
 using UnityEngine;
@@ -9,6 +10,8 @@ public class Laser : MonoBehaviour
     public GameObject[] laserVariants;
     public GameObject laserPref;
     public Transform laserOrigin;
+
+    public Action<int> onPlaySound;
 
     private float _projectileSpeed;
     private float _timeBetweenShots = 0.1f;
@@ -72,7 +75,8 @@ public class Laser : MonoBehaviour
 
         energy--;
 
-  //      PlaySound(0);
+        onPlaySound?.Invoke(0);
+        //      PlaySound(0);
 
         nextTimeFire = Time.time + _timeBetweenShots;
         

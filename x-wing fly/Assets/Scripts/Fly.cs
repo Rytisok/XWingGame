@@ -7,6 +7,8 @@ using UnityEngine.UI;
 public class Fly : Realtime
 {
 
+    public RealtimeAvatarManager realtimeAvatarManager;
+
     public Transform x;
 
     public float currSpeed;
@@ -30,8 +32,7 @@ public class Fly : Realtime
     public Material thruster;
     public Material boostThruster;
     public ParticleSystemRenderer[] particles;
-    public PlayerAudioScript audScrpt;
-    private ShipInstance shipInstance;
+    public ModelAudioController audScrpt;
     bool switcheroo = false;
     public AudioSource thrusterAudio;
 
@@ -45,7 +46,7 @@ public class Fly : Realtime
     void Start()
     {
         energy = energyLimit;
-
+        laser.onPlaySound += PlaySound;
         LoadSettings();
     }
 
@@ -166,14 +167,18 @@ public class Fly : Realtime
     void FindInstance()
     {
         int id = _realtime.clientID;
+
+        if(realtimeAvatarManager.localAvatar != null)
+            audScrpt = realtimeAvatarManager.localAvatar.GetComponent<ModelAudioController>();
+        /*
         foreach (GameObject pl in GameObject.FindGameObjectsWithTag("Player"))
          {
              if(pl.GetComponent<RealtimeView>().ownerID == id)
              {
-                audScrpt = pl.GetComponent<PlayerAudioScript>();
+                audScrpt = pl.GetComponent<ModelAudioController>();
               
              }
-         }
+         }*/
         Debug.Log("searching");
     }
 
@@ -207,8 +212,9 @@ public class Fly : Realtime
     {
         if (audScrpt != null)
         {
-            audScrpt.PlaySound(num);
-            audScrpt.PlaySound(-1);
+
+            audScrpt.SetClipID(num);
+            audScrpt.SetClipID(-1);
         }
         else
         {

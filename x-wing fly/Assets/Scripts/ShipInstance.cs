@@ -12,8 +12,6 @@ public class ShipInstance : MonoBehaviour
 
     public Action onOrbPickup;
 
-
-
     // Start is called before the first frame update
     void Awake()
     {

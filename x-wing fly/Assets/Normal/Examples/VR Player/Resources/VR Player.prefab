@@ -218,22 +218,6 @@ MonoBehaviour:
   _parentView: {fileID: 114879240156072798}
   _childViews:
   - viewID: 1
-    view: {fileID: 0}
-    viewIDHasBeenUsed: 1
-    viewToUseIfMovedBack: {fileID: 0}
-  - viewID: 2
-    view: {fileID: 0}
-    viewIDHasBeenUsed: 1
-    viewToUseIfMovedBack: {fileID: 0}
-  - viewID: 3
-    view: {fileID: 0}
-    viewIDHasBeenUsed: 1
-    viewToUseIfMovedBack: {fileID: 0}
-  - viewID: 4
-    view: {fileID: 0}
-    viewIDHasBeenUsed: 1
-    viewToUseIfMovedBack: {fileID: 0}
-  - viewID: 5
     view: {fileID: 7023925472153231237}
     viewIDHasBeenUsed: 1
     viewToUseIfMovedBack: {fileID: 7023925472153231237}
@@ -296,10 +280,10 @@ GameObject:
   - component: {fileID: 114879240156072798}
   - component: {fileID: 114800176784454794}
   - component: {fileID: 114272718057082298}
-  - component: {fileID: 5369785054234992270}
   - component: {fileID: 8166589319253196040}
   - component: {fileID: 4037734273602912003}
-  - component: {fileID: 8667511677854591679}
+  - component: {fileID: 7562235187259568784}
+  - component: {fileID: 2781823655850622410}
   m_Layer: 0
   m_Name: VR Player
   m_TagString: Player
@@ -338,7 +322,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _realtime: {fileID: 0}
   _sceneViewUUID: 
-  _sceneViewOwnedByCreatingClient: 1
+  _sceneViewOwnedByCreatingClient: 0
   _sceneViewPreventOwnershipTakeover: 0
   _sceneViewDestroyWhenOwnerOrLastClientLeaves: 1
   _isRootPrefabView: 1
@@ -350,13 +334,13 @@ MonoBehaviour:
     component: {fileID: 114272718057082298}
     componentIDHasBeenUsed: 1
   - componentID: 3
-    component: {fileID: 5369785054234992270}
-    componentIDHasBeenUsed: 1
-  - componentID: 4
     component: {fileID: 8166589319253196040}
     componentIDHasBeenUsed: 1
-  - componentID: 5
+  - componentID: 4
     component: {fileID: 4037734273602912003}
+    componentIDHasBeenUsed: 1
+  - componentID: 5
+    component: {fileID: 2781823655850622410}
     componentIDHasBeenUsed: 1
   _parentView: {fileID: 0}
   _childViews:
@@ -372,10 +356,6 @@ MonoBehaviour:
     view: {fileID: 114397248209533090}
     viewIDHasBeenUsed: 1
     viewToUseIfMovedBack: {fileID: 114397248209533090}
-  - viewID: 4
-    view: {fileID: 0}
-    viewIDHasBeenUsed: 1
-    viewToUseIfMovedBack: {fileID: 0}
 --- !u!114 &114800176784454794
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -405,26 +385,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _syncPosition: 1
   _syncRotation: 1
-  _syncScale: 1
+  _syncScale: 0
   _extrapolation: 0
---- !u!114 &5369785054234992270
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1435502846325602}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fe3eba1caf0fac84ea983ff5eafcc8f7, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  source: {fileID: 8667511677854591679}
-  audioClips:
-  - {fileID: 8300000, guid: ce8d24fbeff24724585869c3f5c501b2, type: 3}
-  - {fileID: 8300000, guid: 5ce15ef5d273614429b6d5cc149609d7, type: 3}
-  - {fileID: 8300000, guid: 762b61253ddfe8e42b9b5932429e2771, type: 3}
-  curVal: 0
 --- !u!114 &8166589319253196040
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -452,7 +414,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   kills: 0
---- !u!82 &8667511677854591679
+--- !u!82 &7562235187259568784
 AudioSource:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -548,6 +510,22 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!114 &2781823655850622410
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1435502846325602}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6d3f019fbe966e945825b2615c5e6502, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  clips:
+  - {fileID: 8300000, guid: ce8d24fbeff24724585869c3f5c501b2, type: 3}
+  - {fileID: 8300000, guid: 5ce15ef5d273614429b6d5cc149609d7, type: 3}
+  - {fileID: 8300000, guid: 762b61253ddfe8e42b9b5932429e2771, type: 3}
 --- !u!1 &1573471737031190
 GameObject:
   m_ObjectHideFlags: 0
@@ -1010,7 +988,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 200, y: 50}
+  m_SizeDelta: {x: 10, y: 2}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &3712658253891491739
 CanvasRenderer:
@@ -1035,6 +1013,7 @@ MonoBehaviour:
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 1
+  m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
@@ -1066,8 +1045,8 @@ MonoBehaviour:
   m_outlineColor:
     serializedVersion: 2
     rgba: 4278190080
-  m_fontSize: 0.4
-  m_fontSizeBase: 0.4
+  m_fontSize: 0.1
+  m_fontSizeBase: 0.1
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
