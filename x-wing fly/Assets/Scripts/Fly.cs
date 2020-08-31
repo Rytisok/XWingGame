@@ -41,6 +41,7 @@ public class Fly : Realtime
     public TMP_Text debug;
 
     private bool loaded;
+    private int missileCount = 1;
     void Start()
     {
         energy = energyLimit;
@@ -107,8 +108,9 @@ public class Fly : Realtime
             Move();
         }
         //Missile
-        if ((OVRInput.GetDown(OVRInput.RawButton.A) || Input.GetKeyDown(KeyCode.M)))
+        if ((OVRInput.GetDown(OVRInput.RawButton.A) || Input.GetKeyDown(KeyCode.M)) && missileCount > 0)
         {
+            missileCount--;
             missile.LaunchMissile();
         }
         //--------------
@@ -222,5 +224,6 @@ public class Fly : Realtime
     public void RestoreEnergy()
     {
         energy = energyLimit;
+        missileCount = 1;
     }
 }
