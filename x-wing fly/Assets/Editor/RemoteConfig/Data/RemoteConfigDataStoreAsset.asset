@@ -55,6 +55,12 @@ MonoBehaviour:
       key: maxHealth
       type: int
       value: 2
+  - metadata:
+      entityId: 65ebc50b-96c9-4770-8122-f53e457a898f
+    rs:
+      key: timeBetweenEnergyRecovery
+      type: float
+      value: 0.1
   rsLastCachedKeyList:
   - metadata:
       entityId: ca471b73-3034-4c12-bfdd-0a6728b75cc7
@@ -98,6 +104,12 @@ MonoBehaviour:
       key: maxHealth
       type: int
       value: 2
+  - metadata:
+      entityId: 65ebc50b-96c9-4770-8122-f53e457a898f
+    rs:
+      key: timeBetweenEnergyRecovery
+      type: float
+      value: 0.1
   configId: f757bd69-4eb1-4867-91e3-3e28d98240af
   currentEnvironmentId: 49a3516e-e8ae-4838-a976-5c3404ff429b
   environments:
