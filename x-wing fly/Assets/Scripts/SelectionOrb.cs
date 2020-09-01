@@ -13,7 +13,6 @@ public class SelectionOrb : MonoBehaviour
     {
         gameObject.SetActive(false);
         otherOrb.SetActive(false);
-        other.enabled = false;
         gameLoading.LoadWithRoom(connectToName);
     }
 }

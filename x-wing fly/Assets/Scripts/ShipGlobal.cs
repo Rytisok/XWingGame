@@ -9,6 +9,7 @@ public class ShipGlobal : MonoBehaviour
 {
     public TMP_Text m_Text;
     public GameObject[] shipModels;
+    public int team = -1;
     private void Start()
     {
         RealtimeView view = transform.root.GetComponent<RealtimeView>();
@@ -16,14 +17,15 @@ public class ShipGlobal : MonoBehaviour
         {
             m_Text.text = "Player  " + (view.ownerID + 1).ToString();
         }
-        if (view.realtime.GetCurrentRoomName() == "t")
-        {
-            if (transform.root.GetComponent<RealtimeView>().ownerID % 2 != 0)
-            {
-                shipModels[0].SetActive(false);
-                shipModels[1].SetActive(true);
-            }
-        }
+    }
+
+    public void SelectShip(int n)
+    {
+        shipModels[0].SetActive(false);
+        shipModels[1].SetActive(false);
+
+        shipModels[n].SetActive(true);
+        team = n;
     }
 
     private void Update()

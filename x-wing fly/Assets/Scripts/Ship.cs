@@ -157,16 +157,23 @@ public class Ship : MonoBehaviour
         trailScript.SetHealth(health);
         scoreScript.SetDeaths(0);
         idScript.SetT(-1);
-
-        if (_realtime.GetCurrentRoomName() == "t")
-        {
-            if(_realtime.clientID % 2 != 0)
-            {
-                shipModels[0].SetActive(false);
-                shipModels[1].SetActive(true);
-            }
-        }
+        
 
         asteroids.SetActive(true);
+    }
+
+    public void SelectShip(int n)
+    {
+        shipModels[0].SetActive(false);
+        shipModels[1].SetActive(false);
+
+        shipModels[n].SetActive(true);
+
+        shp.GetComponentInParent<TeamSync>().SetTeam(n);
+        shp.SelectShip(n);
+        manager.SetScoreText();
+
+        Laser laser = GetComponentInParent<Laser>();
+        laser.laserPref = laser.laserVariants[n];
     }
 }

@@ -54,18 +54,6 @@ public class Laser : MonoBehaviour
 
     public void FireLaser(ref int energy)
     {
-        if (laserPref == null)
-        {
-            if (_realtime.GetCurrentRoomName() == "t" && _realtime.clientID % 2 != 0)
-            {
-                laserPref = laserVariants[1];
-            }
-            else
-            {
-                laserPref = laserVariants[0];
-            }
-        }
-
         GameObject projectile = Realtime.Instantiate(laserPref.name, laserOrigin.position, laserOrigin.rotation,
             ownedByClient: true, useInstance: _realtime);
 

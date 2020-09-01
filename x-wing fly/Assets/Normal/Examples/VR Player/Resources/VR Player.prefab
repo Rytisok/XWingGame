@@ -284,6 +284,7 @@ GameObject:
   - component: {fileID: 4037734273602912003}
   - component: {fileID: 7562235187259568784}
   - component: {fileID: 2781823655850622410}
+  - component: {fileID: 6554949720906971287}
   m_Layer: 0
   m_Name: VR Player
   m_TagString: Player
@@ -322,7 +323,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _realtime: {fileID: 0}
   _sceneViewUUID: 
-  _sceneViewOwnedByCreatingClient: 0
+  _sceneViewOwnedByCreatingClient: 1
   _sceneViewPreventOwnershipTakeover: 0
   _sceneViewDestroyWhenOwnerOrLastClientLeaves: 1
   _isRootPrefabView: 1
@@ -341,6 +342,9 @@ MonoBehaviour:
     componentIDHasBeenUsed: 1
   - componentID: 5
     component: {fileID: 2781823655850622410}
+    componentIDHasBeenUsed: 1
+  - componentID: 6
+    component: {fileID: 6554949720906971287}
     componentIDHasBeenUsed: 1
   _parentView: {fileID: 0}
   _childViews:
@@ -526,6 +530,18 @@ MonoBehaviour:
   - {fileID: 8300000, guid: ce8d24fbeff24724585869c3f5c501b2, type: 3}
   - {fileID: 8300000, guid: 5ce15ef5d273614429b6d5cc149609d7, type: 3}
   - {fileID: 8300000, guid: 762b61253ddfe8e42b9b5932429e2771, type: 3}
+--- !u!114 &6554949720906971287
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1435502846325602}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2562c3c53a8b1f14980157f457225f01, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1573471737031190
 GameObject:
   m_ObjectHideFlags: 0
@@ -1013,7 +1029,6 @@ MonoBehaviour:
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 1
-  m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
@@ -25474,6 +25489,7 @@ MonoBehaviour:
   shipModels:
   - {fileID: 4609064829762385760}
   - {fileID: 8905082640364164915}
+  team: -1
 --- !u!114 &3690765799922397796
 MonoBehaviour:
   m_ObjectHideFlags: 0

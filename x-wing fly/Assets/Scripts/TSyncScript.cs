@@ -7,17 +7,6 @@ public class TSyncScript : RealtimeComponent
     private Tm _model;
     public int h;
 
-
-    private void Awake()
-    {
-        //SetT(0);
-    }
-
-    private void Update()
-    {
-       
-    }
-
     private Tm model
     {
         set

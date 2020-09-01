@@ -89,34 +89,60 @@ public class ScoreManager : RealtimeComponent
         {
             int xwingScore = 0;
             int tieFighterScore = 0;
-            foreach (var player in _avatarManager.avatars)
+
+            List<Player> rebels = new List<Player>();
+            List<Player> empire = new List<Player>();
+
+            foreach (var plr in _avatarManager.avatars)
             {
-                RealtimeView pl = _avatarManager.avatars[player.Key].GetComponent<RealtimeView>();
-                if (pl.ownerID % 2 == 0)
+                PlayerScoreScript pl = _avatarManager.avatars[plr.Key].GetComponent<PlayerScoreScript>();
+                TeamSync team = _avatarManager.avatars[plr.Key].GetComponent<TeamSync>();
+
+                Player p;
+                p.obj = pl.gameObject;
+                p.playerID = plr.Key + 1;
+
+                if (team.GetTeam() == 0)
                 {
-                    tieFighterScore += pl.GetComponent<PlayerScoreScript>().GetDeaths();
+                    tieFighterScore += pl.GetDeaths();
+                    rebels.Add(p);
                 }
-                else
+                else if(team.GetTeam() == 1)
                 {
-                    xwingScore += pl.GetComponent<PlayerScoreScript>().GetDeaths();
+                    xwingScore += pl.GetDeaths();
+                    empire.Add(p);
                 }
             }
 
             t += "Rebels    " + xwingScore.ToString() + "       " + tieFighterScore + "    Empire" + "\n";
+            t += "Name  K   D           Name    K   D  \n";
 
-            foreach (var player in _avatarManager.avatars)
+            int biggerListCount;
+            if (rebels.Count > empire.Count)
             {
-                GameObject pl = _avatarManager.avatars[player.Key].gameObject;
-                playerID = player.Key + 1;
-                t += "Player " + playerID + "    " + pl.GetComponent<KillSyncScript>().GetKillCount().ToString() + "   " + pl.GetComponent<PlayerScoreScript>().GetDeaths().ToString();
-                if (pl.GetComponent<RealtimeView>().ownerID % 2 == 0)
+                biggerListCount = rebels.Count;
+            }
+            else
+            {
+                biggerListCount = empire.Count;
+            }
+
+            for (int i = 0; i < biggerListCount; i++)
+            {
+                if (rebels.Count > i)
                 {
-                    t += "        ";
+                    t += "Player " + rebels[i].playerID + "    " + rebels[i].obj.GetComponent<KillSyncScript>().GetKillCount().ToString() + "   " + rebels[i].obj.GetComponent<PlayerScoreScript>().GetDeaths().ToString() + "      ";
                 }
                 else
                 {
-                    t += "\n";
+                    t += "                          ";
                 }
+
+                if (empire.Count > i)
+                {
+                    t += "Player " + empire[i].playerID + "    " + empire[i].obj.GetComponent<KillSyncScript>().GetKillCount().ToString() + "   " + empire[i].obj.GetComponent<PlayerScoreScript>().GetDeaths().ToString();
+                }
+                t += "\n";
             }
         }
         else
@@ -141,4 +167,10 @@ public class ScoreManager : RealtimeComponent
         plScoreScript.SetDeaths(plScoreScript.GetDeaths());
         Debug.Log(plScoreScript.GetKills());
     }
+
+    struct Player
+    {
+        public GameObject obj;
+        public int playerID;
+    };
 }
