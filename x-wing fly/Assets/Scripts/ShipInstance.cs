@@ -10,7 +10,10 @@ public class ShipInstance : MonoBehaviour
     public ScoreManager manager;
     TSyncScript idModel;
 
+    public ModelAudioController modelAudioController;
+
     public Action onOrbPickup;
+
 
     // Start is called before the first frame update
     void Awake()
@@ -18,7 +21,8 @@ public class ShipInstance : MonoBehaviour
         trailScript = GetComponent<PlayerHealthScript>();
         manager = GameObject.Find("ScoreManager").GetComponent<ScoreManager>();
         idModel = GetComponent<TSyncScript>();
-
+        modelAudioController = GameObject.FindGameObjectWithTag("AudioManager").GetComponent<ModelAudioController>();
+        modelAudioController.Initialize(transform);
         trailScript.SetHealth(1);
     }
 

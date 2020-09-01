@@ -33,9 +33,25 @@ public class ModelAudioController : RealtimeComponent
         }
     }
 
+    private Transform target;
+    private bool initialized;
+
     void Awake()
     {
         audioSource = GetComponent<AudioSource>();
+    }
+
+    void Update()
+    {
+        if (initialized)
+            transform.position = target.position;
+    }
+
+    public void Initialize(Transform target)
+    {
+        initialized = true;
+        this.target = target;
+
     }
 
     void ClipIDDidChange(ModelAudio model, int value)

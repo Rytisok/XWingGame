@@ -168,8 +168,12 @@ public class Fly : Realtime
     {
         int id = _realtime.clientID;
 
-        if(realtimeAvatarManager.localAvatar != null)
-            audScrpt = realtimeAvatarManager.localAvatar.GetComponent<ModelAudioController>();
+        if (realtimeAvatarManager.localAvatar != null)
+        {
+            ShipInstance shipInstance = realtimeAvatarManager.localAvatar.GetComponentInChildren<ShipInstance>();
+            if (shipInstance.modelAudioController != null)
+                audScrpt = shipInstance.modelAudioController;
+        }
         /*
         foreach (GameObject pl in GameObject.FindGameObjectsWithTag("Player"))
          {
