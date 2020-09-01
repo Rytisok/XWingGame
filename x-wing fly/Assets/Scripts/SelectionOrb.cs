@@ -8,11 +8,20 @@ public class SelectionOrb : MonoBehaviour
     public GameLoading gameLoading;
     public string connectToName;
     public GameObject otherOrb;
+    public bool connectionOrb;
+    public GameObject nextSelection;
 
     private void OnTriggerEnter(Collider other)
     {
         gameObject.SetActive(false);
         otherOrb.SetActive(false);
-        gameLoading.LoadWithRoom(connectToName);
+        if (connectionOrb)
+        {
+            gameLoading.LoadWithRoom(connectToName);
+        }
+        else
+        {
+            nextSelection.SetActive(true);
+        }  
     }
 }
