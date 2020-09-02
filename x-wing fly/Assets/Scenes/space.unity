@@ -1944,7 +1944,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4100a745657c955488811b42352ec6ca, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  gameLoading: {fileID: 0}
+  gameLoading: {fileID: 190418330}
   connectToName: t
   otherOrb: {fileID: 1980012998}
   connectionOrb: 1
@@ -4154,7 +4154,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4100a745657c955488811b42352ec6ca, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  gameLoading: {fileID: 0}
+  gameLoading: {fileID: 190418330}
   connectToName: d
   otherOrb: {fileID: 942521539}
   connectionOrb: 0
@@ -4190,7 +4190,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4100a745657c955488811b42352ec6ca, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  gameLoading: {fileID: 0}
+  gameLoading: {fileID: 190418330}
   connectToName: d
   otherOrb: {fileID: 956751925}
   connectionOrb: 1
@@ -4527,7 +4527,7 @@ PrefabInstance:
     - target: {fileID: 2783315217597231025, guid: 24d6a8ba3232e4b46ba3d22a81fe9486,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: 1.53
+      value: 0.974
       objectReference: {fileID: 0}
     - target: {fileID: 2783315217597231025, guid: 24d6a8ba3232e4b46ba3d22a81fe9486,
         type: 3}
@@ -4537,7 +4537,7 @@ PrefabInstance:
     - target: {fileID: 2783315217597231025, guid: 24d6a8ba3232e4b46ba3d22a81fe9486,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: 0.062
+      value: -0.839
       objectReference: {fileID: 0}
     - target: {fileID: 2783315217597231025, guid: 24d6a8ba3232e4b46ba3d22a81fe9486,
         type: 3}
