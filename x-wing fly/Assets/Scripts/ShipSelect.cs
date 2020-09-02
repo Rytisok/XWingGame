@@ -13,7 +13,7 @@ public class ShipSelect : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        if (!GameManager.offline)
+        if (!GameManager.Instance.offline)
             Initialize();
     }
 
@@ -29,7 +29,7 @@ public class ShipSelect : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if (!GameManager.offline)
+        if (!GameManager.Instance.offline)
         {
             if (other.GetComponent<Ship>())
             {

@@ -55,7 +55,7 @@ public class GameLoading : MonoBehaviour
 
         partsToLoad.Add(PartsToLoad.UnityRemote);
 
-        if (!GameManager.offline)
+        if (!GameManager.Instance.offline)
         {
             partsToLoad.Add(PartsToLoad.Multiplayer);
         }
@@ -65,7 +65,7 @@ public class GameLoading : MonoBehaviour
         }
 
 
-        if (!GameManager.offline)
+        if (!GameManager.Instance.offline)
         {
             _realtime.ManualConnect(Loaded);
 
@@ -88,6 +88,13 @@ public class GameLoading : MonoBehaviour
 
     void CheckIfLoadFinished()
     {
+        string s = "------NOT YET LOADED-----------\n";
+        for (int i = 0; i < partsToLoad.Count; i++)
+        {
+            s += partsToLoad[i] + "\n";
+        }
+         s += "------------------------------------\n";
+        print(s);
         if (partsToLoad.Count == 0)
         {
             loadingDone = true;

@@ -33,6 +33,10 @@ public class Projectile : MonoBehaviour
     }
     private void Destruct()
     {
-        Realtime.Destroy(gameObject);
+        if(!GameManager.Instance.offline)
+            Realtime.Destroy(gameObject);
+        else
+            Destroy(gameObject);
+        
     }
 }

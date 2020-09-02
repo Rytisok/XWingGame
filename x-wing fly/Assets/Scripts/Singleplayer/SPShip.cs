@@ -21,14 +21,12 @@ public class SPShip : MonoBehaviour
     private const int startingHealth = 1;
     private int health = startingHealth;
 
-    float prevHp = 1;
-
     private SPPlayerHealth playerHealth;
     private SPPlayerScore playerScore;
+    public SPScoreManager manager;
 
     public Text healthText;
-    private Fly fly;
-    private ScoreManager manager;
+    private SPFly fly;
 
     //visual stuff
     public GameObject[] shipModels;
@@ -37,36 +35,21 @@ public class SPShip : MonoBehaviour
 
     private void Start()
     {
-        fly = GetComponentInParent<Fly>();
+        fly = GetComponentInParent<SPFly>();
         aud = GetComponent<AudioSource>();
         playerHealth = GetComponent<SPPlayerHealth>();
         playerScore = GetComponent<SPPlayerScore>();
 
-        // manager = GameObject.Find("ScoreManager").GetComponent<ScoreManager>();
     }
 
     void Update()
     {
-        //get check health value from server
-        if (playerHealth != null)
-        {
-            health = playerHealth.currentHealth;
-        }
-
-        if (health < prevHp)
-        {
-            MinHp();
-        }
-
-        prevHp = health;
-
-        //update UI
         healthText.text = health.ToString();
     }
 
     void MinHp()
     {
-        if (health <= 0)
+        if (playerHealth.currentHealth <= 0)
         {
             if (alive)
             {
@@ -162,34 +145,40 @@ public class SPShip : MonoBehaviour
                 //set the owner ID of the projectile, that hit
                 if(playerHealth.currentHealth == 0)
                     other.GetComponent<Projectile>().origin.CreditKill();
+                MinHp();
 
                 break;
 
             //other player
             case 9:
                 playerHealth.ChangeHealth(-playerHealth.currentHealth);
+                MinHp();
 
                 break;
 
             //asteroid
             case 11:
                 playerHealth.ChangeHealth(-playerHealth.currentHealth);
+                MinHp();
 
                 break;
 
             //rocket explosion
             case 12:
                 playerHealth.ChangeHealth(-1);
+                MinHp();
 
                 //set the owner ID of the projectile, that hit
-              //  idModel.SetT(other.GetComponent<RealtimeView>().ownerID);
+                //  idModel.SetT(other.GetComponent<RealtimeView>().ownerID);
                 break;
 
             //rocket direct hit
             case 13: //NO SCRIPT TO DETERMINE ORIGIN
                 playerHealth.ChangeHealth(-playerHealth.currentHealth);
-              /*  if (playerHealth.currentHealth == 0)
-                    other.GetComponent<Projectile>().origin.CreditKill();*/
+                MinHp();
+
+                /*  if (playerHealth.currentHealth == 0)
+                      other.GetComponent<Projectile>().origin.CreditKill();*/
                 break;
 
             //orb
@@ -201,7 +190,7 @@ public class SPShip : MonoBehaviour
 
                 PlusHp();
 
-                Realtime.Destroy(other.gameObject);
+                Destroy(other.gameObject);
                 break;
         }
         

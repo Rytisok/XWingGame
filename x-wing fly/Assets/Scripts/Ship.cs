@@ -37,7 +37,7 @@ public class Ship : MonoBehaviour
     {
         fly = GetComponentInParent<Fly>();
         aud = GetComponent<AudioSource>();
-        if (!GameManager.offline)
+        if (!GameManager.Instance.offline)
         {
             asteroids.SetActive(false);
             manager = GameObject.Find("ScoreManager").GetComponent<ScoreManager>();
@@ -160,7 +160,7 @@ public class Ship : MonoBehaviour
         scoreScript.SetDeaths(0);
         idScript.SetT(-1);
 
-        if (!GameManager.offline)
+        if (!GameManager.Instance.offline)
             asteroids.SetActive(true);
     }
 
@@ -171,7 +171,7 @@ public class Ship : MonoBehaviour
 
         shipModels[n].SetActive(true);
 
-        if (!GameManager.offline)
+        if (!GameManager.Instance.offline)
         {
             shp.GetComponentInParent<TeamSync>().SetTeam(n);
             shp.SelectShip(n);

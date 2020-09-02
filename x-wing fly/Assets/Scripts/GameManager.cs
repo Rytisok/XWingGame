@@ -32,17 +32,19 @@ public class GameManager : MonoBehaviour
 
     #endregion
 
-    public static bool offline = false;
+    private bool _offline;
+
+    public bool offline
+    {
+
+        get { return _offline; }
+        set
+        {
+            _offline = value;
+            GetComponent<GameLoading>().onLoadingDone = null;
+        }
+    
+    }
     public static bool teamGame = false;
 
-    void Start()
-    {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
 }

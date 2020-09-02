@@ -99,7 +99,7 @@ LightmapSettings:
     m_LightProbeSampleCountMultiplier: 4
   m_LightingDataAsset: {fileID: 112000000, guid: 6526a440b7cdd3342a3690e568ac246a,
     type: 2}
-  m_UseShadowmask: 0
+  m_UseShadowmask: 1
 --- !u!196 &4
 NavMeshSettings:
   serializedVersion: 2
@@ -4031,6 +4031,7 @@ MonoBehaviour:
   spawnArea: 50
   orbPrefab: {fileID: 9064291551675172142, guid: 8b9091d246d97e84d9505a5679a59569,
     type: 3}
+  spOrbPrefab: {fileID: 0}
   _realtime: {fileID: 1925114294}
   orbs: []
 --- !u!4 &1938047904
@@ -4608,6 +4609,11 @@ PrefabInstance:
       propertyPath: asteroids
       value: 
       objectReference: {fileID: 347185273}
+    - target: {fileID: 2783315218221776783, guid: 24d6a8ba3232e4b46ba3d22a81fe9486,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 2783315218889888501, guid: 24d6a8ba3232e4b46ba3d22a81fe9486,
         type: 3}
       propertyPath: loader

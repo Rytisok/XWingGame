@@ -8,6 +8,8 @@ public class OrbManager : MonoBehaviour
     public int orbCount;
     public int spawnArea;
     public GameObject orbPrefab;
+    public GameObject spOrbPrefab;
+
     public Realtime _realtime;
     public List<GameObject> orbs = new List<GameObject>();
 
@@ -24,7 +26,6 @@ public class OrbManager : MonoBehaviour
     void LoadSettings()
     {
         GameLoading loader = GameManager.Instance.GetComponent<GameLoading>();
-        RemoteUnityManager unityRemote = GameManager.Instance.GetComponent<RemoteUnityManager>();
 
         if (!loader.loadingDone)
         {
@@ -48,7 +49,7 @@ public class OrbManager : MonoBehaviour
         {
             if (!orbsSpawned)
             {
-                if (GameManager.offline)
+                if (GameManager.Instance.offline)
                 {
                     SpawnOrbs();
                 }
@@ -93,14 +94,14 @@ public class OrbManager : MonoBehaviour
     {
         Vector3 pos = (Random.insideUnitSphere * spawnArea) + transform.position;
         GameObject orb;
-        if (!GameManager.offline)
+        if (!GameManager.Instance.offline)
         {
              orb = Realtime.Instantiate(orbPrefab.name, pos, transform.rotation, ownedByClient: false,
                 useInstance: _realtime);
         }
         else
         {
-            orb = Instantiate(orbPrefab, pos, transform.rotation);
+            orb = Instantiate(spOrbPrefab, pos, transform.rotation,transform);
         }
         if (orb != null)
         {

@@ -18,7 +18,7 @@ public class Missile : MonoBehaviour
         if (missileInControl == null)
         {
             GameObject missile;
-            if (!GameManager.offline)
+            if (!GameManager.Instance.offline)
             {
                  missile = Realtime.Instantiate(missilePref.name, missileOrigin.position,
                     missileOrigin.rotation,

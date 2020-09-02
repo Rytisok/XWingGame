@@ -9,7 +9,21 @@ public class SPScoreManager : MonoBehaviour
 {
     public TMP_Text text;
 
-    public List<SPShip> players;
+    private List<SPShip> _players;
+    private List<SPShip> players
+    {
+        get
+        {
+            _players = FindObjectsOfType<SPShip>().ToList();
+            Debug.Log("SHIPS FOUND: "+_players.Count);
+            return _players;
+        }
+        set
+        {
+            _players = value;
+
+        }
+    }
 
     public void SetScoreText()
     {
@@ -88,7 +102,7 @@ public class SPScoreManager : MonoBehaviour
 
             List<SPShip> temp = players;
 
-            SPShip realPlayer = players.First(x => x.isBot == false);
+            SPShip realPlayer = temp.First(x => x.isBot == false);
 
             t += "Real Player " + realPlayer.GetComponent<SPPlayerScore>().kills + "   " +
                  realPlayer.GetComponent<SPPlayerScore>().deaths + "\n";

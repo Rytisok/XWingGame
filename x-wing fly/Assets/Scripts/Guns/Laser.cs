@@ -44,12 +44,11 @@ public class Laser : MonoBehaviour
 
     public void Initialize(float projectileSpeed, float projectileDuration, float timeBetweenShots, bool initializedFromServer)
     {
-        if (!_initializedFromServer)
-        {
-            _projectileSpeed = projectileSpeed;
-            _projectileDuration = projectileDuration;
-            _timeBetweenShots = timeBetweenShots;
-        }
+       
+        _projectileSpeed = projectileSpeed;
+        _projectileDuration = projectileDuration;
+        _timeBetweenShots = timeBetweenShots;
+    
 
         _initializedFromServer = initializedFromServer;
     }
@@ -57,7 +56,7 @@ public class Laser : MonoBehaviour
     public void FireLaser(ref int energy)
     {
         GameObject projectile;
-        if (!GameManager.offline)
+        if (!GameManager.Instance.offline)
         {
             projectile = Realtime.Instantiate(laserPref.name, laserOrigin.position, laserOrigin.rotation,
                 ownedByClient: true, useInstance: _realtime);

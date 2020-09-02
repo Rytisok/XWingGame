@@ -60,7 +60,6 @@ public class RemoteUnityManager : MonoBehaviour
                 Debug.Log("New settings loaded this session; update values accordingly.");
                 break;
         }
-
         speedNormal = ConfigManager.appConfig.GetFloat("speedNormal");
         speedBoosted = ConfigManager.appConfig.GetFloat("speedBoosted");
         projectileSpeed = ConfigManager.appConfig.GetFloat("projectileSpeed");
@@ -69,6 +68,7 @@ public class RemoteUnityManager : MonoBehaviour
         energyLimit = ConfigManager.appConfig.GetInt("energyLimit");
         timeBetweenEnergyRecovery = ConfigManager.appConfig.GetFloat("timeBetweenEnergyRecovery");
         maxHealth = ConfigManager.appConfig.GetInt("maxHealth");
+        Debug.Log(projectileDuration);
 
         onLaserDataUpdated?.Invoke(projectileSpeed, projectileDuration, timeBetweenShots, true);
         onSpeedDataUpdated?.Invoke(speedNormal, speedBoosted, true);
