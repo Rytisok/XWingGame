@@ -8,10 +8,6 @@ public class SPPlayerScore : MonoBehaviour
     public int deaths { get; private set; }
     
     public SPScoreManager scoreManager;
-    private void Awake()
-    {
-        ResetValues();
-    }
 
     public void ResetValues()
     {

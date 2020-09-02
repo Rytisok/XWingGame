@@ -38,14 +38,6 @@ public class ShipSelect : MonoBehaviour
                 parent.SetActive(false);
             }
         }
-        else
-        {
-            if (other.GetComponent<SPShip>())
-            {
-                other.GetComponent<SPShip>().SelectShip(shipNumber);
-                other.enabled = false;
-                parent.SetActive(false);
-            }
-        }
+      
     }
 }

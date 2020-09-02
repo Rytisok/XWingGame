@@ -28,7 +28,6 @@ public class SPFly : MonoBehaviour
     public Material thruster;
     public Material boostThruster;
     public ParticleSystemRenderer[] particles;
-    private SPAudioController audScrpt;
     bool switcheroo = false;
     public AudioSource thrusterAudio;
 
@@ -42,10 +41,11 @@ public class SPFly : MonoBehaviour
     private int missileCount = 1;
     void Start()
     {
-        audScrpt = GetComponent<SPAudioController>();
+
+        ship.onOrbPickup += RestoreEnergy;
 
         energy = energyLimit;
-        laser.onPlaySound += PlaySound;
+        laser.onPlaySound += GetComponent<SPAudioController>().PlayAudio;
         LoadSettings();
     }
 
@@ -89,6 +89,8 @@ public class SPFly : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+
+        debug.text = (ship.alive && loaded).ToString();
         if (ship.alive && loaded)
         {
             Controls();
@@ -189,11 +191,6 @@ public class SPFly : MonoBehaviour
 
         boosting = true;
 
-    }
-
-    public void PlaySound(int num)
-    {
-        audScrpt.PlayAudio(num);
     }
 
     void Move()

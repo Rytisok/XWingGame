@@ -7,42 +7,61 @@ using UnityEngine;
 
 public class BotsSpawner : MonoBehaviour
 {
+    public SPScoreManager scoreManager;
+    public Transform[] restartPos;
     private List<GameObject> bots;
 
-    private const float refreshTime = 5f;
+    private const float refreshTime = 1f;
     private float t;
     private const int botsCount = 1;
-    public Realtime _realtime;
     public GameObject botPref;
+
+    private bool loaded;
     // Start is called before the first frame update
     void Start()
     {
+        bots = new List<GameObject>();
         t = 0;
+
+        LoadSettings();
     }
 
-
-    void FindAllBots()
+    void LoadSettings()
     {
-         bots = GameObject.FindGameObjectsWithTag("Bot").ToList();
-      
+        GameLoading loader = GameManager.Instance.GetComponent<GameLoading>();
+
+        if (!loader.loadingDone)
+        {
+            loader.onLoadingDone += () =>
+            {
+                loaded = true;
+            };
+        }
+        else
+        {
+            loaded = true;
+        }
+
     }
 
     // Update is called once per frame
     void Update()
     {
-     
-        if (t >= refreshTime)
+        if (loaded)
         {
-            StartCoroutine(RefreshBots());
-            t = 0;
-        }
 
-        t += Time.deltaTime;
+            if (t >= refreshTime)
+            {
+                StartCoroutine(RefreshBots());
+                t = 0;
+            }
+
+            t += Time.deltaTime;
+        }
     }
 
     IEnumerator RefreshBots()
     {
-        FindAllBots();
         while (bots.Count < botsCount)
         {
             SpawnBot();
@@ -52,10 +71,12 @@ public class BotsSpawner : MonoBehaviour
 
     void SpawnBot()
     {
-         GameObject bot = Realtime.Instantiate(botPref.name, Vector3.zero, Quaternion.identity,
-            true,  false, false,_realtime);
-         bot.GetComponent<Laser>()._realtime = _realtime;
-         bots.Add(bot);
+         GameObject bot = Instantiate(botPref, Vector3.zero, Quaternion.identity);
+
+         SPShip botShip = bot.GetComponent<SPShip>();
+         botShip.SetupBot(scoreManager, restartPos);
+
+        bots.Add(bot);
        // bot.transform.parent = transform;
     }
 }

@@ -9,18 +9,35 @@ public class SPScoreManager : MonoBehaviour
 {
     public TMP_Text text;
 
-    private List<SPShip> _players;
-    private List<SPShip> players
+    private SPShip _realPlayer;
+
+    private SPShip realPlayer
     {
         get
         {
-            _players = FindObjectsOfType<SPShip>().ToList();
-            Debug.Log("SHIPS FOUND: "+_players.Count);
-            return _players;
+            _realPlayer = FindObjectsOfType<SPShip>().First(x => x.gameObject.tag == "Ship");
+            Debug.Log("_realPlayer FOUND: ");
+            return _realPlayer;
         }
         set
         {
-            _players = value;
+            _realPlayer = value;
+
+        }
+    }
+
+    private List<SPShip> _enemybots;
+    private List<SPShip> enemybots
+    {
+        get
+        {
+            _enemybots = FindObjectsOfType<SPShip>().Where(x => x.gameObject.tag  == "BotEnemy").ToList();
+            Debug.Log("_enemybots FOUND: " + _enemybots.Count);
+            return _enemybots;
+        }
+        set
+        {
+            _enemybots = value;
 
         }
     }
@@ -32,7 +49,7 @@ public class SPScoreManager : MonoBehaviour
         string t = "";
         if (GameManager.teamGame)
         {
-            int xwingScore = 0;
+           /* int xwingScore = 0;
             int tieFighterScore = 0;
 
             List<Player> rebels = new List<Player>();
@@ -95,24 +112,18 @@ public class SPScoreManager : MonoBehaviour
                     t += "Player " + empire[i].playerID + "    " + score.kills + "   " + score.deaths + "      ";
                 }
                 t += "\n";
-            }
+            }*/
         }
         else
         {
 
-            List<SPShip> temp = players;
-
-            SPShip realPlayer = temp.First(x => x.isBot == false);
-
             t += "Real Player " + realPlayer.GetComponent<SPPlayerScore>().kills + "   " +
                  realPlayer.GetComponent<SPPlayerScore>().deaths + "\n";
-
-            temp.Remove(realPlayer);
 
             int botKills = 0;
             int botDeaths = 0;
 
-            foreach (var player in players)
+            foreach (var player in enemybots)
             {
                 SPPlayerScore plScoreScript = player.GetComponent<SPPlayerScore>();
 

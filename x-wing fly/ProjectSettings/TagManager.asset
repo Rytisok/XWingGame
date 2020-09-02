@@ -6,6 +6,9 @@ TagManager:
   tags:
   - Orb
   - static
+  - Ship
+  - BotEnemy
+  - BotFriendly
   layers:
   - Default
   - TransparentFX

@@ -1,8 +1,10 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using Normal.Realtime;
 using UnityEngine;
 using UnityEngine.UI;
+using Random = UnityEngine.Random;
 
 [RequireComponent(typeof(SPPlayerHealth))]
 [RequireComponent(typeof(SPPlayerScore))]
@@ -26,20 +28,33 @@ public class SPShip : MonoBehaviour
     public SPScoreManager manager;
 
     public Text healthText;
-    private SPFly fly;
+    private SPAudioController audioManager;
 
-    //visual stuff
-    public GameObject[] shipModels;
     public int team = -1;
     public bool isBot= false;
-
+    public Action onOrbPickup;
     private void Start()
     {
-        fly = GetComponentInParent<SPFly>();
+        Setup();
+    }
+
+    void Setup()
+    {
+        audioManager = GetComponentInParent<SPAudioController>();
         aud = GetComponent<AudioSource>();
         playerHealth = GetComponent<SPPlayerHealth>();
         playerScore = GetComponent<SPPlayerScore>();
+        if (!isBot)
+            playerScore.ResetValues();
+    }
 
+    public void SetupBot(SPScoreManager scoreManager, Transform[] restartPos)
+    {
+        Setup();
+        this.restartPos = restartPos;
+        manager = scoreManager;
+        playerScore.scoreManager = scoreManager;
+        playerScore.ResetValues();
     }
 
     void Update()
@@ -65,21 +80,20 @@ public class SPShip : MonoBehaviour
     void Hit()
     {
         GameObject expl = Instantiate(impact, transform.position, transform.rotation);
-        fly.PlaySound(1);
+        audioManager.PlayAudio(1);
         Destroy(expl,5f);
     }
 
     void Explode()
     {
         GameObject expl = Instantiate(explosion, transform.position, transform.rotation);
-        fly.PlaySound(2);
+        audioManager.PlayAudio(2);
         Destroy(expl, 5f);
     }
 
     public void PlusHp()
     {
         //touches orb
-        fly.RestoreEnergy();
         aud.Play();
         GameObject part = Instantiate(orbParticles, transform.position, transform.rotation);
         Destroy(part, 3f);
@@ -97,16 +111,14 @@ public class SPShip : MonoBehaviour
         Explode();
 
         SetState(false);
-        transform.root.transform.position = restartPos[Random.Range(0, 3)].position;
+        transform.root.position = restartPos[Random.Range(0, 3)].position;
         Invoke("Restart", 3.5f);
-        fly.PlaySound(2);
+        audioManager.PlayAudio(2);
         alive = false;
-        //gameObject.SetActive(false);
     }
 
     void Restart()
     {
-        //gameObject.SetActive(true);
         alive = true;
         SetState(true);
 
@@ -115,24 +127,6 @@ public class SPShip : MonoBehaviour
 
     }
 
-    public void SelectShip(int n)
-    {
-        shipModels[0].SetActive(false);
-        shipModels[1].SetActive(false);
-
-        shipModels[n].SetActive(true);
-        team = n;
-
-     /*   if (!GameManager.offline)
-        {
-           // shp.GetComponentInParent<TeamSync>().SetTeam(n);
-        }*/
-
-        manager.SetScoreText();
-
-        Laser laser = GetComponentInParent<Laser>();
-        laser.laserPref = laser.laserVariants[n];
-    }
 
     private void OnTriggerEnter(Collider other)
     {
@@ -188,6 +182,7 @@ public class SPShip : MonoBehaviour
                     playerHealth.ChangeHealth(1);
                 }
 
+                onOrbPickup?.Invoke();
                 PlusHp();
 
                 Destroy(other.gameObject);

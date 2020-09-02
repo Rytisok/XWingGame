@@ -26,6 +26,7 @@ public class GameLoading : MonoBehaviour
     void Start()
     {
         //StartLoading();
+        if(!GameManager.Instance.offline)
         indicatorTxt.gameObject.SetActive(false);
     }
 

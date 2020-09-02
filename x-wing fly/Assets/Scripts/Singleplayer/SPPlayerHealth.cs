@@ -20,17 +20,6 @@ public class SPPlayerHealth : MonoBehaviour
         ResetValues();
         LoadSettings();
     }
-
-    public void ResetValues()
-    {
-        currentHealth = 1;
-    }
-
-    public bool IsAtMaxHP()
-    {
-        return currentHealth >= maxHealth;
-    }
-
     void LoadSettings()
     {
         GameLoading loader = GameManager.Instance.GetComponent<GameLoading>();
@@ -49,6 +38,17 @@ public class SPPlayerHealth : MonoBehaviour
         }
 
     }
+    public void ResetValues()
+    {
+        currentHealth = 1;
+    }
+
+    public bool IsAtMaxHP()
+    {
+        return currentHealth >= maxHealth;
+    }
+
+  
 
     void UpdateHealth(int max, bool isServer)
     {

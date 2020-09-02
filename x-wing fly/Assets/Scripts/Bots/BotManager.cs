@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using Normal.Realtime;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class BotManager : MonoBehaviour
 {
@@ -29,6 +30,7 @@ public class BotManager : MonoBehaviour
     private Transform lastTargetTrans;
 
     private bool allowMovement;
+    public Text energyTxt;
     void Awake()
     {
         allowMovement = false;
@@ -40,15 +42,34 @@ public class BotManager : MonoBehaviour
 
     }
 
+   
+    void Start()
+    {
+        LoadSettings();
+    }
+    void Update()
+    {
+        if (allowMovement)
+        {
+            float distanceToTarget = GetDistanceToTarget();
+
+            if (Vector3.Distance(target.transform.position, lastTargetTrans.position) > minDistToRecalculate)
+            {
+
+                lastTargetTrans.position = target.transform.position;
+                lastTargetTrans.rotation = target.transform.rotation;
+                pursuer.RefinePath(lastTargetTrans);
+            }
+
+            FireBehaviour(distanceToTarget);
+
+            energyTxt.text = energy.ToString();
+        }
+    }
     void SetTarget()
     {
         var ship = GameObject.FindGameObjectsWithTag("Ship");
         target = ship[Random.Range(0, ship.Length)];
-    }
-
-    void Start()
-    {
-        LoadSettings();
     }
 
     void LoadSettings()
@@ -87,7 +108,7 @@ public class BotManager : MonoBehaviour
         allowMovement = true;
     }
 
-  
+
 
     void UpdateEnergyData(int energyLimit, float timeBetweenEnergyRecovery, bool updateFromServer)
     {
@@ -100,24 +121,7 @@ public class BotManager : MonoBehaviour
         this.speedBoosted = speedBoosted;
     }
 
-    void Update()
-    {
-        if (allowMovement)
-        {
-            float distanceToTarget = GetDistanceToTarget();
-
-            if (Vector3.Distance(target.transform.position, lastTargetTrans.position) > minDistToRecalculate)
-            {
-
-                lastTargetTrans.position = target.transform.position;
-                lastTargetTrans.rotation = target.transform.rotation;
-                pursuer.RefinePath(lastTargetTrans);
-            }
-
-            FireBehaviour(distanceToTarget);
-        }
-    }
-
+   
     void FollowTarget(float distanceToTarget)
     {
         if (distanceToTarget > minFollowDistance)
@@ -184,7 +188,7 @@ public class BotManager : MonoBehaviour
     }
 
 
-    private void OnTriggerEnter(Collider other)
+  /*  private void OnTriggerEnter(Collider other)
     {
         if (GetComponent<RealtimeView>().isOwnedLocally)
         {
@@ -217,9 +221,9 @@ public class BotManager : MonoBehaviour
                     {
                         trailScript.SetHealth(trailScript.GetHealth() + 1);
                         Realtime.Destroy(other.gameObject);
-                    }*/
+                    }
                     break;
             }
         }
-    }
+    }*/
 }
