@@ -1,14 +1,12 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
-using UnityEngine;
-using Normal.Realtime;
 using TMPro;
+using UnityEngine;
 using UnityEngine.UI;
-public class Fly : Realtime
+
+[RequireComponent(typeof(SPAudioController))]
+public class SPFly : MonoBehaviour
 {
-
-    public RealtimeAvatarManager realtimeAvatarManager;
-
     public Transform x;
 
     public float currSpeed;
@@ -17,8 +15,7 @@ public class Fly : Realtime
 
     bool go = false;
 
-    public Realtime _realtime;
-    public Ship ship;
+    public SPShip ship;
 
     [HideInInspector]
     public int energy;
@@ -27,24 +24,26 @@ public class Fly : Realtime
 
     float nextTimeReload = 0;
     float nextTimeBoost = 0;
-    public Text ammoCount;
     bool boosting = false;
     public Material thruster;
     public Material boostThruster;
     public ParticleSystemRenderer[] particles;
-    public ModelAudioController audScrpt;
+    private SPAudioController audScrpt;
     bool switcheroo = false;
     public AudioSource thrusterAudio;
 
     public Laser laser;
     public Missile missile;
 
+    public Text ammoCount;
     public TMP_Text debug;
 
     private bool loaded;
     private int missileCount = 1;
     void Start()
     {
+        audScrpt = GetComponent<SPAudioController>();
+
         energy = energyLimit;
         laser.onPlaySound += PlaySound;
         LoadSettings();
@@ -164,23 +163,7 @@ public class Fly : Realtime
 
     }
 
-    void FindInstance()
-    {
-        int id = _realtime.clientID;
 
-        if(realtimeAvatarManager.localAvatar != null)
-            audScrpt = realtimeAvatarManager.localAvatar.GetComponent<ModelAudioController>();
-        /*
-        foreach (GameObject pl in GameObject.FindGameObjectsWithTag("Player"))
-         {
-             if(pl.GetComponent<RealtimeView>().ownerID == id)
-             {
-                audScrpt = pl.GetComponent<ModelAudioController>();
-              
-             }
-         }*/
-        Debug.Log("searching");
-    }
 
     void EndBoost()
     {
@@ -210,16 +193,7 @@ public class Fly : Realtime
 
     public void PlaySound(int num)
     {
-        if (audScrpt != null)
-        {
-
-            audScrpt.SetClipID(num);
-            audScrpt.SetClipID(-1);
-        }
-        else
-        {
-            FindInstance();
-        }
+        audScrpt.PlayAudio(num);
     }
 
     void Move()

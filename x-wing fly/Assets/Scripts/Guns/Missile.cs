@@ -13,18 +13,23 @@ public class Missile : MonoBehaviour
 
     private GameObject missileInControl;
 
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
-
     public void LaunchMissile()
     {
         if (missileInControl == null)
         {
-            GameObject missile = Realtime.Instantiate(missilePref.name, missileOrigin.position, missileOrigin.rotation,
-                ownedByClient: true, useInstance: _realtime);
+            GameObject missile;
+            if (!GameManager.offline)
+            {
+                 missile = Realtime.Instantiate(missilePref.name, missileOrigin.position,
+                    missileOrigin.rotation,
+                    ownedByClient: true, useInstance: _realtime);
+            }
+            else
+            {
+
+                missile = Realtime.Instantiate(missilePref.name, missileOrigin.position, missileOrigin.rotation);
+            }
+
             missileInControl = missile;
         }
     }

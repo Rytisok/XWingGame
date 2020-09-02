@@ -3,15 +3,12 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Normal.Realtime;
-using UnityEngine.UI;
-using Unity.RemoteConfig;
 
-public class PlayerHealthScript : RealtimeComponent
+public class SPPlayerHealth : MonoBehaviour
 {
-
-    private TrailModel _model;
     private TrailRenderer trail;
     public int maxHealth;
+    public int currentHealth { get; private set; }
     private bool loaded;
     void Awake()
     {
@@ -20,7 +17,18 @@ public class PlayerHealthScript : RealtimeComponent
 
     void Start()
     {
+        ResetValues();
         LoadSettings();
+    }
+
+    public void ResetValues()
+    {
+        currentHealth = 1;
+    }
+
+    public bool IsAtMaxHP()
+    {
+        return currentHealth >= maxHealth;
     }
 
     void LoadSettings()
@@ -46,42 +54,18 @@ public class PlayerHealthScript : RealtimeComponent
     {
         maxHealth = max;
     }
-    private TrailModel model
-    {
-        set
-        {
-            if (_model != null)
-            {
-                _model.healthDidChange -= HealthDidChange;
-            }
-
-            _model = value;
-
-            if (_model != null)
-            {
-                UpdateDisplay();
-                _model.healthDidChange += HealthDidChange;
-            }
-        }
-    }
-
-    private void HealthDidChange(TrailModel model, int value)
-    {
-        UpdateDisplay();
-    }
+ 
     private void UpdateDisplay()
     {
-        trail.time = _model.health * 0.2f;
+        trail.time = currentHealth * 0.2f;
     }
 
-    public int GetHealth()
+    public void ChangeHealth(int change)
     {
-        return _model.health;
-    }
-
-    public void SetHealth(int h)
-    {
-        if(loaded)
-        _model.health = h;
+        if (loaded)
+        {
+            currentHealth += change;
+            UpdateDisplay();
+        }
     }
 }

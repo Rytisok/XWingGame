@@ -30,33 +30,7 @@ public class RemoteUnityManager : MonoBehaviour
     {
     }
 
-    #region UnityRemoteManager Instance
-
-    private static RemoteUnityManager instance = null;
-
-    public static RemoteUnityManager Instance
-    {
-        get
-        {
-            return instance;
-        }
-    }
-
-    void Awake()
-    {
-        Application.targetFrameRate = 60;
-
-        if (instance != null && instance != this)
-        {
-            Destroy(gameObject);
-            return;//Avoid doing anything else
-        }
-
-        instance = this;
-        DontDestroyOnLoad(gameObject);
-    }
-
-    #endregion
+  
 
     public void StartLoading(Action<PartsToLoad> callback)
     {

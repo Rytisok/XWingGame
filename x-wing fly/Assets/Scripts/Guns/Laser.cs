@@ -21,7 +21,7 @@ public class Laser : MonoBehaviour
 
     private bool _initializedFromServer;
 
-    public bool offline;
+    public SPShip origin;
 
     void Start()
     {
@@ -30,9 +30,9 @@ public class Laser : MonoBehaviour
 
     void LoadSettings()
     {
-        GameLoading loader = RemoteUnityManager.Instance.GetComponent<GameLoading>();
-        RemoteUnityManager unityRemote = RemoteUnityManager.Instance;
-        
+        GameLoading loader = GameManager.Instance.GetComponent<GameLoading>();
+        RemoteUnityManager unityRemote = GameManager.Instance.GetComponent<RemoteUnityManager>();
+
         if (!loader.loadingDone)
             unityRemote.onLaserDataUpdated += Initialize;
         else
@@ -57,7 +57,7 @@ public class Laser : MonoBehaviour
     public void FireLaser(ref int energy)
     {
         GameObject projectile;
-        if (!offline)
+        if (!GameManager.offline)
         {
             projectile = Realtime.Instantiate(laserPref.name, laserOrigin.position, laserOrigin.rotation,
                 ownedByClient: true, useInstance: _realtime);
@@ -68,7 +68,7 @@ public class Laser : MonoBehaviour
         }
 
         Projectile proj = projectile.GetComponent<Projectile>();
-        proj.Initialize(_projectileDuration);
+        proj.Initialize(_projectileDuration, origin);
         proj.Fire(laserOrigin.forward * _projectileSpeed);
 
         energy--;

@@ -53,8 +53,8 @@ public class BotManager : MonoBehaviour
 
     void LoadSettings()
     {
-        GameLoading loader = RemoteUnityManager.Instance.GetComponent<GameLoading>();
-        RemoteUnityManager unityRemote = RemoteUnityManager.Instance;
+        GameLoading loader = GameManager.Instance.GetComponent<GameLoading>();
+        RemoteUnityManager unityRemote = GameManager.Instance.GetComponent<RemoteUnityManager>();
 
         if (!loader.loadingDone)
         {

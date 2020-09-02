@@ -13,7 +13,7 @@ public class OrbManager : MonoBehaviour
 
     float nextCheck = 0;
     float interval = 5;
-    bool k = false;
+    bool orbsSpawned = false;
     private bool loaded;
     void Start()
     {
@@ -23,8 +23,8 @@ public class OrbManager : MonoBehaviour
 
     void LoadSettings()
     {
-        GameLoading loader = RemoteUnityManager.Instance.GetComponent<GameLoading>();
-        RemoteUnityManager remoteUnity = RemoteUnityManager.Instance;
+        GameLoading loader = GameManager.Instance.GetComponent<GameLoading>();
+        RemoteUnityManager unityRemote = GameManager.Instance.GetComponent<RemoteUnityManager>();
 
         if (!loader.loadingDone)
         {
@@ -46,11 +46,19 @@ public class OrbManager : MonoBehaviour
     {
         if (loaded)
         {
-
-            if (_realtime.connected && !k)
+            if (!orbsSpawned)
             {
-                SpawnOrbs();
-                k = true;
+                if (GameManager.offline)
+                {
+                    SpawnOrbs();
+                }
+                else
+                {
+                    if (_realtime.connected)
+                    {
+                        SpawnOrbs();
+                    }
+                }
             }
 
             if (Time.time > nextCheck)
@@ -76,14 +84,24 @@ public class OrbManager : MonoBehaviour
         {
             SpawnOrb(i);
         }
+
+        orbsSpawned = true;
+
     }
 
     void SpawnOrb(int n)
     {
         Vector3 pos = (Random.insideUnitSphere * spawnArea) + transform.position;
-
-        GameObject orb = Realtime.Instantiate(orbPrefab.name, pos, transform.rotation, ownedByClient: false,
-            useInstance: _realtime);
+        GameObject orb;
+        if (!GameManager.offline)
+        {
+             orb = Realtime.Instantiate(orbPrefab.name, pos, transform.rotation, ownedByClient: false,
+                useInstance: _realtime);
+        }
+        else
+        {
+            orb = Instantiate(orbPrefab, pos, transform.rotation);
+        }
         if (orb != null)
         {
             orb.transform.position = pos;

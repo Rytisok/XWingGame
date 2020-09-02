@@ -6,8 +6,10 @@ using Normal.Realtime;
 public class Projectile : MonoBehaviour
 {
     public Rigidbody rigidbody;
-    public void Initialize(float projectileDuration)
+    public SPShip origin; //sp only
+    public void Initialize(float projectileDuration, SPShip origin = null)
     {
+        this.origin = origin;
         GetComponent<TrailRenderer>().enabled = false;
         GetComponent<BoxCollider>().enabled = false;
         Invoke("Tr", 0.08f);

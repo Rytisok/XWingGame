@@ -5,6 +5,7 @@ TagManager:
   serializedVersion: 2
   tags:
   - Orb
+  - static
   layers:
   - Default
   - TransparentFX

@@ -13,6 +13,13 @@ public class ShipSelect : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        if (!GameManager.offline)
+            Initialize();
+    }
+
+    public void Initialize()
+    {
+        Debug.Log(loader == null);
         gameObject.SetActive(false);
         loader.onLoadingDone += () =>
         {
@@ -22,11 +29,23 @@ public class ShipSelect : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.GetComponent<Ship>())
+        if (!GameManager.offline)
         {
-            other.GetComponent<Ship>().SelectShip(shipNumber);
-            other.enabled = false;
-            parent.SetActive(false);
+            if (other.GetComponent<Ship>())
+            {
+                other.GetComponent<Ship>().SelectShip(shipNumber);
+                other.enabled = false;
+                parent.SetActive(false);
+            }
+        }
+        else
+        {
+            if (other.GetComponent<SPShip>())
+            {
+                other.GetComponent<SPShip>().SelectShip(shipNumber);
+                other.enabled = false;
+                parent.SetActive(false);
+            }
         }
     }
 }

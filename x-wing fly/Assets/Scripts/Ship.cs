@@ -8,7 +8,6 @@ using UnityEngine.UI;
 public class Ship : MonoBehaviour
 {
 
-
     public GameObject explosion;
     public GameObject impact;
     public Realtime _realtime;
@@ -38,8 +37,11 @@ public class Ship : MonoBehaviour
     {
         fly = GetComponentInParent<Fly>();
         aud = GetComponent<AudioSource>();
-        asteroids.SetActive(false);
-        manager = GameObject.Find("ScoreManager").GetComponent<ScoreManager>();
+        if (!GameManager.offline)
+        {
+            asteroids.SetActive(false);
+            manager = GameObject.Find("ScoreManager").GetComponent<ScoreManager>();
+        }
     }
 
     void Update()
@@ -157,9 +159,9 @@ public class Ship : MonoBehaviour
         trailScript.SetHealth(health);
         scoreScript.SetDeaths(0);
         idScript.SetT(-1);
-        
 
-        asteroids.SetActive(true);
+        if (!GameManager.offline)
+            asteroids.SetActive(true);
     }
 
     public void SelectShip(int n)
@@ -169,8 +171,12 @@ public class Ship : MonoBehaviour
 
         shipModels[n].SetActive(true);
 
-        shp.GetComponentInParent<TeamSync>().SetTeam(n);
-        shp.SelectShip(n);
+        if (!GameManager.offline)
+        {
+            shp.GetComponentInParent<TeamSync>().SetTeam(n);
+            shp.SelectShip(n);
+        }
+
         manager.SetScoreText();
 
         Laser laser = GetComponentInParent<Laser>();

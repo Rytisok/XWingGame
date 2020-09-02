@@ -16,14 +16,13 @@ public class GameLoading : MonoBehaviour
     public Realtime _realtime;
     public SpaceManager spaceManager;
 
-    public GameObject LoadingIndicator;
+    public GameObject loadingIndicator;
     public TMP_Text indicatorTxt;
 
     public Action onLoadingDone;
     public bool loadingDone;
 
     private List<PartsToLoad> partsToLoad;
-    public bool offline;
     void Start()
     {
         //StartLoading();
@@ -36,10 +35,18 @@ public class GameLoading : MonoBehaviour
         StartLoading();
     }
 
+    public void StartOfflineLoading(SpaceManager spaceManager,GameObject loadingIndicator, TMP_Text indicator)
+    {
+        this.spaceManager = spaceManager;
+        this.loadingIndicator = loadingIndicator;
+        indicatorTxt = indicator;
+        StartLoading();
+    }
+
     void StartLoading()
     {
         indicatorTxt.gameObject.SetActive(true);
-        LoadingIndicator.SetActive(true);
+        loadingIndicator.SetActive(true);
 
         StartCoroutine(VisualiseLoading());
 
@@ -48,7 +55,7 @@ public class GameLoading : MonoBehaviour
 
         partsToLoad.Add(PartsToLoad.UnityRemote);
 
-        if (!offline)
+        if (!GameManager.offline)
         {
             partsToLoad.Add(PartsToLoad.Multiplayer);
         }
@@ -58,17 +65,18 @@ public class GameLoading : MonoBehaviour
         }
 
 
-        if (!offline)
+        if (!GameManager.offline)
         {
             _realtime.ManualConnect(Loaded);
 
         }
         else
         {
-        //    spaceManager.ManualStart(Loaded);
+            spaceManager.ManualStart(Loaded);
         }
-    
-        RemoteUnityManager.Instance.StartLoading(Loaded);
+
+
+        GameManager.Instance.GetComponent<RemoteUnityManager>().StartLoading(Loaded);
     }
 
     void Loaded(PartsToLoad loadedPart)
@@ -85,7 +93,7 @@ public class GameLoading : MonoBehaviour
             loadingDone = true;
             onLoadingDone?.Invoke();
             StopAllCoroutines();
-            LoadingIndicator.SetActive(false);
+            loadingIndicator.SetActive(false);
             Debug.Log("Loading done");
         }
     }

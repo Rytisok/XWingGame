@@ -46,6 +46,12 @@ public class Pursuer : MonoBehaviour
     public float lineWidth;
     public Material lineMaterial;
 
+    public Action onCondWaitingForRequest;
+    public Action onCondWaitingForPursuersQueue;
+    public Action onCondWaitingForAWay;
+    public Action onCondWaitingForWayProcessing;
+    public Action onCondWaitingForTheContinuation;
+    public Action onCondMovement;
 
     #region Internal variables & classes 
 
@@ -883,37 +889,63 @@ public class Pursuer : MonoBehaviour
 
     void WaitingForRequest()
     {
+
         if (generateCondMessages)
+        {
+            onCondWaitingForRequest?.Invoke();
             gameObject.SendMessage("CondWaitingForRequest", SendMessageOptions.DontRequireReceiver);
+
+        }
     }
 
     void WaitingForPursuersQueue()
     {
         if (generateCondMessages)
+        {
+            onCondWaitingForPursuersQueue?.Invoke();
             gameObject.SendMessage("CondWaitingForPursuersQueue", SendMessageOptions.DontRequireReceiver);
+        }
     }
 
     void WaitingForAWay()
     {
-        if (generateCondMessages) gameObject.SendMessage("CondWaitingForAWay", SendMessageOptions.DontRequireReceiver);
+        if (generateCondMessages)
+        {
+            onCondWaitingForAWay?.Invoke();
+            gameObject.SendMessage("CondWaitingForAWay", SendMessageOptions.DontRequireReceiver);
+        }
     }
 
     void WaitingForWayProcessing()
     {
         if (generateCondMessages)
+        {
+            onCondWaitingForWayProcessing?.Invoke();
             gameObject.SendMessage("CondWaitingForWayProcessing", SendMessageOptions.DontRequireReceiver);
+        }
     }
 
     void WaitingForTheContinuation()
     {
+
         if (generateCondMessages)
+        {
+            onCondWaitingForTheContinuation?.Invoke();
             gameObject.SendMessage("CondWaitingForTheContinuation", SendMessageOptions.DontRequireReceiver);
+
+        }
     }
 
     void Movement()
     {
         MotionMethod();
-        if (generateCondMessages) gameObject.SendMessage("CondMovement", SendMessageOptions.DontRequireReceiver);
+
+        if (generateCondMessages)
+        {
+            onCondMovement?.Invoke();
+            gameObject.SendMessage("CondMovement", SendMessageOptions.DontRequireReceiver);
+
+        }
     }
 
     #endregion
