@@ -8,7 +8,7 @@ using PathFinder3D;
 [CustomEditor(typeof(SpaceManager))]
 public class SpaceManagerEditor : Editor
 {
-    string newTagStr = "Untagged";
+    string newTagStr = "static";
     bool isHandelingInProgress;
     SpaceManager thisSpaceManagerInst;
     SpaceHandler spaceHandlerInstance;
@@ -45,7 +45,7 @@ public class SpaceManagerEditor : Editor
 
     public override void OnInspectorGUI()
     {
-        thisSpaceManagerInst = (SpaceManager) target;
+        thisSpaceManagerInst = (SpaceManager)target;
         EditorGUILayout.BeginVertical();
 
         EditorGUILayout.Space();
@@ -100,15 +100,15 @@ public class SpaceManagerEditor : Editor
         EditorGUILayout.BeginHorizontal();
         EditorGUILayout.LabelField("Source of graph obtaining:");
         SpaceManager.GraphObtainingMethods newEnum =
-            (SpaceManager.GraphObtainingMethods) _graphObtainingMethod.enumValueIndex;
-        newEnum = (SpaceManager.GraphObtainingMethods) EditorGUILayout.EnumPopup(newEnum);
-        _graphObtainingMethod.enumValueIndex = (int) newEnum;
+            (SpaceManager.GraphObtainingMethods)_graphObtainingMethod.enumValueIndex;
+        newEnum = (SpaceManager.GraphObtainingMethods)EditorGUILayout.EnumPopup(newEnum);
+        _graphObtainingMethod.enumValueIndex = (int)newEnum;
         EditorGUILayout.EndHorizontal();
 
         if (thisSpaceManagerInst.graphObtainingMethod == SpaceManager.GraphObtainingMethods.DeserializingFromFile)
         {
             EditorGUILayout.BeginHorizontal();
-            _serilizedGraphToImport.objectReferenceValue = (TextAsset) EditorGUILayout.ObjectField(
+            _serilizedGraphToImport.objectReferenceValue = (TextAsset)EditorGUILayout.ObjectField(
                 "Choose .bytes file:", _serilizedGraphToImport.objectReferenceValue, typeof(TextAsset), false);
             EditorGUILayout.EndHorizontal();
 
@@ -120,7 +120,7 @@ public class SpaceManagerEditor : Editor
                     CTSInstance = new CancellationTokenSource();
                     spaceHandlerInstance = new SpaceHandler(thisSpaceManagerInst, thisSpaceManagerInst.cellMinSize,
                         thisSpaceManagerInst.gridDetailLevelsCount, thisSpaceManagerInst.staticObstacleTags,
-                        CTSInstance.Token, Environment.ProcessorCount,false);
+                        CTSInstance.Token, Environment.ProcessorCount, false);
                     if (!spaceHandlerInstance.HandleAllObstaclesOnScene())
                         Debug.Log("There is no any obstacles at the scene");
                     else
@@ -133,7 +133,7 @@ public class SpaceManagerEditor : Editor
                 if (EditorUtility.DisplayCancelableProgressBar("Obstacles handeling progress",
                     "Tris handeling: " + spaceHandlerInstance.processedTrisCount + "/" +
                     spaceHandlerInstance.totalTrisCount,
-                    (float) spaceHandlerInstance.processedTrisCount / (float) spaceHandlerInstance.totalTrisCount))
+                    (float)spaceHandlerInstance.processedTrisCount / (float)spaceHandlerInstance.totalTrisCount))
                 {
                     FinishInEditorHandeling();
                 }
@@ -153,7 +153,7 @@ public class SpaceManagerEditor : Editor
 
                     AssetDatabase.Refresh();
                     _serilizedGraphToImport.objectReferenceValue =
-                        (TextAsset) AssetDatabase.LoadAssetAtPath(filePath, typeof(TextAsset));
+                        (TextAsset)AssetDatabase.LoadAssetAtPath(filePath, typeof(TextAsset));
                 }
 
                 Repaint();

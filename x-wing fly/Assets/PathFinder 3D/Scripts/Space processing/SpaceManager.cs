@@ -48,10 +48,28 @@ public class SpaceManager : MonoBehaviour
     /// </summary>
     public int levelToTrace;
 
+
+    private Action<PartsToLoad> succCallback;
     /// <summary>
     /// Was the graph obtaining at the scene start done?
     /// </summary>
-    public bool isPrimaryProcessingCompleted;
+    private bool _isPrimaryProcessingCompleted;
+
+    public bool isPrimaryProcessingCompleted
+    {
+        get
+        {
+            return _isPrimaryProcessingCompleted;
+
+        }
+        set
+        {
+            if (value == true)
+                succCallback?.Invoke(PartsToLoad.GraphProcessing);
+
+            _isPrimaryProcessingCompleted = value;
+        }
+    }
 
     /// <summary>
     /// Current selected graph obtaining method.
@@ -136,7 +154,7 @@ public class SpaceManager : MonoBehaviour
         {
             timer = Stopwatch.StartNew();
             spaceHandlerInstance = new SpaceHandler(this, cellMinSize, gridDetailLevelsCount, staticObstacleTags,
-                cTSInstance.Token, allowedProcessorCoresCount,agressiveUseMultithreading);
+                cTSInstance.Token, allowedProcessorCoresCount, agressiveUseMultithreading);
             if (graphObtainingMethod == GraphObtainingMethods.InGameProcessing)
                 spaceHandlerInstance.HandleAllObstaclesOnScene();
             else
@@ -159,7 +177,7 @@ public class SpaceManager : MonoBehaviour
     /// <returns>Ratio value</returns>
     public float GetProcessingProgress()
     {
-        return (float) spaceHandlerInstance.processedTrisCount / (float) spaceHandlerInstance.totalTrisCount;
+        return (float)spaceHandlerInstance.processedTrisCount / (float)spaceHandlerInstance.totalTrisCount;
     }
 
     /// <summary>
@@ -235,6 +253,7 @@ public class SpaceManager : MonoBehaviour
     }
     #endregion
 
+
     #region Other methods defenition
 
     private void Awake()
@@ -242,9 +261,9 @@ public class SpaceManager : MonoBehaviour
         cTSInstance = new CancellationTokenSource();
         isPrimaryProcessingCompleted = false;
     }
-
-    void Start()
+    public void ManualStart(Action<PartsToLoad> callback)
     {
+        succCallback = callback;
         pathfindingQueue = new List<Pursuer>();
         PathHandler.Init(cellMinSize * .25f);
 
@@ -262,8 +281,8 @@ public class SpaceManager : MonoBehaviour
                 break;
         }
         allowedProcessorCoresCount = Mathf.Min(
-                    Mathf.Max(allowedProcessorCoresCount, 1), // To not be less than 1
-                    maxPossibleProcessorCores); // To not be more than the number of available processor cores.
+            Mathf.Max(allowedProcessorCoresCount, 1), // To not be less than 1
+            maxPossibleProcessorCores); // To not be more than the number of available processor cores.
         pathfindingTasksCountLimit = allowedProcessorCoresCount;
         if (obtainGraphAtStart)
         {
@@ -271,6 +290,34 @@ public class SpaceManager : MonoBehaviour
             PrimaryProcessing();
         }
     }
+    /*   void Start() // was void StartOriginaly
+       {
+           pathfindingQueue = new List<Pursuer>();
+           PathHandler.Init(cellMinSize * .25f);
+
+           switch (threadsCountMode)
+           {
+               case 0:
+                   allowedProcessorCoresCount = maxPossibleProcessorCores;
+                   break;
+               case 1:
+                   allowedProcessorCoresCount = Mathf.CeilToInt(Environment.ProcessorCount * coresCountMultiplier);
+                   break;
+               case 2:
+                   break;
+               default:
+                   break;
+           }
+           allowedProcessorCoresCount = Mathf.Min(
+                       Mathf.Max(allowedProcessorCoresCount, 1), // To not be less than 1
+                       maxPossibleProcessorCores); // To not be more than the number of available processor cores.
+           pathfindingTasksCountLimit = allowedProcessorCoresCount;
+           if (obtainGraphAtStart)
+           {
+               cTSInstance = new CancellationTokenSource();
+               PrimaryProcessing();
+           }
+       }*/
 
     private void OnApplicationQuit()
     {
