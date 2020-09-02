@@ -21,6 +21,8 @@ public class Laser : MonoBehaviour
 
     private bool _initializedFromServer;
 
+    public bool offline;
+
     void Start()
     {
         LoadSettings();
@@ -54,8 +56,16 @@ public class Laser : MonoBehaviour
 
     public void FireLaser(ref int energy)
     {
-        GameObject projectile = Realtime.Instantiate(laserPref.name, laserOrigin.position, laserOrigin.rotation,
-            ownedByClient: true, useInstance: _realtime);
+        GameObject projectile;
+        if (!offline)
+        {
+            projectile = Realtime.Instantiate(laserPref.name, laserOrigin.position, laserOrigin.rotation,
+                ownedByClient: true, useInstance: _realtime);
+        }
+        else
+        {
+            projectile = Instantiate(laserPref, laserOrigin.position, laserOrigin.rotation);
+        }
 
         Projectile proj = projectile.GetComponent<Projectile>();
         proj.Initialize(_projectileDuration);
