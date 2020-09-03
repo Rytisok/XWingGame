@@ -9,6 +9,8 @@ public class BotManager : MonoBehaviour
     public GameObject target;
 
     public Laser laser;
+    public Pursuer pursuer;
+    public FiringPrediction firingPrediction;
 
     public float minFollowDistance = 1;
     public float minFireDistance = 7;
@@ -27,7 +29,6 @@ public class BotManager : MonoBehaviour
     private const float mindistToRecalculate = 0.2f;
     private const float maxdistToRecalculate = 0.5f;
 
-    public Pursuer pursuer;
 
     private GameObject lastTarget;
     private Transform lastTargetTrans;
@@ -52,6 +53,7 @@ public class BotManager : MonoBehaviour
 
 
         SetTargetParameters();
+
     }
 
     private void OnDeath()
@@ -134,13 +136,24 @@ public class BotManager : MonoBehaviour
         if (!loader.loadingDone)
         {
             unityRemote.onEnergyDataUpdated += UpdateEnergyData;
-            loader.onLoadingDone += StartMoveToTarget;
+            loader.onLoadingDone += () =>
+            {
+                InitializeFiringPrediction(unityRemote.projectileSpeed);
+                StartMoveToTarget();
+            };
         }
         else
         {
             UpdateEnergyData(unityRemote.energyLimit, unityRemote.timeBetweenEnergyRecovery, true);
+            InitializeFiringPrediction(unityRemote.projectileSpeed);
             StartMoveToTarget();
         }
+
+    }
+
+    void InitializeFiringPrediction(float projectileSpeed)
+    {
+        firingPrediction.Initialize(laser.laserOrigin.gameObject,target.gameObject,projectileSpeed, minFireDistance);
 
     }
 

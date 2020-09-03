@@ -1006,7 +1006,7 @@ MonoBehaviour:
   - {fileID: 635814696}
   - {fileID: 231086900}
   - {fileID: 319311060}
-  botsCount: 4
+  botsCount: 3
   botPref: {fileID: 7188492287259316369, guid: b963a6e10b41edb4f96f0c21c2b6280e, type: 3}
 --- !u!4 &2129136074
 Transform:
