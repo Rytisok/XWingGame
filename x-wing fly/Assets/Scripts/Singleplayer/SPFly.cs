@@ -39,14 +39,24 @@ public class SPFly : MonoBehaviour
 
     private bool loaded;
     private int missileCount = 1;
+
     void Start()
     {
-
         ship.onOrbPickup += RestoreEnergy;
-
         energy = energyLimit;
         laser.onPlaySound += GetComponent<SPAudioController>().PlayAudio;
         LoadSettings();
+
+        if(Application.isEditor|| Application.platform == RuntimePlatform.WindowsPlayer)
+            SetupForNonVR();
+    }
+
+    void SetupForNonVR()
+    {
+        Transform shipTrans = ship.gameObject.transform;
+
+        shipTrans.localPosition = new Vector3(0,-0.207f,0.389f);
+        shipTrans.localRotation = Quaternion.Euler(new Vector3(21.6f,0,0));
     }
 
     void LoadSettings()
@@ -107,6 +117,9 @@ public class SPFly : MonoBehaviour
         }
         if (go)
         {
+            if (Application.isEditor)
+                MoveShipsEditor();
+
             Move();
         }
         //Missile
@@ -164,7 +177,33 @@ public class SPFly : MonoBehaviour
         //--------------
 
     }
+    void MoveShipsEditor()
+    {
+        float mouseRatioX = Input.mousePosition.x / Screen.width;
+        float mouseRatioY = Input.mousePosition.y / Screen.height;
 
+        Vector3 mousePos = new Vector3(mouseRatioX - 0.5f, mouseRatioY - 0.5f, 0f);
+    
+      //  Vector3 curRot = transform.eulerAngles;
+    //    Vector3 newRot = new Vector3(curRot.x - mousePos.y, curRot.y + mousePos.x, curRot.z);
+    
+
+        Vector3 rotateDelta = new Vector3(-mousePos.y,mousePos.x, 0);
+
+        transform.Rotate(rotateDelta * Time.deltaTime *130);
+
+
+        if ( Input.GetKey(KeyCode.E))
+        {
+           transform.RotateAround(transform.position,transform.forward, Time.deltaTime * -100);
+        }
+        else if (Input.GetKey(KeyCode.Q))
+        {
+            transform.RotateAround(transform.position, transform.forward, Time.deltaTime * 100);
+
+        }
+
+    }
 
 
     void EndBoost()

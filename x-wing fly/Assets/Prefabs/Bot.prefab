@@ -5362,7 +5362,7 @@ MonoBehaviour:
   pursuer: {fileID: 7188492287259316375}
   firingPrediction: {fileID: 9169034397154939583}
   minFollowDistance: 1
-  minFireDistance: 15
+  minFireDistance: 10
   energyTxt: {fileID: 7188492288392695329}
 --- !u!114 &7188492287259316372
 MonoBehaviour:
