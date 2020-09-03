@@ -14,32 +14,77 @@ public class BotManager : MonoBehaviour
     public float minFireDistance = 7;
 
     private float currSpeed;
-    private float speedBoosted;
-    private float speedNormal;
+    private const float speedMin = 0.01f;
+    private const float speedMax = 0.03f;
+
 
     private float nextTimeReload = 0;
     private int energy;
     private int energyLimit = 20;
     private float timeBetweenEnergyRecovery = 0.15f;
 
-    private const float minDistToRecalculate = 0.5f; 
+    private float distToRecalculate = 0.5f;
+    private const float mindistToRecalculate = 0.2f;
+    private const float maxdistToRecalculate = 0.5f;
 
     public Pursuer pursuer;
 
     private GameObject lastTarget;
     private Transform lastTargetTrans;
 
+    private bool allowShooting;
     private bool allowMovement;
     public Text energyTxt;
+
+    private SPShip spShip;
     void Awake()
     {
+        spShip = GetComponent<SPShip>();
+
         allowMovement = false;
+        allowShooting = false;
         SetTarget();
         lastTarget = new GameObject("targetPos");
         lastTargetTrans = lastTarget.transform;
-        lastTargetTrans.position =  target.transform.position;
+
+        spShip.onDeath += OnDeath;
+        spShip.onRespawn += OnRespawn;
+
+
+        SetTargetParameters();
+    }
+
+    private void OnDeath()
+    {
+        allowMovement = false;
+        allowShooting = false;
+
+        pursuer.ResetCondition();
+    }
+
+    private void OnRespawn()
+    {
+        allowMovement = true;
+        allowShooting = true;
+
+        SetTargetParameters();
+        pursuer.MoveTo(lastTargetTrans);
+    }
+
+
+    void SetTargetParameters()
+    {
+        lastTargetTrans.position = target.transform.position;
         lastTargetTrans.rotation = target.transform.rotation;
 
+        allowShooting = true;
+
+    }
+
+    void Reset()
+    {
+        SetRandomSpeed();
+        SetRecalculationDistance();
     }
 
    
@@ -53,18 +98,27 @@ public class BotManager : MonoBehaviour
         {
             float distanceToTarget = GetDistanceToTarget();
 
-            if (Vector3.Distance(target.transform.position, lastTargetTrans.position) > minDistToRecalculate)
+            if (Vector3.Distance(target.transform.position, lastTargetTrans.position) > distToRecalculate)
             {
 
-                lastTargetTrans.position = target.transform.position;
-                lastTargetTrans.rotation = target.transform.rotation;
+                SetTargetParameters();
                 pursuer.RefinePath(lastTargetTrans);
             }
-
-            FireBehaviour(distanceToTarget);
+            if(allowShooting)
+                FireBehaviour(distanceToTarget);
 
             energyTxt.text = energy.ToString();
         }
+    }
+
+    void SetRandomSpeed()
+    {
+        currSpeed = Random.Range(speedMin, speedMax);
+        pursuer.speed = currSpeed;
+    }
+    void SetRecalculationDistance()
+    {
+        distToRecalculate = Random.Range(mindistToRecalculate, maxdistToRecalculate);
     }
     void SetTarget()
     {
@@ -80,13 +134,11 @@ public class BotManager : MonoBehaviour
         if (!loader.loadingDone)
         {
             unityRemote.onEnergyDataUpdated += UpdateEnergyData;
-            unityRemote.onSpeedDataUpdated += UpdateSpeedData;
             loader.onLoadingDone += StartMoveToTarget;
         }
         else
         {
             UpdateEnergyData(unityRemote.energyLimit, unityRemote.timeBetweenEnergyRecovery, true);
-            UpdateSpeedData(unityRemote.speedNormal, unityRemote.speedBoosted, true);
             StartMoveToTarget();
         }
 
@@ -102,10 +154,10 @@ public class BotManager : MonoBehaviour
         pursuer.onCondWaitingForTheContinuation += WaitingForTheContinuation;
         pursuer.onCondWaitingForWayProcessing += WaitingForWayProcessing;
 
-        lastTargetTrans.position = target.transform.position;
-        lastTargetTrans.rotation = target.transform.rotation;
+        SetTargetParameters();
         pursuer.MoveTo(lastTargetTrans);
         allowMovement = true;
+        allowShooting = true;
     }
 
 
@@ -115,20 +167,15 @@ public class BotManager : MonoBehaviour
         this.energyLimit = energyLimit;
         this.timeBetweenEnergyRecovery = timeBetweenEnergyRecovery;
     }
-    void UpdateSpeedData(float speedNormal, float speedBoosted, bool updateFromServer)
-    {
-        this.speedNormal = speedNormal;
-        this.speedBoosted = speedBoosted;
-    }
 
-   
-    void FollowTarget(float distanceToTarget)
+
+   /* void FollowTarget(float distanceToTarget)
     {
         if (distanceToTarget > minFollowDistance)
             transform.position = Vector3.MoveTowards(transform.position, target.transform.position, 0.02f);
 
         transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(target.transform.position - transform.position), 10 * Time.deltaTime);
-    }
+    }*/
 
     void FireBehaviour(float distanceToTarget)
     {
@@ -139,7 +186,6 @@ public class BotManager : MonoBehaviour
         }
         else if (energy < energyLimit && Time.time >= nextTimeReload && laser.ShotReloaded() )
         {
-            Debug.Log("not fire");
 
             nextTimeReload = Time.time + timeBetweenEnergyRecovery;
             energy++;
@@ -154,9 +200,9 @@ public class BotManager : MonoBehaviour
 
 
    public void WaitingForRequest()
-    {
-        lastTargetTrans.position = target.transform.position;
-        lastTargetTrans.rotation = target.transform.rotation;
+   {
+       SetTargetParameters();
+       if(allowMovement)
         pursuer.MoveTo(lastTargetTrans);
      //   Debug.Log("WaitingForRequest");
     }

@@ -401,6 +401,7 @@ public class Pursuer : MonoBehaviour
         return false;
     }
 
+    private Transform targetTransform;
     /// <summary>
     /// Makes pursuer to serach for a path to the target, and moves along it.
     /// Places the pursuer in the WaitingForPursuersQueue state.
@@ -410,6 +411,7 @@ public class Pursuer : MonoBehaviour
     /// <param name="topPriority">Put the pursuer in the first place in the pathfinding queue?</param>
     public void MoveTo(Transform target, bool topPriority = false)
     {
+        this.targetTransform = target;
         MoveTo(target.position, topPriority);
     }
 
@@ -860,8 +862,9 @@ public class Pursuer : MonoBehaviour
     /// <param name="newPos">Actual pursuer's position.</param>
     void FollowTheDirection(Vector3 prePos, Vector3 newPos)
     {
-        thisTransformInstance.rotation = Quaternion.RotateTowards(thisTransformInstance.rotation,
-            Quaternion.LookRotation(newPos - prePos), turnSpeed);
+        thisTransformInstance.LookAt(targetTransform);
+        /*thisTransformInstance.rotation =  Quaternion.RotateTowards(thisTransformInstance.rotation,
+            Quaternion.LookRotation(newPos - prePos), turnSpeed);*/
     }
 
     /// <summary>

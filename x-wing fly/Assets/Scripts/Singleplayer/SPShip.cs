@@ -16,6 +16,8 @@ public class SPShip : MonoBehaviour
     public GameObject impact;
     public GameObject orbParticles;
 
+    public GameObject[] particles;
+
     public Transform[] restartPos;
     public bool alive = true;
     private AudioSource aud;
@@ -33,6 +35,9 @@ public class SPShip : MonoBehaviour
     public int team = -1;
     public bool isBot= false;
     public Action onOrbPickup;
+    public Action onDeath;
+    public Action onRespawn;
+
     private void Start()
     {
         Setup();
@@ -106,6 +111,7 @@ public class SPShip : MonoBehaviour
 
     void Die()
     {
+        onDeath?.Invoke();
 
         playerScore.ChangeDeaths(1);
         Explode();
@@ -119,6 +125,8 @@ public class SPShip : MonoBehaviour
 
     void Restart()
     {
+        onRespawn?.Invoke();
+
         alive = true;
         SetState(true);
 
@@ -135,18 +143,30 @@ public class SPShip : MonoBehaviour
         {
             //laser
             case 8:
-                playerHealth.ChangeHealth(-1);
-                //set the owner ID of the projectile, that hit
-                if(playerHealth.currentHealth == 0)
-                    other.GetComponent<Projectile>().origin.CreditKill();
-                MinHp();
+                SPShip origin = other.GetComponent<Projectile>().origin;
+
+                if ((isBot && origin.isBot)|| (!isBot && !origin.isBot))
+                {
+                    //friendly fire doesnt count;
+                }
+                else
+                {
+                    playerHealth.ChangeHealth(-1);
+                    //set the owner ID of the projectile, that hit
+                    if (playerHealth.currentHealth == 0)
+                        other.GetComponent<Projectile>().origin.CreditKill();
+                    MinHp();
+                }
 
                 break;
 
             //other player
             case 9:
-                playerHealth.ChangeHealth(-playerHealth.currentHealth);
-                MinHp();
+                if (!isBot)
+                {
+                    playerHealth.ChangeHealth(-playerHealth.currentHealth);
+                    MinHp();
+                }
 
                 break;
 
@@ -196,6 +216,11 @@ public class SPShip : MonoBehaviour
         foreach (var renderer in renderers)
         {
             renderer.enabled = alive;
+        }
+
+        for (int i = 0; i < particles.Length; i++)
+        {
+            particles[i].SetActive(alive);
         }
     }
 }

@@ -64,8 +64,6 @@ public class SpaceManager : MonoBehaviour
         }
         set
         {
-            if (value == true)
-                succCallback?.Invoke(PartsToLoad.GraphProcessing);
 
             _isPrimaryProcessingCompleted = value;
         }
@@ -337,6 +335,7 @@ public class SpaceManager : MonoBehaviour
         spaceHandlerInstance.SetInternalTimerTickrate(50);
         timer.Stop();
         UnityEngine.Debug.Log("Time taken to obtain a graph is : " + timer.ElapsedMilliseconds);
+        succCallback?.Invoke(PartsToLoad.GraphProcessing);
     }
 
     void Update()

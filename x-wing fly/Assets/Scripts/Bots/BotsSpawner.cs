@@ -13,7 +13,7 @@ public class BotsSpawner : MonoBehaviour
 
     private const float refreshTime = 1f;
     private float t;
-    private const int botsCount = 1;
+    public int botsCount = 1;
     public GameObject botPref;
 
     private bool loaded;
@@ -71,7 +71,7 @@ public class BotsSpawner : MonoBehaviour
 
     void SpawnBot()
     {
-         GameObject bot = Instantiate(botPref, Vector3.zero, Quaternion.identity);
+         GameObject bot = Instantiate(botPref, restartPos[Random.Range(0,restartPos.Length)].position, Quaternion.identity);
 
          SPShip botShip = bot.GetComponent<SPShip>();
          botShip.SetupBot(scoreManager, restartPos);
