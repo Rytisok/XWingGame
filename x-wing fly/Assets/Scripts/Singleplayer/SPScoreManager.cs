@@ -8,6 +8,7 @@ using UnityEngine;
 public class SPScoreManager : MonoBehaviour
 {
     public TMP_Text text;
+    public SP_UI spUi;
 
     private SPShip _realPlayer;
 
@@ -16,7 +17,7 @@ public class SPScoreManager : MonoBehaviour
         get
         {
             _realPlayer = FindObjectsOfType<SPShip>().First(x => x.gameObject.tag == "Ship");
-            Debug.Log("_realPlayer FOUND: ");
+           // Debug.Log("_realPlayer FOUND: ");
             return _realPlayer;
         }
         set
@@ -32,7 +33,7 @@ public class SPScoreManager : MonoBehaviour
         get
         {
             _enemybots = FindObjectsOfType<SPShip>().Where(x => x.gameObject.tag  == "BotEnemy").ToList();
-            Debug.Log("_enemybots FOUND: " + _enemybots.Count);
+         //   Debug.Log("_enemybots FOUND: " + _enemybots.Count);
             return _enemybots;
         }
         set
@@ -116,22 +117,32 @@ public class SPScoreManager : MonoBehaviour
         }
         else
         {
+            List<PlayerStats> playerStats = new List<PlayerStats>();
 
-            t += "Real Player " + realPlayer.GetComponent<SPPlayerScore>().kills + "   " +
-                 realPlayer.GetComponent<SPPlayerScore>().deaths + "\n";
+            playerStats.Add(new PlayerStats(realPlayer.GetComponent<SPPlayerScore>().kills, realPlayer.GetComponent<SPPlayerScore>().deaths,"You!"));
 
-            int botKills = 0;
-            int botDeaths = 0;
+            t += playerStats[0].ID + "   " + playerStats[0].k + "   " + playerStats[0].d + "\n";
 
+         /*   int botKills = 0;
+            int botDeaths = 0;*/
+
+            int count = 0;
             foreach (var player in enemybots)
             {
                 SPPlayerScore plScoreScript = player.GetComponent<SPPlayerScore>();
+                PlayerStats botStats = new PlayerStats(plScoreScript.kills, plScoreScript.deaths, "Bot-" + (count + 1));
+                playerStats.Add(botStats);
 
-                botKills += plScoreScript.kills;
-                botDeaths += plScoreScript.deaths;
+                t += botStats.ID+ " " + botStats.k + "   " + botStats.d + "\n";
+
+
+                /*    botKills += plScoreScript.kills;
+                    botDeaths += plScoreScript.deaths;*/
+                count++;
             }
-
-            t += "Bot Players " + botKills + "   " + botDeaths + "\n";
+            if (Application.isEditor || Application.platform == RuntimePlatform.WindowsPlayer)
+                spUi.UpdateStats(playerStats);
+           // t += "Bot Players " + botKills + "   " + botDeaths + "\n";
 
         }
 
@@ -143,4 +154,17 @@ public class SPScoreManager : MonoBehaviour
         public SPShip ship;
         public int playerID;
     };
+}
+public class PlayerStats
+{
+    public int k;
+    public int d;
+    public string ID;
+
+    public PlayerStats(int k, int d, string ID)
+    {
+        this.k = k;
+        this.d = d;
+        this.ID = ID;
+    }
 }

@@ -117,7 +117,7 @@ public class SPFly : MonoBehaviour
         }
         if (go)
         {
-            if (Application.isEditor)
+            if (Application.isEditor || Application.platform == RuntimePlatform.WindowsPlayer)
                 MoveShipsEditor();
 
             Move();

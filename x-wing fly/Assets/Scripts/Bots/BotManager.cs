@@ -1,12 +1,14 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using Normal.Realtime;
 using UnityEngine;
 using UnityEngine.UI;
+using Random = UnityEngine.Random;
 
 public class BotManager : MonoBehaviour
 {
-    public GameObject target;
 
     public Laser laser;
     public Pursuer pursuer;
@@ -29,30 +31,33 @@ public class BotManager : MonoBehaviour
     private const float mindistToRecalculate = 0.2f;
     private const float maxdistToRecalculate = 0.5f;
 
-
-    private GameObject lastTarget;
-    private Transform lastTargetTrans;
+    public GameObject target;
+    private Vector3 lastTargetPos;
 
     private bool allowShooting;
     private bool allowMovement;
     public Text energyTxt;
 
     private SPShip spShip;
+    private SPShip targetShip;
+
+    const string playerTag = "Ship";
+    const string enemyBot = "BotEnemy";
+
+    private int botAccuracy;
     void Awake()
     {
         spShip = GetComponent<SPShip>();
 
         allowMovement = false;
         allowShooting = false;
-        SetTarget();
-        lastTarget = new GameObject("targetPos");
-        lastTargetTrans = lastTarget.transform;
+        SetARandomTarget();
 
         spShip.onDeath += OnDeath;
         spShip.onRespawn += OnRespawn;
 
 
-        SetTargetParameters();
+        ResetTargetParameters();
 
     }
 
@@ -69,18 +74,17 @@ public class BotManager : MonoBehaviour
         allowMovement = true;
         allowShooting = true;
 
-        SetTargetParameters();
-        pursuer.MoveTo(lastTargetTrans);
+        SetARandomTarget();
+        ResetTargetParameters();
+        
+        pursuer.MoveTo(target.transform);
     }
 
 
-    void SetTargetParameters()
+    void ResetTargetParameters()
     {
-        lastTargetTrans.position = target.transform.position;
-        lastTargetTrans.rotation = target.transform.rotation;
-
+        lastTargetPos = target.transform.position;
         allowShooting = true;
-
     }
 
     void Reset()
@@ -98,19 +102,24 @@ public class BotManager : MonoBehaviour
     {
         if (allowMovement)
         {
-            float distanceToTarget = GetDistanceToTarget();
-
-            if (Vector3.Distance(target.transform.position, lastTargetTrans.position) > distToRecalculate)
+            if (Vector3.Distance(target.transform.position, lastTargetPos) > distToRecalculate)
             {
-
-                SetTargetParameters();
-                pursuer.RefinePath(lastTargetTrans);
+                ResetTargetParameters();
+                pursuer.RefinePath(target.transform);
             }
             if(allowShooting)
-                FireBehaviour(distanceToTarget);
+                FireBehaviour(Vector3.Distance(transform.position, target.transform.position));
 
             energyTxt.text = energy.ToString();
         }
+    }
+
+    private void TargetDead()
+    {
+        targetShip.onDeath -= TargetDead;
+        SetARandomTarget();
+        ResetTargetParameters();
+        pursuer.MoveTo(target.transform);
     }
 
     void SetRandomSpeed()
@@ -122,10 +131,26 @@ public class BotManager : MonoBehaviour
     {
         distToRecalculate = Random.Range(mindistToRecalculate, maxdistToRecalculate);
     }
-    void SetTarget()
+    void SetARandomTarget()
     {
-        var ship = GameObject.FindGameObjectsWithTag("Ship");
-        target = ship[Random.Range(0, ship.Length)];
+     
+        var players = GameObject.FindGameObjectsWithTag(playerTag); // get players
+        var bots = GameObject.FindGameObjectsWithTag(enemyBot).Where(x => x != gameObject).ToArray();
+        GameObject[] allViableTargets = new GameObject[players.Length + bots.Length];
+        Array.Copy(players, allViableTargets, players.Length);
+        Array.Copy(bots, 0, allViableTargets, players.Length, bots.Length);
+
+        target = allViableTargets[Random.Range(0, allViableTargets.Length)];
+
+        if (target.tag == playerTag)
+            targetShip = GetComponentInChildren<SPShip>();
+        else
+            targetShip = GetComponent<SPShip>();
+
+        Debug.Log(targetShip.tag);
+
+        targetShip.onDeath += TargetDead;
+
     }
 
     void LoadSettings()
@@ -136,24 +161,26 @@ public class BotManager : MonoBehaviour
         if (!loader.loadingDone)
         {
             unityRemote.onEnergyDataUpdated += UpdateEnergyData;
+            unityRemote.onBotDataUpdated += UpdateBotData;
+
             loader.onLoadingDone += () =>
             {
-                InitializeFiringPrediction(unityRemote.projectileSpeed);
+                InitializeFiringPrediction(unityRemote.projectileSpeed, unityRemote.botAccuracy);
                 StartMoveToTarget();
             };
         }
         else
         {
             UpdateEnergyData(unityRemote.energyLimit, unityRemote.timeBetweenEnergyRecovery, true);
-            InitializeFiringPrediction(unityRemote.projectileSpeed);
+            InitializeFiringPrediction(unityRemote.projectileSpeed, unityRemote.botAccuracy);
             StartMoveToTarget();
         }
 
     }
 
-    void InitializeFiringPrediction(float projectileSpeed)
+    void InitializeFiringPrediction(float projectileSpeed,int accuracy)
     {
-        firingPrediction.Initialize(laser.laserOrigin.gameObject,target.gameObject,projectileSpeed, minFireDistance);
+        firingPrediction.Initialize(laser.laserOrigin.gameObject,target.gameObject,projectileSpeed, minFireDistance, accuracy);
 
     }
 
@@ -167,8 +194,8 @@ public class BotManager : MonoBehaviour
         pursuer.onCondWaitingForTheContinuation += WaitingForTheContinuation;
         pursuer.onCondWaitingForWayProcessing += WaitingForWayProcessing;
 
-        SetTargetParameters();
-        pursuer.MoveTo(lastTargetTrans);
+        ResetTargetParameters();
+        pursuer.MoveTo(target.transform);
         allowMovement = true;
         allowShooting = true;
     }
@@ -181,14 +208,19 @@ public class BotManager : MonoBehaviour
         this.timeBetweenEnergyRecovery = timeBetweenEnergyRecovery;
     }
 
-
-   /* void FollowTarget(float distanceToTarget)
+    void UpdateBotData(int botAccuracy, bool updateFromServer)
     {
-        if (distanceToTarget > minFollowDistance)
-            transform.position = Vector3.MoveTowards(transform.position, target.transform.position, 0.02f);
+        this.botAccuracy = botAccuracy;
+    }
 
-        transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(target.transform.position - transform.position), 10 * Time.deltaTime);
-    }*/
+
+    /* void FollowTarget(float distanceToTarget)
+     {
+         if (distanceToTarget > minFollowDistance)
+             transform.position = Vector3.MoveTowards(transform.position, target.transform.position, 0.02f);
+
+         transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(target.transform.position - transform.position), 10 * Time.deltaTime);
+     }*/
 
     void FireBehaviour(float distanceToTarget)
     {
@@ -205,18 +237,12 @@ public class BotManager : MonoBehaviour
         }
     }
 
-    float GetDistanceToTarget()
-    {
-        return Vector3.Distance(transform.position, target.transform.position);
-    }
-
-
 
    public void WaitingForRequest()
    {
-       SetTargetParameters();
+       ResetTargetParameters();
        if(allowMovement)
-        pursuer.MoveTo(lastTargetTrans);
+        pursuer.MoveTo(target.transform);
      //   Debug.Log("WaitingForRequest");
     }
    public void WaitingForPursuersQueue()
@@ -245,44 +271,4 @@ public class BotManager : MonoBehaviour
              //Debug.Log("Movement");
 
     }
-
-
-  /*  private void OnTriggerEnter(Collider other)
-    {
-        if (GetComponent<RealtimeView>().isOwnedLocally)
-        {
-            GetComponent<BoxCollider>().enabled = false;
-        }
-        else
-        {
-            //reset last hit projectiles ID
-          //  idModel.SetT(-1);
-
-            switch (other.gameObject.layer)
-            {
-                //laser
-                case 8:
-                    Realtime.Destroy(this.gameObject);
-                    break;
-                //other player
-                case 9:
-                    Realtime.Destroy(this.gameObject);
-
-                    break;
-                //asteroid
-                case 11:
-                    Realtime.Destroy(this.gameObject);
-
-                    break;
-                //orb
-                case 14:
-               /*     if (trailScript.GetHealth() < trailScript.maxHealth)
-                    {
-                        trailScript.SetHealth(trailScript.GetHealth() + 1);
-                        Realtime.Destroy(other.gameObject);
-                    }
-                    break;
-            }
-        }
-    }*/
 }

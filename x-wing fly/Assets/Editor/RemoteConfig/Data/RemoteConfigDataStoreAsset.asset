@@ -61,37 +61,43 @@ MonoBehaviour:
       key: timeBetweenEnergyRecovery
       type: float
       value: 0.1
+  - metadata:
+      entityId: 464d4b6a-228e-4bcc-9694-ae9f28739ad0
+    rs:
+      key: botAccuracy
+      type: int
+      value: 1
   rsLastCachedKeyList:
   - metadata:
       entityId: 1aa6061e-4a2a-49aa-ae8e-360bd1cd845c
     rs:
       key: speedNormal
       type: float
-      value: 2.000000
+      value: 2
   - metadata:
       entityId: 0c8f8af6-0bef-4f9c-86da-aa7134d8f68a
     rs:
       key: speedBoosted
       type: float
-      value: 5.000000
+      value: 5
   - metadata:
       entityId: 23218910-5aa5-4aeb-a77d-e0e0212ca0c3
     rs:
       key: projectileSpeed
       type: float
-      value: 20.000000
+      value: 20
   - metadata:
       entityId: d7e8d427-fb05-47fc-ab12-7bfa51fd6b5b
     rs:
       key: timeBetweenShots
       type: float
-      value: 0.010000
+      value: 0.01
   - metadata:
       entityId: 3caaa4e1-8e10-475e-80c8-3d033e5e9312
     rs:
       key: projectileDuration
       type: float
-      value: 5.000000
+      value: 5
   - metadata:
       entityId: cbfd95da-da51-48c1-a4e1-3d6b62b7c6ea
     rs:
@@ -109,7 +115,13 @@ MonoBehaviour:
     rs:
       key: timeBetweenEnergyRecovery
       type: float
-      value: 0.100000
+      value: 0.1
+  - metadata:
+      entityId: 464d4b6a-228e-4bcc-9694-ae9f28739ad0
+    rs:
+      key: botAccuracy
+      type: int
+      value: 1
   configId: f757bd69-4eb1-4867-91e3-3e28d98240af
   currentEnvironmentId: 49a3516e-e8ae-4838-a976-5c3404ff429b
   environments:

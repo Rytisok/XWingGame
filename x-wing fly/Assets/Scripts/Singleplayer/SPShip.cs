@@ -145,6 +145,16 @@ public class SPShip : MonoBehaviour
             case 8:
                 SPShip origin = other.GetComponent<Projectile>().origin;
 
+                if (origin != this)
+                {
+                    playerHealth.ChangeHealth(-1);
+                    //set the owner ID of the projectile, that hit
+                    if (playerHealth.currentHealth == 0)
+                        other.GetComponent<Projectile>().origin.CreditKill();
+                    MinHp();
+                }
+
+/*
                 if ((isBot && origin.isBot)|| (!isBot && !origin.isBot))
                 {
                     //friendly fire doesnt count;
@@ -157,7 +167,7 @@ public class SPShip : MonoBehaviour
                         other.GetComponent<Projectile>().origin.CreditKill();
                     MinHp();
                 }
-
+*/
                 break;
 
             //other player

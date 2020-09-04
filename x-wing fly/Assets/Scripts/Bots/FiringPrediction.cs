@@ -19,8 +19,10 @@ public class FiringPrediction :MonoBehaviour
     private const float firingDirUpdateFreq = 0.1f;
     private float t;
 
-    public void Initialize(GameObject fireOrigin, GameObject fireTarget, float projectileVelocity,float maxTargetDistance)
+    private int accuracy;
+    public void Initialize(GameObject fireOrigin, GameObject fireTarget, float projectileVelocity,float maxTargetDistance,int accuracy)
     {
+        this.accuracy = accuracy;
         this.fireOrigin = fireOrigin;
         this.fireTarget = fireTarget;
         this.projectileVelocity = projectileVelocity;
@@ -63,8 +65,8 @@ public class FiringPrediction :MonoBehaviour
         if (acquireTargetLockSuccess)
         {
             Quaternion targetRotation = Quaternion.LookRotation(direction, Vector3.up);
-            fireOriginTrans.rotation =
-                targetRotation; //Quaternion.Slerp(fireOriginTrans.rotation, targetRotation, Time.deltaTime * 10);
+            fireOriginTrans.rotation = Quaternion.Slerp(fireOriginTrans.rotation, targetRotation, Time.deltaTime  * accuracy);
+         //   targetRotation; //
             /*    if (Mathf.Abs(fireOriginTrans.rotation.eulerAngles.y - targetRotation.eulerAngles.y) < 5)
                     Fire();*/
         }
