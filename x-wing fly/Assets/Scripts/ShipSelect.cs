@@ -33,11 +33,20 @@ public class ShipSelect : MonoBehaviour
         {
             if (other.GetComponent<Ship>())
             {
-                other.GetComponent<Ship>().SelectShip(shipNumber);
-                other.enabled = false;
-                parent.SetActive(false);
+                Ship ship = other.GetComponent<Ship>();
+                Select(ship);
             }
         }
-      
+
+    }
+
+    public void Select(Ship ship)
+    {
+        if (!GameManager.Instance.offline)
+        {
+            ship.SelectShip(shipNumber);
+            ship.enabled = false;
+            parent.SetActive(false);
+        }
     }
 }

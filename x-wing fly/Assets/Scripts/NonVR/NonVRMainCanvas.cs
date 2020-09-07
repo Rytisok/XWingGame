@@ -10,13 +10,35 @@ public class NonVRMainCanvas : MonoBehaviour
     public SelectionOrb mpdeathmatch;
     public SelectionOrb mpteams;
 
+    public ShipSelect xwing;
+    public ShipSelect tieFighter;
+
+    public Ship localMPShip;
+
     public GameObject spmpSelection;
     public GameObject mpDeahmatchTeamsSelection;
+    public GameObject shipSelection;
 
     void Start()
     {
         spmpSelection.SetActive(true);
         mpDeahmatchTeamsSelection.SetActive(false);
+        shipSelection.SetActive(false);
+    }
+
+    public void SelectXWing()
+    {
+        xwing.Select(localMPShip);
+
+        shipSelection.SetActive(false);
+
+    }
+
+    public void SelectTieFighter()
+    {
+        tieFighter.Select(localMPShip);
+
+        shipSelection.SetActive(false);
     }
 
     public void SelectMP()
@@ -45,7 +67,8 @@ public class NonVRMainCanvas : MonoBehaviour
     public void SelectMPTeams()
     {
         mpteams.Select();
-
         mpDeahmatchTeamsSelection.SetActive(false);
+
+        shipSelection.SetActive(true);
     }
 }
