@@ -285,6 +285,7 @@ GameObject:
   - component: {fileID: 7562235187259568784}
   - component: {fileID: 2781823655850622410}
   - component: {fileID: 6554949720906971287}
+  - component: {fileID: 2856935726503172907}
   m_Layer: 0
   m_Name: VR Player
   m_TagString: Player
@@ -542,6 +543,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2562c3c53a8b1f14980157f457225f01, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &2856935726503172907
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1435502846325602}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e28600e39ee1d104cb4a0a991e213ca0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  shipModel: {fileID: 6458623100628345070}
 --- !u!1 &1573471737031190
 GameObject:
   m_ObjectHideFlags: 0
@@ -1029,6 +1043,7 @@ MonoBehaviour:
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 1
+  m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []

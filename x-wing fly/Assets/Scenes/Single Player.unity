@@ -27522,6 +27522,7 @@ GameObject:
   - component: {fileID: 2783315219108704325}
   - component: {fileID: 2783315219108704328}
   - component: {fileID: 2783315219108704331}
+  - component: {fileID: 2783315219108704329}
   m_Layer: 0
   m_Name: OVRCameraRig
   m_TagString: Untagged
@@ -27545,6 +27546,19 @@ MonoBehaviour:
   - {fileID: 8300000, guid: ce8d24fbeff24724585869c3f5c501b2, type: 3}
   - {fileID: 8300000, guid: 5ce15ef5d273614429b6d5cc149609d7, type: 3}
   - {fileID: 8300000, guid: 762b61253ddfe8e42b9b5932429e2771, type: 3}
+--- !u!114 &2783315219108704329
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2783315219108704327}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e28600e39ee1d104cb4a0a991e213ca0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  shipModel: {fileID: 2783315217931148921}
 --- !u!114 &2783315219108704330
 MonoBehaviour:
   m_ObjectHideFlags: 0

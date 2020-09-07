@@ -24,6 +24,28 @@ public class NonVRMainCanvas : MonoBehaviour
         spmpSelection.SetActive(true);
         mpDeahmatchTeamsSelection.SetActive(false);
         shipSelection.SetActive(false);
+        LoadSettings();
+    }
+
+    void LoadSettings()
+    {
+        GameLoading loader = GameManager.Instance.GetComponent<GameLoading>();
+
+        if (!loader.loadingDone)
+        {
+            loader.onLoadingDone += () => { AllowShipSelection(); };
+        }
+        else
+        {
+            AllowShipSelection();
+        }
+
+    }
+
+    public void AllowShipSelection()
+    {
+        shipSelection.SetActive(true);
+
     }
 
     public void SelectXWing()
@@ -69,6 +91,5 @@ public class NonVRMainCanvas : MonoBehaviour
         mpteams.Select();
         mpDeahmatchTeamsSelection.SetActive(false);
 
-        shipSelection.SetActive(true);
     }
 }

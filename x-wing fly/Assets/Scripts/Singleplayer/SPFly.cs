@@ -47,17 +47,17 @@ public class SPFly : MonoBehaviour
         laser.onPlaySound += GetComponent<SPAudioController>().PlayAudio;
         LoadSettings();
 
-        if(Application.isEditor|| Application.platform == RuntimePlatform.WindowsPlayer)
-            SetupForNonVR();
+    /*    if(Application.isEditor|| Application.platform == RuntimePlatform.WindowsPlayer)
+            SetupForNonVR();*/
     }
 
-    void SetupForNonVR()
+  /*  void SetupForNonVR()
     {
         Transform shipTrans = ship.gameObject.transform;
 
         shipTrans.localPosition = new Vector3(0,-0.207f,0.389f);
         shipTrans.localRotation = Quaternion.Euler(new Vector3(21.6f,0,0));
-    }
+    }*/
 
     void LoadSettings()
     {
