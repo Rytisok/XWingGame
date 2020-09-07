@@ -5,7 +5,6 @@ using Normal.Realtime;
 
 public class SelectionOrb : MonoBehaviour
 {
-    public GameLoading gameLoading;
     public string connectToName;
     public GameObject otherOrb;
     public bool connectionOrb;
@@ -17,7 +16,7 @@ public class SelectionOrb : MonoBehaviour
         otherOrb.SetActive(false);
         if (connectionOrb)
         {
-            gameLoading.LoadWithRoom(connectToName);
+            GameManager.Instance.GetComponent<GameLoading>().LoadWithRoom(connectToName);
         }
         else
         {

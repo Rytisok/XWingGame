@@ -5,6 +5,10 @@ TagManager:
   serializedVersion: 2
   tags:
   - Orb
+  - static
+  - Ship
+  - BotEnemy
+  - BotFriendly
   layers:
   - Default
   - TransparentFX

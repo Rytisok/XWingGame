@@ -21,6 +21,8 @@ public class Laser : MonoBehaviour
 
     private bool _initializedFromServer;
 
+    public SPShip origin;
+
     void Start()
     {
         LoadSettings();
@@ -28,9 +30,9 @@ public class Laser : MonoBehaviour
 
     void LoadSettings()
     {
-        GameLoading loader = RemoteUnityManager.Instance.GetComponent<GameLoading>();
-        RemoteUnityManager unityRemote = RemoteUnityManager.Instance;
-        
+        GameLoading loader = GameManager.Instance.GetComponent<GameLoading>();
+        RemoteUnityManager unityRemote = GameManager.Instance.GetComponent<RemoteUnityManager>();
+
         if (!loader.loadingDone)
             unityRemote.onLaserDataUpdated += Initialize;
         else
@@ -42,23 +44,30 @@ public class Laser : MonoBehaviour
 
     public void Initialize(float projectileSpeed, float projectileDuration, float timeBetweenShots, bool initializedFromServer)
     {
-        if (!_initializedFromServer)
-        {
-            _projectileSpeed = projectileSpeed;
-            _projectileDuration = projectileDuration;
-            _timeBetweenShots = timeBetweenShots;
-        }
+       
+        _projectileSpeed = projectileSpeed;
+        _projectileDuration = projectileDuration;
+        _timeBetweenShots = timeBetweenShots;
+    
 
         _initializedFromServer = initializedFromServer;
     }
 
     public void FireLaser(ref int energy)
     {
-        GameObject projectile = Realtime.Instantiate(laserPref.name, laserOrigin.position, laserOrigin.rotation,
-            ownedByClient: true, useInstance: _realtime);
+        GameObject projectile;
+        if (!GameManager.Instance.offline)
+        {
+            projectile = Realtime.Instantiate(laserPref.name, laserOrigin.position, laserOrigin.rotation,
+                ownedByClient: true, useInstance: _realtime);
+        }
+        else
+        {
+            projectile = Instantiate(laserPref, laserOrigin.position, laserOrigin.rotation);
+        }
 
         Projectile proj = projectile.GetComponent<Projectile>();
-        proj.Initialize(_projectileDuration);
+        proj.Initialize(_projectileDuration, origin);
         proj.Fire(laserOrigin.forward * _projectileSpeed);
 
         energy--;

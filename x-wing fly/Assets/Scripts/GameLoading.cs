@@ -14,19 +14,19 @@ public enum PartsToLoad
 public class GameLoading : MonoBehaviour
 {
     public Realtime _realtime;
-   // public SpaceManager spaceManager;
+    public SpaceManager spaceManager;
 
-    public GameObject LoadingIndicator;
+    public GameObject loadingIndicator;
     public TMP_Text indicatorTxt;
 
     public Action onLoadingDone;
     public bool loadingDone;
 
     private List<PartsToLoad> partsToLoad;
-
     void Start()
     {
         //StartLoading();
+        if(!GameManager.Instance.offline)
         indicatorTxt.gameObject.SetActive(false);
     }
 
@@ -36,10 +36,18 @@ public class GameLoading : MonoBehaviour
         StartLoading();
     }
 
+    public void StartOfflineLoading(SpaceManager spaceManager,GameObject loadingIndicator, TMP_Text indicator)
+    {
+        this.spaceManager = spaceManager;
+        this.loadingIndicator = loadingIndicator;
+        indicatorTxt = indicator;
+        StartLoading();
+    }
+
     void StartLoading()
     {
         indicatorTxt.gameObject.SetActive(true);
-        LoadingIndicator.SetActive(true);
+        loadingIndicator.SetActive(true);
 
         StartCoroutine(VisualiseLoading());
 
@@ -47,13 +55,29 @@ public class GameLoading : MonoBehaviour
         partsToLoad = new List<PartsToLoad>();
 
         partsToLoad.Add(PartsToLoad.UnityRemote);
-        partsToLoad.Add(PartsToLoad.Multiplayer);
 
-        RemoteUnityManager.Instance.StartLoading(Loaded);
+        if (!GameManager.Instance.offline)
+        {
+            partsToLoad.Add(PartsToLoad.Multiplayer);
+        }
+        else
+        {
+            partsToLoad.Add(PartsToLoad.GraphProcessing);
+        }
 
-        //   partsToLoad.Add(PartsToLoad.GraphProcessing);
-       _realtime.ManualConnect(Loaded);
-      //   spaceManager.ManualStart(Loaded);
+
+        if (!GameManager.Instance.offline)
+        {
+            _realtime.ManualConnect(Loaded);
+
+        }
+        else
+        {
+            spaceManager.ManualStart(Loaded);
+        }
+
+
+        GameManager.Instance.GetComponent<RemoteUnityManager>().StartLoading(Loaded);
     }
 
     void Loaded(PartsToLoad loadedPart)
@@ -65,12 +89,19 @@ public class GameLoading : MonoBehaviour
 
     void CheckIfLoadFinished()
     {
+        string s = "------NOT YET LOADED-----------\n";
+        for (int i = 0; i < partsToLoad.Count; i++)
+        {
+            s += partsToLoad[i] + "\n";
+        }
+         s += "------------------------------------\n";
+        print(s);
         if (partsToLoad.Count == 0)
         {
             loadingDone = true;
             onLoadingDone?.Invoke();
             StopAllCoroutines();
-            LoadingIndicator.SetActive(false);
+            loadingIndicator.SetActive(false);
             Debug.Log("Loading done");
         }
     }
