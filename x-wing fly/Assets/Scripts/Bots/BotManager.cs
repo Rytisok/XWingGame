@@ -147,7 +147,6 @@ public class BotManager : MonoBehaviour
         else
             targetShip = GetComponent<SPShip>();
 
-        Debug.Log(targetShip.tag);
 
         targetShip.onDeath += TargetDead;
 

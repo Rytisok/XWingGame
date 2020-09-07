@@ -27558,7 +27558,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e28600e39ee1d104cb4a0a991e213ca0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  NonVRCamera: {fileID: 2783315217917954021}
   shipModel: {fileID: 2783315217931148921}
+  setupCamera: 1
 --- !u!114 &2783315219108704330
 MonoBehaviour:
   m_ObjectHideFlags: 0
