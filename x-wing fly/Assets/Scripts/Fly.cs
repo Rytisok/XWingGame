@@ -21,9 +21,11 @@ public class Fly : Realtime
     public Ship ship;
 
     [HideInInspector]
-    public int energy;
+    public float energy;
     private int energyLimit = 20;
     private float timeBetweenEnergyRecovery = 0.15f;
+    private float boostCost = 1f;
+
 
     float nextTimeReload = 0;
     float nextTimeBoost = 0;
@@ -48,17 +50,8 @@ public class Fly : Realtime
         energy = energyLimit;
         laser.onPlaySound += PlaySound;
         LoadSettings();
-       /* if (Application.isEditor || Application.platform == RuntimePlatform.WindowsPlayer)
-            SetupForNonVR();*/
     }
 
-   /* void SetupForNonVR()
-    {
-        Transform shipTrans = ship.gameObject.transform;
-
-        shipTrans.localPosition = new Vector3(0, -0.207f, 0.389f);
-        shipTrans.localRotation = Quaternion.Euler(new Vector3(21.6f, 0, 0));
-    }*/
 
     void LoadSettings()
     {
@@ -76,14 +69,15 @@ public class Fly : Realtime
         }
         else
         {
-            UpdateEnergyData(unityRemote.energyLimit, unityRemote.timeBetweenEnergyRecovery, true);
+            UpdateEnergyData(unityRemote.energyLimit, unityRemote.timeBetweenEnergyRecovery, unityRemote.boostCost, true);
             UpdateSpeedData(unityRemote.speedNormal, unityRemote.speedBoosted, true);
             loaded = true;
         }
 
     }
-    void UpdateEnergyData(int energyLimit, float timeBetweenEnergyRecovery, bool updateFromServer)
+    void UpdateEnergyData(int energyLimit, float timeBetweenEnergyRecovery,float boostCost, bool updateFromServer)
     {
+        this.boostCost = boostCost;
         this.energyLimit = energyLimit;
         this.timeBetweenEnergyRecovery = timeBetweenEnergyRecovery;
 
@@ -161,7 +155,7 @@ public class Fly : Realtime
             if (Time.time > nextTimeBoost)
             {
                 nextTimeBoost = Time.time + 0.3f;
-                energy--;
+                energy-= boostCost;
             }
 
             currSpeed = Mathf.Lerp(currSpeed, speedBoosted, Time.deltaTime * 20);

@@ -67,6 +67,7 @@ public class PlayerHealthScript : RealtimeComponent
 
     private void HealthDidChange(TrailModel model, int value)
     {
+        
         UpdateDisplay();
     }
     private void UpdateDisplay()
@@ -81,7 +82,10 @@ public class PlayerHealthScript : RealtimeComponent
 
     public void SetHealth(int h)
     {
-        if(loaded)
+
+        if (loaded)
         _model.health = h;
     }
+
+    
 }

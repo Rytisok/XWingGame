@@ -13,8 +13,6 @@ public class NonVRMainCanvas : MonoBehaviour
     public ShipSelect xwing;
     public ShipSelect tieFighter;
 
-    public Ship localMPShip;
-
     public GameObject spmpSelection;
     public GameObject mpDeahmatchTeamsSelection;
     public GameObject shipSelection;
@@ -54,7 +52,7 @@ public class NonVRMainCanvas : MonoBehaviour
 
     public void SelectXWing()
     {
-        xwing.Select(localMPShip);
+        xwing.Select();
 
         shipSelection.SetActive(false);
 
@@ -62,7 +60,7 @@ public class NonVRMainCanvas : MonoBehaviour
 
     public void SelectTieFighter()
     {
-        tieFighter.Select(localMPShip);
+        tieFighter.Select();
 
         shipSelection.SetActive(false);
     }

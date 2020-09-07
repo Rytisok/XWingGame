@@ -9,6 +9,7 @@ public class Projectile : MonoBehaviour
     public SPShip origin; //sp only
     public void Initialize(float projectileDuration, SPShip origin = null)
     {
+        if(origin != null)
         this.origin = origin;
         GetComponent<TrailRenderer>().enabled = false;
         GetComponent<BoxCollider>().enabled = false;

@@ -8,6 +8,8 @@ public class ShipSelect : MonoBehaviour
     public GameLoading loader;
     public Realtime _realtime;
     public GameObject parent;
+    public Ship ship;
+    public Collider shipCollider;
     public int shipNumber;
 
     // Start is called before the first frame update
@@ -31,21 +33,17 @@ public class ShipSelect : MonoBehaviour
     {
         if (!GameManager.Instance.offline)
         {
-            if (other.GetComponent<Ship>())
-            {
-                Ship ship = other.GetComponent<Ship>();
-                Select(ship);
-            }
+            Select();
         }
 
     }
 
-    public void Select(Ship ship)
+    public void Select()
     {
         if (!GameManager.Instance.offline)
         {
             ship.SelectShip(shipNumber);
-            ship.enabled = false;
+            shipCollider.enabled = false;
             parent.SetActive(false);
         }
     }

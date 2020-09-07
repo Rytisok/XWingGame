@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Normal.Realtime;
+using Debug = UnityEngine.Debug;
 
 public class ShipInstance : MonoBehaviour
 {
@@ -24,13 +25,16 @@ public class ShipInstance : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
+
         if (GetComponentInParent<RealtimeView>().isOwnedLocally)
         {
             GetComponent<BoxCollider>().enabled = false;
         }
         else
         {
-            //reset last hit projectiles ID
+            Debug.Log("SHIP HIT "+ other.gameObject.layer);
+
+        //reset last hit projectiles ID
             idModel.SetT(-1);
 
             switch (other.gameObject.layer)

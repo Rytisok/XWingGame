@@ -12,11 +12,143 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 469c24fdb3bd6431b92cc1465bd9166b, type: 3}
   m_Name: RemoteConfigDataStoreAsset
   m_EditorClassIdentifier: 
-  rsKeyList: []
-  rsLastCachedKeyList: []
-  configId: 
-  currentEnvironmentId: 
-  environments: []
+  rsKeyList:
+  - metadata:
+      entityId: c59f9287-c73c-46b2-8c5b-8da28aa8dd20
+    rs:
+      key: speedNormal
+      type: float
+      value: 2
+  - metadata:
+      entityId: e31638c4-f16f-483e-a54f-6a642d412006
+    rs:
+      key: speedBoosted
+      type: float
+      value: 5
+  - metadata:
+      entityId: 1135320f-ccdf-4a08-b871-b38194cb8b61
+    rs:
+      key: projectileSpeed
+      type: float
+      value: 10
+  - metadata:
+      entityId: d63c04e7-a698-49de-acbf-66df379bb5cd
+    rs:
+      key: timeBetweenShots
+      type: float
+      value: 0.05
+  - metadata:
+      entityId: 19df2729-3af4-4d89-8c75-fbd3dec9f011
+    rs:
+      key: projectileDuration
+      type: float
+      value: 4
+  - metadata:
+      entityId: 69947ffd-bc47-4ef3-aef8-76d7542594d7
+    rs:
+      key: energyLimit
+      type: int
+      value: 100
+  - metadata:
+      entityId: 757da468-6d1e-4476-bc4c-1227d69c4a59
+    rs:
+      key: maxHealth
+      type: int
+      value: 2
+  - metadata:
+      entityId: a267b74d-09ee-456e-a89c-b2dccddbfff3
+    rs:
+      key: timeBetweenEnergyRecovery
+      type: float
+      value: 0.1
+  - metadata:
+      entityId: 939d0f2d-3d72-47ff-97fc-877cd1c35aae
+    rs:
+      key: botAccuracy
+      type: int
+      value: 20
+  - metadata:
+      entityId: eda5b915-e99e-46e0-aeb8-bd86c63ebc4f
+    rs:
+      key: boostCost
+      type: float
+      value: 1
+  rsLastCachedKeyList:
+  - metadata:
+      entityId: c59f9287-c73c-46b2-8c5b-8da28aa8dd20
+    rs:
+      key: speedNormal
+      type: float
+      value: 2
+  - metadata:
+      entityId: e31638c4-f16f-483e-a54f-6a642d412006
+    rs:
+      key: speedBoosted
+      type: float
+      value: 5
+  - metadata:
+      entityId: 1135320f-ccdf-4a08-b871-b38194cb8b61
+    rs:
+      key: projectileSpeed
+      type: float
+      value: 10
+  - metadata:
+      entityId: d63c04e7-a698-49de-acbf-66df379bb5cd
+    rs:
+      key: timeBetweenShots
+      type: float
+      value: 0.05
+  - metadata:
+      entityId: 19df2729-3af4-4d89-8c75-fbd3dec9f011
+    rs:
+      key: projectileDuration
+      type: float
+      value: 4
+  - metadata:
+      entityId: 69947ffd-bc47-4ef3-aef8-76d7542594d7
+    rs:
+      key: energyLimit
+      type: int
+      value: 100
+  - metadata:
+      entityId: 757da468-6d1e-4476-bc4c-1227d69c4a59
+    rs:
+      key: maxHealth
+      type: int
+      value: 2
+  - metadata:
+      entityId: a267b74d-09ee-456e-a89c-b2dccddbfff3
+    rs:
+      key: timeBetweenEnergyRecovery
+      type: float
+      value: 0.1
+  - metadata:
+      entityId: 939d0f2d-3d72-47ff-97fc-877cd1c35aae
+    rs:
+      key: botAccuracy
+      type: int
+      value: 20
+  - metadata:
+      entityId: eda5b915-e99e-46e0-aeb8-bd86c63ebc4f
+    rs:
+      key: boostCost
+      type: float
+      value: 1
+  configId: f757bd69-4eb1-4867-91e3-3e28d98240af
+  currentEnvironmentId: 49a3516e-e8ae-4838-a976-5c3404ff429b
+  environments:
+  - id: 49a3516e-e8ae-4838-a976-5c3404ff429b
+    appId: 
+    name: Development (Default)
+    description: 
+    createdAt: 2020-08-18T08:31:57Z
+    updatedAt: 2020-08-20T10:41:12Z
+  - id: 4cd97c39-23ba-4f81-9e94-f171a2f74550
+    appId: 
+    name: Release
+    description: 
+    createdAt: 2020-08-18T08:31:57Z
+    updatedAt: 2020-08-18T08:31:57Z
   rulesList: []
   lastCachedRulesList: []
   addedRulesIDs: []

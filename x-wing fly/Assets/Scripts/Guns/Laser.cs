@@ -53,7 +53,7 @@ public class Laser : MonoBehaviour
         _initializedFromServer = initializedFromServer;
     }
 
-    public void FireLaser(ref int energy)
+    public void FireLaser(ref float energy)
     {
         GameObject projectile;
         if (!GameManager.Instance.offline)
@@ -67,10 +67,19 @@ public class Laser : MonoBehaviour
         }
 
         Projectile proj = projectile.GetComponent<Projectile>();
-        proj.Initialize(_projectileDuration, origin);
+        if (GameManager.Instance.offline)
+        {
+            proj.Initialize(_projectileDuration, origin);
+        }
+        else
+        {
+            proj.Initialize(_projectileDuration);
+
+        }
+
         proj.Fire(laserOrigin.forward * _projectileSpeed);
 
-        energy--;
+        energy-=1;
 
         onPlaySound?.Invoke(0);
         //      PlaySound(0);
@@ -79,7 +88,7 @@ public class Laser : MonoBehaviour
         
     }
 
-    public bool AllowToFire(int energy)
+    public bool AllowToFire(float energy)
     {
         return ShotReloaded() && energy > 0;
     }
