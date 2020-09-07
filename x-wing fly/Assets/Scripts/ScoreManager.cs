@@ -13,6 +13,7 @@ public class ScoreManager : RealtimeComponent
     public Realtime _realtime;
     double nxtCheck = 0;
 
+    public SP_UI spUi;
     private void OnEnable()
     {
         _avatarManager.avatarCreated += AvatarChangedUpdateScore;
@@ -147,16 +148,20 @@ public class ScoreManager : RealtimeComponent
         }
         else
         {
+            List<PlayerStats>  playerStats = new List<PlayerStats>(); //for non vr
             foreach (var player in _avatarManager.avatars)
             {
                 playerID = player.Key + 1;
                 PlayerScoreScript plScoreScript = _avatarManager.avatars[player.Key].gameObject.GetComponent<PlayerScoreScript>();
-                int tmp = plScoreScript.GetKills();
-
-                t += "Player " + playerID + "    " + _avatarManager.avatars[player.Key].gameObject.GetComponent<KillSyncScript>().GetKillCount() + "   " + plScoreScript.GetDeaths().ToString() + Mathf.RoundToInt((float)(_realtime.room.time - plScoreScript.GetConnectTime())).ToString() + "\n";
+                int killCount = _avatarManager.avatars[player.Key].gameObject.GetComponent<KillSyncScript>()
+                    .GetKillCount();
+                PlayerStats stat = new PlayerStats(killCount,plScoreScript.GetDeaths(),"Player " + playerID);
+                playerStats.Add(stat);
+                t += "Player " + playerID + "    " + killCount + "   " + plScoreScript.GetDeaths().ToString() + Mathf.RoundToInt((float)(_realtime.room.time - plScoreScript.GetConnectTime())).ToString() + "\n";
             }
-        }
+            spUi.UpdateStats(playerStats);
 
+        }
         _model.scoreText = t;
     }
 
