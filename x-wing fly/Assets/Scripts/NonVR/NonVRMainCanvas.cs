@@ -21,9 +21,12 @@ public class NonVRMainCanvas : MonoBehaviour
 
     void Start()
     {
-        spmpSelection.SetActive(true);
+        if (Application.isEditor || Application.platform == RuntimePlatform.WindowsPlayer)
+            spmpSelection.SetActive(true);
         mpDeahmatchTeamsSelection.SetActive(false);
         shipSelection.SetActive(false);
+
+
         LoadSettings();
     }
 
@@ -44,7 +47,8 @@ public class NonVRMainCanvas : MonoBehaviour
 
     public void AllowShipSelection()
     {
-        shipSelection.SetActive(true);
+        if (Application.isEditor || Application.platform == RuntimePlatform.WindowsPlayer)
+            shipSelection.SetActive(true);
 
     }
 
