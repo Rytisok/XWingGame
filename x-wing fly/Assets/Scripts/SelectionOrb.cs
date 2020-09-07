@@ -12,6 +12,11 @@ public class SelectionOrb : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
+        Select();
+    }
+
+    public void Select()
+    {
         gameObject.SetActive(false);
         otherOrb.SetActive(false);
         if (connectionOrb)
@@ -21,6 +26,6 @@ public class SelectionOrb : MonoBehaviour
         else
         {
             nextSelection.SetActive(true);
-        }  
+        }
     }
 }

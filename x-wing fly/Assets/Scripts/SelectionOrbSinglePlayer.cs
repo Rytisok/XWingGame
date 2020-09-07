@@ -9,6 +9,11 @@ public class SelectionOrbSinglePlayer : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
+        PlaySP();
+    }
+
+    public void PlaySP()
+    {
         GameManager.Instance.offline = true;
         gameObject.SetActive(false);
         SceneManager.LoadScene(loadSceneID);
