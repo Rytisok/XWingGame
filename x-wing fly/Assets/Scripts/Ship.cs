@@ -1,8 +1,10 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Normal.Realtime;
 using UnityEngine.UI;
+using Random = UnityEngine.Random;
 
 
 public class Ship : MonoBehaviour
@@ -32,6 +34,10 @@ public class Ship : MonoBehaviour
     //visual stuff
     public GameObject asteroids;
     public GameObject[] shipModels;
+
+    public Action onDeath;
+    public Action onRespawn;
+
 
     private void Start()
     {
@@ -96,6 +102,7 @@ public class Ship : MonoBehaviour
 
     void Restart()
     {
+        onRespawn?.Invoke();
         //gameObject.SetActive(true);
         alive = true;
         shp.SetState(true);
@@ -129,6 +136,8 @@ public class Ship : MonoBehaviour
 
     void Die()
     {
+        onDeath?.Invoke();
+
         //gets the ID of the projectile that hit the and adds the kill to the responsible player
         Debug.Log(idScript.GetT());
         if (idScript.GetT() != -1)

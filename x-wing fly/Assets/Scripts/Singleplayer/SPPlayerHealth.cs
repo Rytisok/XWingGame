@@ -33,7 +33,7 @@ public class SPPlayerHealth : MonoBehaviour
 
         else
         {
-            UpdateHealth(unityRemote.maxHealth, true);
+            UpdateHealth(unityRemote.maxHealth);
             loaded = true;
         }
 
@@ -50,7 +50,7 @@ public class SPPlayerHealth : MonoBehaviour
 
   
 
-    void UpdateHealth(int max, bool isServer)
+    void UpdateHealth(int max)
     {
         maxHealth = max;
     }

@@ -6,22 +6,23 @@ using UnityEngine;
 
 public class RemoteUnityManager : MonoBehaviour
 {
-  public Action<float, float, float, bool> onLaserDataUpdated;
-  public Action<float, float, bool> onSpeedDataUpdated;
-  public Action<int, float,float, bool> onEnergyDataUpdated;
-  public Action<int, bool> onHealthDataUpdated;
-  public Action<int, bool> onBotDataUpdated;
+  public Action<float, float, float> onLaserDataUpdated;
+  public Action<float, float> onSpeedDataUpdated;
+  public Action<int, float,float,float> onEnergyDataUpdated;
+  public Action<int> onHealthDataUpdated;
+  public Action<int> onBotDataUpdated;
 
     public float projectileSpeed;
-    public float timeBetweenShots;
+    public float minIntervalBetweenShots;
     public float projectileDuration;
     public float speedBoosted;
     public float speedNormal;
-    public int energyLimit;
+    public int maxEnergy;
     public int maxHealth;
-    public float timeBetweenEnergyRecovery;
+    public float energyRecoveryInterval;
     public int botAccuracy;
     public float boostCost;
+    public float boostUsageInterval;
 
     private Action<PartsToLoad> succCallback;
 
@@ -66,20 +67,20 @@ public class RemoteUnityManager : MonoBehaviour
         speedNormal = ConfigManager.appConfig.GetFloat("speedNormal");
         speedBoosted = ConfigManager.appConfig.GetFloat("speedBoosted");
         projectileSpeed = ConfigManager.appConfig.GetFloat("projectileSpeed");
-        timeBetweenShots = ConfigManager.appConfig.GetFloat("timeBetweenShots");
+        minIntervalBetweenShots = ConfigManager.appConfig.GetFloat("minIntervalBetweenShots");
         projectileDuration = ConfigManager.appConfig.GetFloat("projectileDuration");
-        energyLimit = ConfigManager.appConfig.GetInt("energyLimit");
-        timeBetweenEnergyRecovery = ConfigManager.appConfig.GetFloat("timeBetweenEnergyRecovery");
+        maxEnergy = ConfigManager.appConfig.GetInt("maxEnergy");
+        energyRecoveryInterval = ConfigManager.appConfig.GetFloat("energyRecoveryInterval");
         maxHealth = ConfigManager.appConfig.GetInt("maxHealth");
         botAccuracy = ConfigManager.appConfig.GetInt("botAccuracy");
         boostCost = ConfigManager.appConfig.GetInt("boostCost");
-        Debug.Log(projectileDuration);
+        boostUsageInterval = ConfigManager.appConfig.GetInt("boostUsageInterval");
 
-        onLaserDataUpdated?.Invoke(projectileSpeed, projectileDuration, timeBetweenShots, true);
-        onSpeedDataUpdated?.Invoke(speedNormal, speedBoosted, true);
-        onEnergyDataUpdated?.Invoke(energyLimit, timeBetweenEnergyRecovery, boostCost, true);
-        onHealthDataUpdated?.Invoke(maxHealth, true);
-        onBotDataUpdated?.Invoke(botAccuracy,true);
+        onLaserDataUpdated?.Invoke(projectileSpeed, projectileDuration, minIntervalBetweenShots);
+        onSpeedDataUpdated?.Invoke(speedNormal, speedBoosted);
+        onEnergyDataUpdated?.Invoke(maxEnergy, energyRecoveryInterval, boostCost, boostUsageInterval);
+        onHealthDataUpdated?.Invoke(maxHealth);
+        onBotDataUpdated?.Invoke(botAccuracy);
 
         succCallback?.Invoke(PartsToLoad.UnityRemote);
     }

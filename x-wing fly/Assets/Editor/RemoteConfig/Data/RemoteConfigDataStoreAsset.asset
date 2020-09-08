@@ -34,7 +34,7 @@ MonoBehaviour:
   - metadata:
       entityId: d63c04e7-a698-49de-acbf-66df379bb5cd
     rs:
-      key: timeBetweenShots
+      key: minIntervalBetweenShots
       type: float
       value: 0.05
   - metadata:
@@ -46,7 +46,7 @@ MonoBehaviour:
   - metadata:
       entityId: 69947ffd-bc47-4ef3-aef8-76d7542594d7
     rs:
-      key: energyLimit
+      key: maxEnergy
       type: int
       value: 100
   - metadata:
@@ -58,7 +58,7 @@ MonoBehaviour:
   - metadata:
       entityId: a267b74d-09ee-456e-a89c-b2dccddbfff3
     rs:
-      key: timeBetweenEnergyRecovery
+      key: energyRecoveryInterval
       type: float
       value: 0.1
   - metadata:
@@ -73,6 +73,12 @@ MonoBehaviour:
       key: boostCost
       type: float
       value: 1
+  - metadata:
+      entityId: 6f6350e9-d895-43dd-8227-7e0be545c825
+    rs:
+      key: boostUsageInterval
+      type: float
+      value: 0.3
   rsLastCachedKeyList:
   - metadata:
       entityId: c59f9287-c73c-46b2-8c5b-8da28aa8dd20
@@ -95,7 +101,7 @@ MonoBehaviour:
   - metadata:
       entityId: d63c04e7-a698-49de-acbf-66df379bb5cd
     rs:
-      key: timeBetweenShots
+      key: minIntervalBetweenShots
       type: float
       value: 0.05
   - metadata:
@@ -107,7 +113,7 @@ MonoBehaviour:
   - metadata:
       entityId: 69947ffd-bc47-4ef3-aef8-76d7542594d7
     rs:
-      key: energyLimit
+      key: maxEnergy
       type: int
       value: 100
   - metadata:
@@ -119,7 +125,7 @@ MonoBehaviour:
   - metadata:
       entityId: a267b74d-09ee-456e-a89c-b2dccddbfff3
     rs:
-      key: timeBetweenEnergyRecovery
+      key: energyRecoveryInterval
       type: float
       value: 0.1
   - metadata:
@@ -134,6 +140,12 @@ MonoBehaviour:
       key: boostCost
       type: float
       value: 1
+  - metadata:
+      entityId: 6f6350e9-d895-43dd-8227-7e0be545c825
+    rs:
+      key: boostUsageInterval
+      type: float
+      value: 0.3
   configId: f757bd69-4eb1-4867-91e3-3e28d98240af
   currentEnvironmentId: 49a3516e-e8ae-4838-a976-5c3404ff429b
   environments:

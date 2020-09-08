@@ -19,8 +19,6 @@ public class Laser : MonoBehaviour
 
     float nextTimeFire = 0;
 
-    private bool _initializedFromServer;
-
     public SPShip origin;
 
     void Start()
@@ -37,20 +35,17 @@ public class Laser : MonoBehaviour
             unityRemote.onLaserDataUpdated += Initialize;
         else
         {
-            Initialize(unityRemote.projectileSpeed, unityRemote.projectileDuration, unityRemote.timeBetweenShots, true);
+            Initialize(unityRemote.projectileSpeed, unityRemote.projectileDuration, unityRemote.minIntervalBetweenShots);
         }
 
     }
 
-    public void Initialize(float projectileSpeed, float projectileDuration, float timeBetweenShots, bool initializedFromServer)
+    public void Initialize(float projectileSpeed, float projectileDuration, float timeBetweenShots)
     {
        
         _projectileSpeed = projectileSpeed;
         _projectileDuration = projectileDuration;
         _timeBetweenShots = timeBetweenShots;
-    
-
-        _initializedFromServer = initializedFromServer;
     }
 
     public void FireLaser(ref float energy)

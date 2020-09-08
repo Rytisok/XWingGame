@@ -77,13 +77,13 @@ public class SPFly : MonoBehaviour
         }
         else
         {
-            UpdateEnergyData(unityRemote.energyLimit, unityRemote.timeBetweenEnergyRecovery,unityRemote.boostCost, true);
-            UpdateSpeedData(unityRemote.speedNormal, unityRemote.speedBoosted, true);
+            UpdateEnergyData(unityRemote.maxEnergy, unityRemote.energyRecoveryInterval,unityRemote.boostCost, unityRemote.boostUsageInterval);
+            UpdateSpeedData(unityRemote.speedNormal, unityRemote.speedBoosted);
             loaded = true;
         }
 
     }
-    void UpdateEnergyData(int energyLimit, float timeBetweenEnergyRecovery, float boostCost, bool updateFromServer)
+    void UpdateEnergyData(int energyLimit, float timeBetweenEnergyRecovery, float boostCost, float boostUsageInterval)
     {
         this.boostCost = boostCost;
         this.energyLimit = energyLimit;
@@ -92,7 +92,7 @@ public class SPFly : MonoBehaviour
         energy = energyLimit;
 
     }
-    void UpdateSpeedData(float speedNormal, float speedBoosted, bool updateFromServer)
+    void UpdateSpeedData(float speedNormal, float speedBoosted)
     {
         this.speedNormal = speedNormal;
         this.speedBoosted = speedBoosted;

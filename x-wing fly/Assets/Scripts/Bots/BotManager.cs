@@ -170,7 +170,7 @@ public class BotManager : MonoBehaviour
         }
         else
         {
-            UpdateEnergyData(unityRemote.energyLimit, unityRemote.timeBetweenEnergyRecovery, unityRemote.boostCost, true);
+            UpdateEnergyData(unityRemote.maxEnergy, unityRemote.energyRecoveryInterval, unityRemote.boostCost,unityRemote.boostUsageInterval);
             InitializeFiringPrediction(unityRemote.projectileSpeed, unityRemote.botAccuracy);
             StartMoveToTarget();
         }
@@ -201,13 +201,13 @@ public class BotManager : MonoBehaviour
 
 
 
-    void UpdateEnergyData(int energyLimit, float timeBetweenEnergyRecovery, float boostCost, bool updateFromServer)
+    void UpdateEnergyData(int energyLimit, float timeBetweenEnergyRecovery, float boostCost, float boostUsageInterval)
     {
         this.energyLimit = energyLimit;
         this.timeBetweenEnergyRecovery = timeBetweenEnergyRecovery;
     }
 
-    void UpdateBotData(int botAccuracy, bool updateFromServer)
+    void UpdateBotData(int botAccuracy)
     {
         this.botAccuracy = botAccuracy;
     }

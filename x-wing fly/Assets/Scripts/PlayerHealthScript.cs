@@ -36,13 +36,13 @@ public class PlayerHealthScript : RealtimeComponent
 
         else
         {
-            UpdateHealth(unityRemote.maxHealth, true);
+            UpdateHealth(unityRemote.maxHealth);
             loaded = true;
         }
 
     }
 
-    void UpdateHealth(int max, bool isServer)
+    void UpdateHealth(int max)
     {
         maxHealth = max;
     }

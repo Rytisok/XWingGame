@@ -24,13 +24,15 @@ public class Fly : Realtime
     public float energy;
     private int energyLimit = 20;
     private float timeBetweenEnergyRecovery = 0.15f;
-    private float boostCost = 1f;
 
+    private float boostCost = 1f;
+    float nextTimeBoost = 0;
+    private float boostUsageInterval;
+    bool boosting = false;
 
     float nextTimeReload = 0;
-    float nextTimeBoost = 0;
+
     public Text ammoCount;
-    bool boosting = false;
     public Material thruster;
     public Material boostThruster;
     public ParticleSystemRenderer[] particles;
@@ -69,14 +71,15 @@ public class Fly : Realtime
         }
         else
         {
-            UpdateEnergyData(unityRemote.energyLimit, unityRemote.timeBetweenEnergyRecovery, unityRemote.boostCost, true);
-            UpdateSpeedData(unityRemote.speedNormal, unityRemote.speedBoosted, true);
+            UpdateEnergyData(unityRemote.maxEnergy, unityRemote.energyRecoveryInterval, unityRemote.boostCost, unityRemote.boostUsageInterval);
+            UpdateSpeedData(unityRemote.speedNormal, unityRemote.speedBoosted);
             loaded = true;
         }
 
     }
-    void UpdateEnergyData(int energyLimit, float timeBetweenEnergyRecovery,float boostCost, bool updateFromServer)
+    void UpdateEnergyData(int energyLimit, float timeBetweenEnergyRecovery,float boostCost,float boostUsageInterval)
     {
+        this.boostUsageInterval = boostUsageInterval;
         this.boostCost = boostCost;
         this.energyLimit = energyLimit;
         this.timeBetweenEnergyRecovery = timeBetweenEnergyRecovery;
@@ -84,7 +87,7 @@ public class Fly : Realtime
         energy = energyLimit;
 
     }
-    void UpdateSpeedData(float speedNormal, float speedBoosted, bool updateFromServer)
+    void UpdateSpeedData(float speedNormal, float speedBoosted)
     {
         this.speedNormal = speedNormal;
         this.speedBoosted = speedBoosted;
@@ -154,7 +157,7 @@ public class Fly : Realtime
         {
             if (Time.time > nextTimeBoost)
             {
-                nextTimeBoost = Time.time + 0.3f;
+                nextTimeBoost = Time.time + 1f;
                 energy-= boostCost;
             }
 
