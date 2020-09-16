@@ -555,7 +555,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e28600e39ee1d104cb4a0a991e213ca0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  NonVRCamera: {fileID: 0}
   shipModel: {fileID: 6458623100628345070}
+  setupCamera: 0
 --- !u!1 &1573471737031190
 GameObject:
   m_ObjectHideFlags: 0
@@ -1043,7 +1045,6 @@ MonoBehaviour:
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 1
-  m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []

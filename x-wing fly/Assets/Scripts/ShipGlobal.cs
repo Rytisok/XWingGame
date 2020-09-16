@@ -17,6 +17,10 @@ public class ShipGlobal : MonoBehaviour
         {
             m_Text.text = "Player  " + (view.ownerID + 1).ToString();
         }
+        if (GetComponentInParent<TeamSync>().GetTeam() != -1)
+        {
+            SelectShip(GetComponentInParent<TeamSync>().GetTeam());
+        }
     }
 
     public void SelectShip(int n)

@@ -8,6 +8,11 @@ public class TeamSync : RealtimeComponent
     private TeamModel _model;
     private int team;
 
+    private void Awake()
+    {
+        GetComponentInChildren<ShipGlobal>().SelectShip(_model.team);
+    }
+
     private TeamModel model
     {
         set
@@ -29,10 +34,12 @@ public class TeamSync : RealtimeComponent
     void TeamChanged(TeamModel model, int value)
     {
         team = _model.team;
+        GetComponentInChildren<ShipGlobal>().SelectShip(_model.team);
     }
     void UpdateValue()
     {
         team = _model.team;
+        GetComponentInChildren<ShipGlobal>().SelectShip(_model.team);
     }
     public int GetTeam()
     {

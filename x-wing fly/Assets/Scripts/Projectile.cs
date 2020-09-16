@@ -13,7 +13,7 @@ public class Projectile : MonoBehaviour
         this.origin = origin;
         GetComponent<TrailRenderer>().enabled = false;
         GetComponent<BoxCollider>().enabled = false;
-        Invoke("Tr", 0.08f);
+        Invoke("Tr", 0.1f);
         Invoke("Col", 0.02f);
         Invoke("Destruct", projectileDuration);
     }

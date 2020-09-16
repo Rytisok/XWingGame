@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using Normal.Realtime;
+using TMPro;
 
 public class ShipSelect : MonoBehaviour
 {
@@ -11,7 +12,7 @@ public class ShipSelect : MonoBehaviour
     public Ship ship;
     public Collider shipCollider;
     public int shipNumber;
-
+    public TMP_Text chooseText;
     // Start is called before the first frame update
     void Start()
     {
@@ -26,6 +27,10 @@ public class ShipSelect : MonoBehaviour
         loader.onLoadingDone += () =>
         {
             gameObject.SetActive(true);
+            if (_realtime.GetCurrentRoomName() == "d")
+            {
+                chooseText.text = "Select skin";
+            }
         };
     }
 
